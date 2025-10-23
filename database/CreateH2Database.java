@@ -4,7 +4,8 @@ import java.sql.Statement;
 
 public class CreateH2Database {
     public static void main(String[] args) {
-        String url = "jdbc:h2:./sports-db";
+        // H2 configuration for simple table names and consistent behavior
+        String url = "jdbc:h2:./sports-db;DATABASE_TO_UPPER=true;CASE_INSENSITIVE_IDENTIFIERS=true";
         String user = "sa";
         String password = "";
         

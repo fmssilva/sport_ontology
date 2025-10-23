@@ -13,68 +13,17 @@
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
     <Prefix name="sports" IRI="http://www.semanticweb.org/sports/ontology#"/>
-    
-    <!-- =============================================== -->
-    <!-- CLASSES                                          -->
-    <!-- =============================================== -->
-    
-    <!-- Person Class Hierarchy -->
     <Declaration>
-        <Class IRI="#Person"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Player"/>
+        <Class IRI="#AssistantCoach"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Coach"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Goalkeeper"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Defender"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Midfielder"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Forward"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#HeadCoach"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#AssistantCoach"/>
-    </Declaration>
-    
-    <!-- Team Class Hierarchy -->
-    <Declaration>
-        <Class IRI="#Team"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#SeniorTeam"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#YouthTeam"/>
-    </Declaration>
-    
-    <!-- Contract Class Hierarchy -->
-    <Declaration>
         <Class IRI="#Contract"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#PermanentContract"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#LoanContract"/>
-    </Declaration>
-    
-    <!-- Defined Classes (for reasoning) -->
-    <Declaration>
-        <Class IRI="#TopPlayer"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TopCoach"/>
+        <Class IRI="#Defender"/>
     </Declaration>
     <Declaration>
         <Class IRI="#ExperiencedPlayer"/>
@@ -83,113 +32,52 @@
         <Class IRI="#ForeignPlayer"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#Forward"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Goalkeeper"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HeadCoach"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LoanContract"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Midfielder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PermanentContract"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Person"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Player"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SeniorTeam"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Team"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TopCoach"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TopPlayer"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#YoungPlayer"/>
     </Declaration>
-    
-    <!-- =============================================== -->
-    <!-- SUBCLASS RELATIONSHIPS                           -->
-    <!-- =============================================== -->
-    
-    <!-- Person hierarchy -->
-    <SubClassOf>
-        <Class IRI="#Player"/>
-        <Class IRI="#Person"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Coach"/>
-        <Class IRI="#Person"/>
-    </SubClassOf>
-    
-    <!-- Player positions -->
-    <SubClassOf>
-        <Class IRI="#Goalkeeper"/>
-        <Class IRI="#Player"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Defender"/>
-        <Class IRI="#Player"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Midfielder"/>
-        <Class IRI="#Player"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Forward"/>
-        <Class IRI="#Player"/>
-    </SubClassOf>
-    
-    <!-- Coach types -->
-    <SubClassOf>
-        <Class IRI="#HeadCoach"/>
-        <Class IRI="#Coach"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#AssistantCoach"/>
-        <Class IRI="#Coach"/>
-    </SubClassOf>
-    
-    <!-- Team types -->
-    <SubClassOf>
-        <Class IRI="#SeniorTeam"/>
-        <Class IRI="#Team"/>
-    </SubClassOf>
-    <SubClassOf>
+    <Declaration>
         <Class IRI="#YouthTeam"/>
-        <Class IRI="#Team"/>
-    </SubClassOf>
-    
-    <!-- Contract types -->
-    <SubClassOf>
-        <Class IRI="#PermanentContract"/>
-        <Class IRI="#Contract"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#LoanContract"/>
-        <Class IRI="#Contract"/>
-    </SubClassOf>
-    
-    <!-- =============================================== -->
-    <!-- DISJOINT CLASSES                                 -->
-    <!-- =============================================== -->
-    
-    <!-- Player positions are mutually exclusive -->
-    <DisjointClasses>
-        <Class IRI="#Goalkeeper"/>
-        <Class IRI="#Defender"/>
-        <Class IRI="#Midfielder"/>
-        <Class IRI="#Forward"/>
-    </DisjointClasses>
-    
-    <!-- Coach types are disjoint -->
-    <DisjointClasses>
-        <Class IRI="#HeadCoach"/>
-        <Class IRI="#AssistantCoach"/>
-    </DisjointClasses>
-    
-    <!-- Team types are disjoint -->
-    <DisjointClasses>
-        <Class IRI="#SeniorTeam"/>
-        <Class IRI="#YouthTeam"/>
-    </DisjointClasses>
-    
-    <!-- Players and Coaches are disjoint (at same time) -->
-    <DisjointClasses>
-        <Class IRI="#Player"/>
-        <Class IRI="#Coach"/>
-    </DisjointClasses>
-    
-    <!-- =============================================== -->
-    <!-- OBJECT PROPERTIES                                -->
-    <!-- =============================================== -->
-    
-    <Declaration>
-        <ObjectProperty IRI="#playsFor"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#hasPlayer"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#coaches"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#contractWith"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#hasCoach"/>
@@ -198,290 +86,37 @@
         <ObjectProperty IRI="#hasContract"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#contractWith"/>
+        <ObjectProperty IRI="#hasPlayer"/>
     </Declaration>
-    
-    <!-- =============================================== -->
-    <!-- SEPARATE SIMPLE PROPERTIES (No Inverse)         -->
-    <!-- =============================================== -->
-    
-    <!-- Using separate properties instead of inverse relationships -->
-    <!-- This ensures all properties are simple for OWL 2 DL compliance -->
-    <!-- playsFor and hasPlayer are separate, independent properties -->
-    <!-- coaches and hasCoach are separate, independent properties -->
-    <!-- hasContract and contractWith are separate, independent properties -->
-    
-    <!-- =============================================== -->
-    <!-- PROPERTY CHARACTERISTICS                         -->
-    <!-- =============================================== -->
-    
-    <!-- playsFor: each player plays for exactly one team at a time -->
-    <FunctionalObjectProperty>
-        <ObjectProperty IRI="#playsFor"/>
-    </FunctionalObjectProperty>
-    
-    <!-- hasContract: each person has exactly one active contract -->
-    <FunctionalObjectProperty>
-        <ObjectProperty IRI="#hasContract"/>
-    </FunctionalObjectProperty>
-    
-    <!-- Note: Removed coached property to avoid complexity issues -->
-    <!-- Use coaches property directly for cardinality restrictions -->
-    
-    <!-- =============================================== -->
-    <!-- PROPERTY DOMAINS AND RANGES                      -->
-    <!-- =============================================== -->
-    
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#playsFor"/>
-        <Class IRI="#Player"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#playsFor"/>
-        <Class IRI="#Team"/>
-    </ObjectPropertyRange>
-    
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#coaches"/>
-        <Class IRI="#Coach"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#coaches"/>
-        <Class IRI="#Team"/>
-    </ObjectPropertyRange>
-    
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#hasContract"/>
-        <Class IRI="#Person"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#hasContract"/>
-        <Class IRI="#Contract"/>
-    </ObjectPropertyRange>
-    
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#hasPlayer"/>
-        <Class IRI="#Team"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#hasPlayer"/>
-        <Class IRI="#Player"/>
-    </ObjectPropertyRange>
-    
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#hasCoach"/>
-        <Class IRI="#Team"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#hasCoach"/>
-        <Class IRI="#Coach"/>
-    </ObjectPropertyRange>
-    
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#contractWith"/>
-        <Class IRI="#Contract"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#contractWith"/>
-        <Class IRI="#Person"/>
-    </ObjectPropertyRange>
-    
-    <!-- =============================================== -->
-    <!-- DATA PROPERTIES                                  -->
-    <!-- =============================================== -->
-    
     <Declaration>
-        <DataProperty IRI="#hasName"/>
+        <ObjectProperty IRI="#playsFor"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#hasAge"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#hasNationality"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#hasHeight"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#hasMarketValue"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#hasJerseyNumber"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#hasSalary"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#hasStadiumCapacity"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#hasFoundedYear"/>
     </Declaration>
-    
-    <!-- =============================================== -->
-    <!-- DATA PROPERTY CHARACTERISTICS                    -->
-    <!-- =============================================== -->
-    
-    <!-- Each person has exactly one name -->
-    <FunctionalDataProperty>
-        <DataProperty IRI="#hasName"/>
-    </FunctionalDataProperty>
-    
-    <!-- Each person has exactly one nationality (simplified) -->
-    <FunctionalDataProperty>
-        <DataProperty IRI="#hasNationality"/>
-    </FunctionalDataProperty>
-    
-    <!-- =============================================== -->
-    <!-- DATA PROPERTY DOMAINS AND RANGES                 -->
-    <!-- =============================================== -->
-    
-    <DataPropertyDomain>
-        <DataProperty IRI="#hasName"/>
-        <Class IRI="#Person"/>
-    </DataPropertyDomain>
-    <DataPropertyRange>
-        <DataProperty IRI="#hasName"/>
-        <Datatype abbreviatedIRI="xsd:string"/>
-    </DataPropertyRange>
-    
-    <DataPropertyDomain>
-        <DataProperty IRI="#hasAge"/>
-        <Class IRI="#Person"/>
-    </DataPropertyDomain>
-    <DataPropertyRange>
-        <DataProperty IRI="#hasAge"/>
-        <Datatype abbreviatedIRI="xsd:integer"/>
-    </DataPropertyRange>
-    
-    <DataPropertyDomain>
-        <DataProperty IRI="#hasNationality"/>
-        <Class IRI="#Person"/>
-    </DataPropertyDomain>
-    <DataPropertyRange>
-        <DataProperty IRI="#hasNationality"/>
-        <Datatype abbreviatedIRI="xsd:string"/>
-    </DataPropertyRange>
-    
-    <DataPropertyDomain>
-        <DataProperty IRI="#hasHeight"/>
-        <Class IRI="#Person"/>
-    </DataPropertyDomain>
-    <DataPropertyRange>
-        <DataProperty IRI="#hasHeight"/>
-        <Datatype abbreviatedIRI="xsd:float"/>
-    </DataPropertyRange>
-    
-    <DataPropertyDomain>
-        <DataProperty IRI="#hasMarketValue"/>
-        <Class IRI="#Player"/>
-    </DataPropertyDomain>
-    <DataPropertyRange>
-        <DataProperty IRI="#hasMarketValue"/>
-        <Datatype abbreviatedIRI="xsd:float"/>
-    </DataPropertyRange>
-    
-    <DataPropertyDomain>
-        <DataProperty IRI="#hasJerseyNumber"/>
-        <Class IRI="#Player"/>
-    </DataPropertyDomain>
-    <DataPropertyRange>
-        <DataProperty IRI="#hasJerseyNumber"/>
-        <Datatype abbreviatedIRI="xsd:integer"/>
-    </DataPropertyRange>
-    
-    <DataPropertyDomain>
-        <DataProperty IRI="#hasStadiumCapacity"/>
-        <Class IRI="#Team"/>
-    </DataPropertyDomain>
-    <DataPropertyRange>
-        <DataProperty IRI="#hasStadiumCapacity"/>
-        <Datatype abbreviatedIRI="xsd:integer"/>
-    </DataPropertyRange>
-    
-    <DataPropertyDomain>
-        <DataProperty IRI="#hasSalary"/>
-        <Class IRI="#Contract"/>
-    </DataPropertyDomain>
-    <DataPropertyRange>
-        <DataProperty IRI="#hasSalary"/>
-        <Datatype abbreviatedIRI="xsd:float"/>
-    </DataPropertyRange>
-    
-    <!-- =============================================== -->
-    <!-- GENERAL CLASS AXIOMS (GCI)                       -->
-    <!-- =============================================== -->
-    
-    <!-- Every Player must play for some Team -->
-    <SubClassOf>
-        <Class IRI="#Player"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#playsFor"/>
-            <Class IRI="#Team"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    
-    <!-- Every Coach must coach some Team -->
-    <SubClassOf>
-        <Class IRI="#Coach"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#coaches"/>
-            <Class IRI="#Team"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    
-    <!-- Every Person with a contract must be either Player or Coach -->
-    <SubClassOf>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#hasContract"/>
-            <Class IRI="#Contract"/>
-        </ObjectSomeValuesFrom>
-        <ObjectUnionOf>
-            <Class IRI="#Player"/>
-            <Class IRI="#Coach"/>
-        </ObjectUnionOf>
-    </SubClassOf>
-    
-    <!-- =============================================== -->
-    <!-- DEFINED CLASSES (using advanced DL constructors) -->
-    <!-- =============================================== -->
-    
-    <!-- TopPlayer: Player with market value >= 100 million -->
-    <EquivalentClasses>
-        <Class IRI="#TopPlayer"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Player"/>
-            <DataSomeValuesFrom>
-                <DataProperty IRI="#hasMarketValue"/>
-                <DatatypeRestriction>
-                    <Datatype abbreviatedIRI="xsd:float"/>
-                    <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
-                        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">100000000</Literal>
-                    </FacetRestriction>
-                </DatatypeRestriction>
-            </DataSomeValuesFrom>
-        </ObjectIntersectionOf>
-    </EquivalentClasses>
-    
-    <!-- TopCoach: Coach who coaches at least 3 teams -->
-    <!-- Using simple property 'coaches' for OWL 2 DL compliance -->
     <Declaration>
-        <Class IRI="#TopCoach"/>
+        <DataProperty IRI="#hasHeight"/>
     </Declaration>
-    <EquivalentClasses>
-        <Class IRI="#TopCoach"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Coach"/>
-            <ObjectMinCardinality cardinality="3">
-                <ObjectProperty IRI="#coaches"/>
-                <Class IRI="#Team"/>
-            </ObjectMinCardinality>
-        </ObjectIntersectionOf>
-    </EquivalentClasses>
-    
-    <!-- ExperiencedPlayer: Player who has played for at least 5 teams -->
     <Declaration>
-        <Class IRI="#ExperiencedPlayer"/>
+        <DataProperty IRI="#hasJerseyNumber"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasMarketValue"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasName"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasNationality"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasSalary"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasStadiumCapacity"/>
     </Declaration>
     <EquivalentClasses>
         <Class IRI="#ExperiencedPlayer"/>
@@ -493,8 +128,31 @@
             </ObjectMinCardinality>
         </ObjectIntersectionOf>
     </EquivalentClasses>
-    
-    <!-- YoungPlayer: Player under 23 years old -->
+    <EquivalentClasses>
+        <Class IRI="#TopCoach"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Coach"/>
+            <ObjectMinCardinality cardinality="3">
+                <ObjectProperty IRI="#coaches"/>
+                <Class IRI="#Team"/>
+            </ObjectMinCardinality>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#TopPlayer"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Player"/>
+            <DataSomeValuesFrom>
+                <DataProperty IRI="#hasMarketValue"/>
+                <DatatypeRestriction>
+                    <Datatype abbreviatedIRI="xsd:float"/>
+                    <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">1.0E8</Literal>
+                    </FacetRestriction>
+                </DatatypeRestriction>
+            </DataSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#YoungPlayer"/>
         <ObjectIntersectionOf>
@@ -510,12 +168,224 @@
             </DataSomeValuesFrom>
         </ObjectIntersectionOf>
     </EquivalentClasses>
-    
-    <!-- ForeignPlayer: Player whose nationality differs from team's country -->
-    <!-- This will be defined through individuals and assertions -->
+    <SubClassOf>
+        <Class IRI="#AssistantCoach"/>
+        <Class IRI="#Coach"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Coach"/>
+        <Class IRI="#Person"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Coach"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#coaches"/>
+            <Class IRI="#Team"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Defender"/>
+        <Class IRI="#Player"/>
+    </SubClassOf>
     <SubClassOf>
         <Class IRI="#ForeignPlayer"/>
         <Class IRI="#Player"/>
     </SubClassOf>
-    
+    <SubClassOf>
+        <Class IRI="#Forward"/>
+        <Class IRI="#Player"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Goalkeeper"/>
+        <Class IRI="#Player"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HeadCoach"/>
+        <Class IRI="#Coach"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LoanContract"/>
+        <Class IRI="#Contract"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Midfielder"/>
+        <Class IRI="#Player"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PermanentContract"/>
+        <Class IRI="#Contract"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Player"/>
+        <Class IRI="#Person"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Player"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#playsFor"/>
+            <Class IRI="#Team"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SeniorTeam"/>
+        <Class IRI="#Team"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#YouthTeam"/>
+        <Class IRI="#Team"/>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasContract"/>
+            <Class IRI="#Contract"/>
+        </ObjectSomeValuesFrom>
+        <ObjectUnionOf>
+            <Class IRI="#Coach"/>
+            <Class IRI="#Player"/>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#AssistantCoach"/>
+        <Class IRI="#HeadCoach"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Coach"/>
+        <Class IRI="#Player"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Defender"/>
+        <Class IRI="#Forward"/>
+        <Class IRI="#Goalkeeper"/>
+        <Class IRI="#Midfielder"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#SeniorTeam"/>
+        <Class IRI="#YouthTeam"/>
+    </DisjointClasses>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasContract"/>
+    </FunctionalObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#coaches"/>
+        <Class IRI="#Coach"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#contractWith"/>
+        <Class IRI="#Contract"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasCoach"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasContract"/>
+        <Class IRI="#Person"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasPlayer"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#playsFor"/>
+        <Class IRI="#Player"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#coaches"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#contractWith"/>
+        <Class IRI="#Person"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasCoach"/>
+        <Class IRI="#Coach"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasContract"/>
+        <Class IRI="#Contract"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasPlayer"/>
+        <Class IRI="#Player"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#playsFor"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyRange>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasName"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasNationality"/>
+    </FunctionalDataProperty>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasAge"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasHeight"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasJerseyNumber"/>
+        <Class IRI="#Player"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasMarketValue"/>
+        <Class IRI="#Player"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasName"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasNationality"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasSalary"/>
+        <Class IRI="#Contract"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasStadiumCapacity"/>
+        <Class IRI="#Team"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasAge"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasHeight"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasJerseyNumber"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasMarketValue"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasName"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasNationality"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasSalary"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasStadiumCapacity"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
 </Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
+

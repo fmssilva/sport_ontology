@@ -1,0 +1,15 @@
+[PrefixDeclaration]
+:		http://www.semanticweb.org/sports/ontology#
+owl:		http://www.w3.org/2002/07/owl#
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+xml:		http://www.w3.org/XML/1998/namespace
+xsd:		http://www.w3.org/2001/XMLSchema#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+sports:		http://www.semanticweb.org/sports/ontology#
+
+[MappingDeclaration] @collection [[
+mappingId	person-mapping
+target		:person/{person_id} a :Person ; :hasName {full_name} . 
+source		SELECT person_id, full_name FROM person
+]]
+
