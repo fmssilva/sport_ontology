@@ -22,7 +22,12 @@ if "%H2_JAR%"=="" (
 )
 
 REM Compile in correct order (dependencies first) - output to build directory
-javac -cp ".;%H2_JAR%" -d build config\TestRegistry.java
+javac -cp ".;%H2_JAR%" -d build config\TestConfig.java
+javac -cp "build;%H2_JAR%" -d build categories\TestCase.java
+javac -cp "build;%H2_JAR%" -d build categories\integrity\IntegrityTests.java
+javac -cp "build;%H2_JAR%" -d build categories\assumptions\AssumptionTests.java
+javac -cp "build;%H2_JAR%" -d build categories\reasoning\ReasoningTests.java
+javac -cp "build;%H2_JAR%" -d build integration\TestRegistry.java
 javac -cp "build;%H2_JAR%" -d build integration\TestResult.java
 javac -cp "build;%H2_JAR%" -d build sql\SQLTester.java
 javac -cp "build;%H2_JAR%" -d build sparql\SPARQLTester.java

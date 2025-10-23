@@ -1,6 +1,7 @@
 package sparql;
 
-import config.TestRegistry;
+import integration.TestRegistry;
+import tests.categories.TestCase;
 import integration.TestResult;
 import java.util.*;
 import java.io.*;
@@ -18,7 +19,7 @@ public class SPARQLTester {
         List<TestResult> results = new ArrayList<>();
         
         // Get all test cases and run SPARQL queries
-        for (TestRegistry.TestCase testCase : TestRegistry.getAllTests()) {
+        for (TestCase testCase : TestRegistry.getIntegrityTests()) {
             TestResult result = executeTest(testCase);
             results.add(result);
             result.display();
@@ -27,17 +28,21 @@ public class SPARQLTester {
         return results;
     }
     
-    private static TestResult executeTest(TestRegistry.TestCase testCase) {
+    private static TestResult executeTest(TestCase testCase) {
+        long startTime = System.currentTimeMillis();
+        
         try {
-            System.out.printf("    🔧 Executing SPARQL via Ontop: %s%n", testCase.name);
+            System.out.printf("    -> Executing SPARQL via Ontop: %s%n", testCase.name);
             
             int actual = executeOntopQuery(testCase.sparqlQuery);
+            long executionTime = System.currentTimeMillis() - startTime;
             
-            return new TestResult(testCase.name, "SPARQL", testCase.expectedResult, actual);
+            return new TestResult(testCase.testId, testCase.name, "SPARQL", testCase.expectedResult, actual, executionTime);
             
         } catch (Exception e) {
+            long executionTime = System.currentTimeMillis() - startTime;
             e.printStackTrace();
-            return new TestResult(testCase.name, "SPARQL", testCase.expectedResult, "ERROR: " + e.getMessage());
+            return new TestResult(testCase.testId, testCase.name, "SPARQL", testCase.expectedResult, "ERROR: " + e.getMessage(), executionTime);
         }
     }
     

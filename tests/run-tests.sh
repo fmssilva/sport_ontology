@@ -25,7 +25,22 @@ else
 fi
 
 # Compile in correct order (dependencies first) - output to build directory
-javac -cp ".:$H2_JAR" -d build config/TestRegistry.java
+javac -cp ".:$H2_JAR" -d build config/TestConfig.java
+if [ $? -ne 0 ]; then echo "Compilation failed!"; exit 1; fi
+
+javac -cp "build:$H2_JAR" -d build categories/TestCase.java
+if [ $? -ne 0 ]; then echo "Compilation failed!"; exit 1; fi
+
+javac -cp "build:$H2_JAR" -d build categories/integrity/IntegrityTests.java
+if [ $? -ne 0 ]; then echo "Compilation failed!"; exit 1; fi
+
+javac -cp "build:$H2_JAR" -d build categories/assumptions/AssumptionTests.java
+if [ $? -ne 0 ]; then echo "Compilation failed!"; exit 1; fi
+
+javac -cp "build:$H2_JAR" -d build categories/reasoning/ReasoningTests.java
+if [ $? -ne 0 ]; then echo "Compilation failed!"; exit 1; fi
+
+javac -cp "build:$H2_JAR" -d build integration/TestRegistry.java
 if [ $? -ne 0 ]; then echo "Compilation failed!"; exit 1; fi
 
 javac -cp "build:$H2_JAR" -d build integration/TestResult.java

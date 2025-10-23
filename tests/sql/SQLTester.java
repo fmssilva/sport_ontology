@@ -1,6 +1,7 @@
 package sql;
 
-import config.TestRegistry;
+import integration.TestRegistry;
+import tests.categories.TestCase;
 import integration.TestResult;
 import java.sql.*;
 import java.util.*;
@@ -24,38 +25,43 @@ public class SQLTester {
     private static final String PASSWORD = "";
     
     public static List<TestResult> runTests() {
-        System.out.println("🔧 Running SQL Tests...");
+        System.out.println(">> Running SQL Tests...");
         List<TestResult> results = new ArrayList<>();
         
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
             
             // Get all test cases and run SQL queries
-            for (TestRegistry.TestCase testCase : TestRegistry.getAllTests()) {
+            for (TestCase testCase : TestRegistry.getIntegrityTests()) {
                 TestResult result = executeTest(conn, testCase);
                 results.add(result);
                 result.display();
             }
             
         } catch (Exception e) {
-            System.err.println("❌ SQL connection failed: " + e.getMessage());
+            System.err.println("ERROR: SQL connection failed: " + e.getMessage());
         }
         
         return results;
     }
     
-    private static TestResult executeTest(Connection conn, TestRegistry.TestCase testCase) {
+    private static TestResult executeTest(Connection conn, TestCase testCase) {
+        long startTime = System.currentTimeMillis();
+        
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(testCase.sqlQuery)) {
             
             if (rs.next()) {
                 int actual = rs.getInt(1);
-                return new TestResult(testCase.name, "SQL", testCase.expectedResult, actual);
+                long executionTime = System.currentTimeMillis() - startTime;
+                return new TestResult(testCase.testId, testCase.name, "SQL", testCase.expectedResult, actual, executionTime);
             } else {
-                return new TestResult(testCase.name, "SQL", testCase.expectedResult, 0);
+                long executionTime = System.currentTimeMillis() - startTime;
+                return new TestResult(testCase.testId, testCase.name, "SQL", testCase.expectedResult, 0, executionTime);
             }
             
         } catch (SQLException e) {
-            return new TestResult(testCase.name, "SQL", testCase.expectedResult, e.getMessage());
+            long executionTime = System.currentTimeMillis() - startTime;
+            return new TestResult(testCase.testId, testCase.name, "SQL", testCase.expectedResult, e.getMessage(), executionTime);
         }
     }
 }

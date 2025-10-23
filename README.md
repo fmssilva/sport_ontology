@@ -1,1 +1,0 @@
-# to start the DB server
