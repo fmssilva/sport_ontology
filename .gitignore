@@ -1,0 +1,50 @@
+# Build directories
+tests/build/
+build/
+target/
+
+# IDE files
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+*.trace.db
+
+# Database files (include JAR but exclude data files)
+*.mv.db
+
+# Compiled Java classes
+*.class
+
+# Copilot files
+.copilot/
+
+# Tool-specific temp files
+tools/Protege-5.6.7/conf/deprecation/*.yaml.backup
+tools/Protege-5.6.7/temp/
+
+# Exclude large binary distributions but include necessary JARs
+# Keep H2 JAR for easy setup
+# Keep Ontop installation for easy setup
+# Keep Protege installation for easy setup
+
+# Include setup instructions
+!README.md
+!SETUP.md
+
+# Allow necessary JAR files for project functionality
+!database/h2-*.jar
+!tools/ontop/jdbc/h2-*.jar
+
+# WebVOWL node modules and build artifacts
+tools/WebVOWL-master-ontology-diagram/node_modules/
+tools/WebVOWL-master-ontology-diagram/dist/

@@ -1,0 +1,44 @@
+#!/bin/bash
+# Cross-platform database creation runner
+# Automatically detects OS and runs appropriate script
+
+echo "🔍 Detecting operating system..."
+
+case "$(uname -s)" in
+    CYGWIN*|MINGW32*|MINGW64*|MSYS*)
+        echo "📝 Windows detected - using batch file"
+        if [ -f "compile_and_run.bat" ]; then
+            cmd //c "compile_and_run.bat"
+        else
+            echo "❌ ERROR: compile_and_run.bat not found!"
+            exit 1
+        fi
+        ;;
+    Darwin*)
+        echo "🍎 macOS detected - using shell script"
+        if [ -f "compile_and_run.sh" ]; then
+            chmod +x compile_and_run.sh
+            ./compile_and_run.sh
+        else
+            echo "❌ ERROR: compile_and_run.sh not found!"
+            exit 1
+        fi
+        ;;
+    Linux*)
+        echo "🐧 Linux detected - using shell script"
+        if [ -f "compile_and_run.sh" ]; then
+            chmod +x compile_and_run.sh
+            ./compile_and_run.sh
+        else
+            echo "❌ ERROR: compile_and_run.sh not found!"
+            exit 1
+        fi
+        ;;
+    *)
+        echo "❓ Unknown OS: $(uname -s)"
+        echo "Please run the appropriate script manually:"
+        echo "  Windows: compile_and_run.bat"
+        echo "  Linux/Mac: compile_and_run.sh"
+        exit 1
+        ;;
+esac

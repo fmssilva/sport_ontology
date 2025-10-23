@@ -1,0 +1,44 @@
+#!/bin/bash
+# Cross-platform test runner
+# Automatically detects OS and runs appropriate script
+
+echo "🔍 Detecting operating system..."
+
+case "$(uname -s)" in
+    CYGWIN*|MINGW32*|MINGW64*|MSYS*)
+        echo "📝 Windows detected - using batch file"
+        if [ -f "run-tests.bat" ]; then
+            cmd //c "run-tests.bat"
+        else
+            echo "❌ ERROR: run-tests.bat not found!"
+            exit 1
+        fi
+        ;;
+    Darwin*)
+        echo "🍎 macOS detected - using shell script"
+        if [ -f "run-tests.sh" ]; then
+            chmod +x run-tests.sh
+            ./run-tests.sh
+        else
+            echo "❌ ERROR: run-tests.sh not found!"
+            exit 1
+        fi
+        ;;
+    Linux*)
+        echo "🐧 Linux detected - using shell script"
+        if [ -f "run-tests.sh" ]; then
+            chmod +x run-tests.sh
+            ./run-tests.sh
+        else
+            echo "❌ ERROR: run-tests.sh not found!"
+            exit 1
+        fi
+        ;;
+    *)
+        echo "❓ Unknown OS: $(uname -s)"
+        echo "Please run the appropriate script manually:"
+        echo "  Windows: run-tests.bat"
+        echo "  Linux/Mac: run-tests.sh"
+        exit 1
+        ;;
+esac

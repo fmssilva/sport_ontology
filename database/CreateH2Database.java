@@ -1,11 +1,17 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.nio.file.*;
 
 public class CreateH2Database {
     public static void main(String[] args) {
-        // H2 configuration for simple table names and consistent behavior
-        String url = "jdbc:h2:./sports-db;DATABASE_TO_UPPER=true;CASE_INSENSITIVE_IDENTIFIERS=true";
+        // Cross-platform database path resolution
+        Path dbPath = Paths.get(System.getProperty("user.dir")).resolve("sports-db");
+        String url = "jdbc:h2:" + dbPath.toString() + ";DATABASE_TO_UPPER=true;CASE_INSENSITIVE_IDENTIFIERS=true";
+        
+        System.out.println("Creating database at: " + dbPath.toString());
+        System.out.println("OS: " + System.getProperty("os.name"));
+        System.out.println("JDBC URL: " + url);
         String user = "sa";
         String password = "";
         

@@ -1,0 +1,12 @@
+so now that the simple test is working, check the code of all the files in the test folder and confirm they are clean and as simple as possible
+and also confirm if we have the correct code for it to be cross platform compatible 
+or maybe it will never be platform compatible because our h2 and ontop jars and bat files are windows specificic or it is possible to make this project be cross platform capable? 
+
+and also check if you created any simple file to test something and now we might have some duplicate. 
+
+make a complete check of our test folder and tell me if there are things we can make better and cleaner and simpler
+
+about the ontop receiving od results, i think we are receiving them in some csv file?? where is it? or we are just capturing the terminal? 
+and about the errors, they go to stdout? and maybe we should capture them in case of errors so we see what was the problem? 
+
+and then run again the test to confirm everything is ok
