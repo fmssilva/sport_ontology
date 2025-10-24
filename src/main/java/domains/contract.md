@@ -1,0 +1,1 @@
+Just to demonstrate that our backend server could have here the controlers, service, repository and model for each domain 

@@ -1,3 +1,98 @@
+Now confirm that all tests are passing and remember: 
+We want to have all TBox + ABox in the same ontology file to be used in protégé easy by both hermit and ontop. But we want for our ontop sparql queries to not access the ABox. So keep those name spaces well separated. Check other queries how we do that. So the goal is for sparql to do the OWA and reasoning normally, but just accessing the H2 DB data, so we can better compare with the SQL queries. 
+And then we keep the ABox to be used by hermit only. 
+And confirm that sparql and hermit always do the "full stack" of the query. for example don't just call the sparql engine and get the answers instead of actually calling the ontop CLI and doing the whole reaosing pipeline 
+To run the tests maybe put the info into a file instead of the terminal because it gets to long info. example mvn test > out.txt ??
+
+and then run mvn exec:exec@deliverables again nd confirm that the correct files are generated. and make the BuildDeliverables to produce the sparql queries file as a .sparql also instead of just q??
+
+
+now that we have our final ontology that works in both our local tests as well as in protege, 
+lets go back to the tests we will want to implement. 
+now that we have a new structure, confirm what good tests will be nice to do to shwo the project requirements 
+and now think about what will be the good seed to run these tests and improve if necessary the TOP_TESTS file for us to have an idea of what will b the good tests to run
+(and there, give descriptive names to the tests, not only some code)
+and so confirm the good tests to do and update the file
+
+and then lets review the necesary seed. 
+we want a seed that is a bit big to show reach things and reasoning, 
+but not too big so we can track the results "by hand" without much effort 
+and so then update our H2 DB data seed and also the ABox for hermit
+(and confirm each of them are in diferent spaces som sparq won't use the Abox data, just hermit will)
+and so correct and update the needed seeds we will want to have
+and write in the TOP_TEST file the final data seed we will have (and delete the previous seed notes that we might have there)
+
+
+now lets go back again to our seed task. we have DB seed for SQL and SPARQ and ABox for SPAQ and hermit. 
+but we would want maybe to filter out the ABOX from the SPAQ queries so we can better compare with the SQL queries... so maybe we could add somethign like "ABox" at the end or start of every name in our ABox, and so when we do the SPAQR queries we would filter out these results, and so we would compare easliy the results with sparq... is this a good idea? 
+is this the best way to implement this? 
+are there any other best way to filter out the ABox individuals, while making the code still simple and clean? 
+so do that. implement those 2 namespaces, in order to separate sparq queries from hermit queries and abox. and make it in a way to be simple, and for it to work both in here in our local tests, and also in protege when i run the hermit reasoner and the sparq quereies there. 
+and then write this features in a file "H2_vs_ABox.md" and also include the tasks i should do, if any, to make it then work in protege smoothly 
+
+
+
+see the project assignment requests. 
+and see the deliverables i need to give
+and see the code we have now implmented
+and then confirm what task we have already done and to what level
+is it good already for each area and task?
+what should we do more?
+keep in mind i want to go a bit beyong the requested to make this a very good prrojct 
+
+now see the full list of tests we add before enhancing our ontology 
+and we are not gonna have time to implement all,
+so from these list, now, give me a list of tests that we should implement
+maybe the ones that are more interesting? and show reasoning? and OWA vs CWA? ??
+see the assignment requirements and the topics i should write in the report
+and see which tests we should implement
+and so give me a list of those
+we can continue having a good structure of tests domains, 
+but lets implemnt just the best and most interesting tests in each one for now
+so give me the list of tests to implement for me to confirm
+
+and also a list of good seed to have for good testing of each query.
+make the seed from both H2 DB and from ABox, to work for SQL (H2), SPARQ (H2 + ABox) and HERMIT (ABox)
+in a way to make thee tests interesting and show interesting results
+so i don't want a too big seed that becomes hard to check the results "by hand"
+want a seed that is big enough to show interesting results but small enough we can run the tests by hand and confirm results 
+
+then create a file "TOP_TESTS.md" and explain there the list of tests that would be nice for us to implement
+and also the necessary H2 - SQL seed and ABox seed to have to run those tests
+
+
+so now lets implement those, and also maybe delet the ones we have that are not that interesting 
+
+
+about OWA vs CWA, print something to represent the DB tables with some examples there and for us to see the diference that for example an artist with the rule that has at least 1 song, in the DB, if the artist doesn't have any song, in SQL we won't return it, but in sparq we will becasue we assume the DB is not filled completly yet and so we assume true until negated. 
+and also some concrete example of hierarchy differences
+and what other differences? 
+
+and to write the report maybe latex would be a good way to do it so you can help me? 
+or even just md file? 
+can we than export md file as pdf and it stay with good aspect of scientific paper? 
+
+
+
+then add to the maven eexec:exec get deliverables... ?? 
+the action of combining all the sparql and sql query files in the test folderin just one file *.q 
+to add to protege-sparql and test there the queries also 
+Criar ficheiro sports-tests.q com os queries sparql 
+para depois Carregar no Protégé:
+
+Tab Ontop SPARQL
+File → Load queries
+Selecione sports-tests.q
+Execute uma a uma
+
+
+
+
+
+
+
+
+
      all these jars... se tivessemos maven era mais facil?? 
 
     the queries are being writen as string. could we have some sort of ORM or something to have better syntax check...?
@@ -84,3 +179,23 @@ Let me update the test to reflect this important distinction and make it a succe
 
 update the cross platform "bat" files to have the same info as currently our windows bat, because i think we changed it. 
 and explain what is each type of file. bat, sh, no temrination?? 
+
+
+confirm that our mvn exec:exec@deliverables is working and capturing all the SPARQL files
+and confirm that it correctly retrieves the ontology, mapping, and data seed currently in use
+and confirm that it properly maintains the namespaces for H2 and SPARQL queries vs ABox for Hermit
+and create a file with the important information needed to use that in Protégé.
+for example, in Protégé: import the ontology, run the reasoner (e.g., Pellet or Hermit)
+then add ontop... 
+and in ontop mapping set the url to the H2 db... and give the path to use there?? and other things like the org.H2.Driver or somethign like this?? 
+and then run the validate
+and then the run ontop reasoner
+and then the check consistency 
+and then the queries, the *.q file
+how to to run it? 
+and now create some more easy to read file with the seed data we have for both sparq and in the ABoxs
+so we can see easy the tables and individuals for example and then understand better the results in protege
+
+
+»» and make the builder also add the bat to launch the H2 DB directly and to see that H2 in the browser... 
+and clean the guides we have... 

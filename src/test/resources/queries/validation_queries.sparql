@@ -1,0 +1,86 @@
+# Validation SPARQL Queries - Consolidated file for all validation domain queries
+# Each query is separated by a comment block for easy identification
+
+#### COMPREHENSIVE_ENTITY_COUNTS ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+SELECT ?entityType (COUNT(?entity) AS ?count)
+WHERE {
+    {
+        ?entity a :Team .
+        BIND("Team" AS ?entityType)
+    }
+    UNION
+    {
+        ?entity a :Player .
+        BIND("Player" AS ?entityType)
+    }
+    UNION
+    {
+        ?entity a :Coach .
+        BIND("Coach" AS ?entityType)
+    }
+    UNION
+    {
+        ?entity a :Contract .
+        BIND("Contract" AS ?entityType)
+    }
+}
+GROUP BY ?entityType
+ORDER BY ?entityType
+
+#### DATA_INTEGRITY_CHECK ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+# Note: Simplified query without FILTER NOT EXISTS (unsupported by Ontop)
+# This query counts entities with names to validate data completeness
+SELECT (COUNT(?entity) AS ?totalEntities) (COUNT(?name) AS ?entitiesWithNames)
+WHERE {
+    {
+        ?entity a :Player .
+        OPTIONAL { ?entity :hasName ?name }
+    }
+    UNION
+    {
+        ?entity a :Team .
+        OPTIONAL { ?entity :hasName ?name }
+    }
+    UNION
+    {
+        ?entity a :Coach .
+        OPTIONAL { ?entity :hasName ?name }
+    }
+}
+
+#### REFERENTIAL_INTEGRITY ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+# Note: Simplified query without FILTER NOT EXISTS (unsupported by Ontop)
+# This query validates referential integrity by counting valid relationships
+SELECT (COUNT(?relationship) AS ?totalRelationships)
+WHERE {
+    {
+        ?player :playsFor ?team .
+        ?team a :Team .
+        BIND("valid" AS ?relationship)
+    }
+    UNION
+    {
+        ?team :hasCoach ?coach .
+        ?coach a :Coach .
+        BIND("valid" AS ?relationship)
+    }
+    UNION
+    {
+        ?contract :hasContract ?team .
+        ?team a :Team .
+        BIND("valid" AS ?relationship)
+    }
+}
+
+#### MANUAL_YOUNG_PLAYER_COUNT ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+SELECT (COUNT(?player) AS ?count)
+WHERE {
+    ?player a :Player ;
+            :hasAge ?age .
+    
+    FILTER(?age < 23)
+}

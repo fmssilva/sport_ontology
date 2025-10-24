@@ -1,0 +1,24 @@
+# Sport Ontology Test Queries: Integrity Domain
+# All SPARQL queries for testing data consistency between SQL and SPARQL layers
+
+# Query: count_all_teams
+# Test: INT-01 - SQL vs SPARQL consistency test
+# Description: Count total number of teams via OBDA mapping
+# Expected: Should match SQL count exactly for mapping integrity validation
+#### COUNT_ALL_TEAMS ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+
+SELECT (COUNT(?team) as ?count) WHERE {
+    ?team a sports:Team
+}
+
+# Query: count_unique_players
+# Test: INT-02 - SQL vs SPARQL consistency test
+# Description: Count distinct players via OBDA mapping
+# Expected: Should match SQL count exactly for data consistency validation
+#### COUNT_UNIQUE_PLAYERS ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+
+SELECT (COUNT(DISTINCT ?player) as ?count) WHERE {
+    ?player a sports:Player
+}

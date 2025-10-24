@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+    
+    <!-- Project Information -->
+    <groupId>com.semanticweb</groupId>
+    <artifactId>sport-ontology</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    
+    <name>Sport Ontology OBDA System</name>
+    <description>
+        Ontology-Based Data Access system for sports data with H2 database,
+        Ontop query rewriting, and HermiT reasoning integration.
+    </description>
+    
+    <!-- Java Version Configuration -->
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <!-- Dependency Versions (Centralized Management) -->
+        <h2.version>2.4.240</h2.version>
+        <ontop.version>4.2.1</ontop.version>
+        <owlapi.version>4.5.26</owlapi.version>
+        <hermit.version>1.4.3.456</hermit.version>
+        <junit.version>5.10.0</junit.version>
+    </properties>
+    
+    <dependencies>
+        <!-- H2 Database - Embedded SQL Database -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+        </dependency>
+        
+        <!-- Note: Ontop CLI will be used externally for SPARQL tests -->
+        
+        <!-- OWL API - Ontology Processing -->
+        <dependency>
+            <groupId>net.sourceforge.owlapi</groupId>
+            <artifactId>owlapi-distribution</artifactId>
+            <version>${owlapi.version}</version>
+        </dependency>
+        
+        <!-- HermiT Reasoner - OWL DL Reasoning -->
+        <dependency>
+            <groupId>net.sourceforge.owlapi</groupId>
+            <artifactId>org.semanticweb.hermit</artifactId>
+            <version>1.4.3.456</version>
+        </dependency>
+        
+        <!-- SLF4J Simple Logger - For logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.36</version>
+        </dependency>
+        
+        <!-- JUnit 5 - Testing Framework -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <!-- JUnit Platform Launcher - For programmatic test execution -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>1.10.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+            
+            <!-- Maven Surefire Plugin - Test Execution -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.2</version>
+            </plugin>
+            
+            <!-- Exec Maven Plugin - Run Main Classes -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>app.AppRunner</mainClass>
+                </configuration>
+                <executions>
+                    <!-- Generate deliverables command: mvn exec:exec@deliverables (backward compatible) -->
+                    <execution>
+                        <id>deliverables</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>mvn</executable>
+                            <arguments>
+                                <argument>clean</argument>
+                                <argument>compile</argument>
+                                <argument>exec:java@deliverables-java</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    
+                    <!-- Internal Java execution target -->
+                    <execution>
+                        <id>deliverables-java</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>BuildDeliverables</mainClass>
+                            <arguments>
+                                <argument>deliverables</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- Maven Resources Plugin - Copy Resources -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            
+            <!-- Maven Download Plugin - Download and setup Ontop CLI automatically -->
+            <plugin>
+                <groupId>com.googlecode.maven-download-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId>
+                <version>1.7.1</version>
+                <executions>
+                    <!-- Download Ontop CLI -->
+                    <execution>
+                        <id>download-ontop-cli</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://github.com/ontop/ontop/releases/download/ontop-5.1.2/ontop-cli-5.1.2.zip</url>
+                            <outputDirectory>${project.basedir}/tools</outputDirectory>
+                            <outputFileName>ontop-cli-5.1.2.zip</outputFileName>
+                            <overwrite>false</overwrite>
+                            <skipCache>true</skipCache>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- Maven Dependency Plugin - Copy H2 JAR to Ontop JDBC directory -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-h2-to-ontop-jdbc</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.h2database</groupId>
+                                    <artifactId>h2</artifactId>
+                                    <version>${h2.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.basedir}/tools/jdbc</outputDirectory>
+                                    <destFileName>h2-${h2.version}.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- Maven Antrun Plugin - Generate Deliverable Files -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <goals>
+                        <goal>run</goal>
+                    </goals>
+                </configuration>
+                <executions>
+                    <!-- Setup Ontop CLI (existing execution) -->
+                    <execution>
+                        <id>setup-ontop-cli</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- Create tools directory -->
+                                <mkdir dir="${project.basedir}/tools"/>
+                                <mkdir dir="${project.basedir}/tools/jdbc"/>
+                                
+                                <echo message="📦 Extracting Ontop CLI..."/>
+                                <unzip src="${project.basedir}/tools/ontop-cli-5.1.2.zip" 
+                                       dest="${project.basedir}/tools/" 
+                                       overwrite="true"/>
+                                
+                                <!-- Make ontop executable on Unix systems -->
+                                <chmod file="${project.basedir}/tools/ontop" perm="755" 
+                                       osfamily="unix" failonerror="false"/>
+                                
+                                <echo message="✅ Ontop CLI ready at: ${project.basedir}/tools/ontop"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                    
+                    <!-- All deliverables generation is now handled by BuildDeliverables.java -->
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+    
+    <!-- Repository Configuration -->
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
+            <id>ontop-repository</id>
+            <name>Ontop Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+    </repositories>
+    
+    <!-- Standard Maven Execution Profiles -->
+    <profiles>
+        <!-- Development Profile -->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <skipTests>false</skipTests>
+            </properties>
+        </profile>
+        
+        <!-- Production Profile -->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
+        </profile>
+        
+        <!-- Deliverables Profile - for easy 'mvn get-deliverables' command -->
+        <profile>
+            <id>get-deliverables</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <!-- Create deliverables directory -->
+                                        <mkdir dir="${project.basedir}/deliverables"/>
+                                        <mkdir dir="${project.basedir}/deliverables/ontology"/>
+                                        <mkdir dir="${project.basedir}/deliverables/database"/>
+                                        
+                                        <echo message="🎯 Generating deliverable files for report..."/>
+                                        
+                                        <!-- Step 1: Generate H2 Database with seed data -->
+                                        <echo message="📊 Creating H2 database with seed data..."/>
+                                        <java classname="database.CreateH2Database" 
+                                              classpathref="maven.compile.classpath"
+                                              fork="true">
+                                            <arg value="${project.basedir}/deliverables/database/sports-deliverable-db"/>
+                                        </java>
+                                        
+                                        <!-- Step 2: Copy ontology files -->
+                                        <echo message="📋 Copying ontology files..."/>
+                                        <copy file="${project.basedir}/src/main/resources/ontology/sport-ontology.owl" 
+                                              tofile="${project.basedir}/deliverables/ontology/sport-ontology.owl"/>
+                                        <copy file="${project.basedir}/src/main/resources/ontology/sport-ontology-mapping.ttl" 
+                                              tofile="${project.basedir}/deliverables/ontology/sport-ontology-mapping.ttl"/>
+                                        <copy file="${project.basedir}/sports-tests.q" 
+                                              tofile="${project.basedir}/deliverables/ontology/sports-tests.q"/>
+                                        
+                                        <!-- Step 3: Create Protégé-ready properties file -->
+                                        <echo message="⚙️ Creating Protégé-ready configuration..."/>
+                                        <echo file="${project.basedir}/deliverables/ontology/sport-ontology-protege.properties">jdbc.driver=org.h2.Driver
+jdbc.password=
+jdbc.url=jdbc:h2:FULL_PATH_TO_DATABASE/sports-deliverable-db;DATABASE_TO_UPPER=true;CASE_INSENSITIVE_IDENTIFIERS=true
+jdbc.user=sa
+
+# Instructions for Protégé:
+# 1. Replace FULL_PATH_TO_DATABASE with the absolute path to the deliverables/database/ folder
+# 2. Example: jdbc:h2:/path/to/deliverables/database/sports-deliverable-db;DATABASE_TO_UPPER=true;CASE_INSENSITIVE_IDENTIFIERS=true
+</echo>
+                                        
+                                        <!-- Step 4: Create README with instructions -->
+                                        <echo file="${project.basedir}/deliverables/README.md"># Sport Ontology - Deliverable Files
+
+## Overview
+This folder contains all the files needed to work with the Sport Ontology in Protégé and external tools.
+
+## Contents
+
+### Database Files (database/)
+- `sports-deliverable-db.mv.db` - H2 database file with complete sport data
+- Use this database file in Protégé or any H2-compatible tool
+
+### Ontology Files (ontology/)
+- `sport-ontology.owl` - Complete OWL ontology with classes, properties, and reasoning rules
+- `sport-ontology-mapping.ttl` - OBDA mappings (SQL to RDF)
+- `sport-ontology-protege.properties` - Database connection properties for Protégé
+
+## How to Use in Protégé
+
+### 1. Load the Ontology
+1. Open Protégé
+2. File → Open → Select `ontology/sport-ontology.owl`
+
+### 2. Connect to Database
+1. Window → Tabs → DataSource
+2. Create new datasource
+3. Use these settings:
+   - **Driver:** H2 Database Engine
+   - **URL:** `jdbc:h2:FULL_PATH/deliverables/database/sports-deliverable-db;DATABASE_TO_UPPER=true;CASE_INSENSITIVE_IDENTIFIERS=true`
+   - **Username:** sa
+   - **Password:** (leave empty)
+
+### 3. Load OBDA Mappings
+1. In DataSource tab, load mappings
+2. Select `ontology/sport-ontology-mapping.ttl`
+
+### 4. Test SPARQL Queries
+Example query to test:
+```sparql
+PREFIX sports: &lt;http://www.semanticweb.org/sports/ontology#&gt;
+SELECT ?player ?team WHERE {
+  ?player a sports:Player .
+  ?player sports:playsFor ?team .
+}
+```
+
+## Database Schema
+The H2 database contains:
+- 7 teams (5 senior, 2 youth)
+- 17 people (12 players, 5 coaches)
+- 13 player roles with market values
+- 8 coaching roles with history
+- 13 contracts
+
+## Reasoning Classes
+The ontology defines these inferred classes:
+- **TopPlayer:** Players with market value ≥ 100M€
+- **YoungPlayer:** Players with age &lt; 23
+- **ExperiencedPlayer:** Players who played for ≥ 5 teams
+- **TopCoach:** Coaches who coached ≥ 3 teams
+
+## Support
+For questions about the ontology structure or data, refer to the project documentation.
+</echo>
+                                        
+                                        <echo message="✅ Deliverable files generated successfully!"/>
+                                        <echo message="📁 Location: ${project.basedir}/deliverables/"/>
+                                        <echo message="📋 Files ready for Protégé and report submission"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
+</project>

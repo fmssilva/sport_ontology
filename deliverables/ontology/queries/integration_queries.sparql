@@ -1,0 +1,89 @@
+# Integration SPARQL Queries - Consolidated file for all integration domain queries
+# Each query is separated by a comment block for easy identification
+
+#### PLAYER_TEAM_COACH_NETWORK ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+SELECT ?playerName ?teamName ?coachName ?marketValue
+WHERE {
+    ?player a :Player ;
+            :hasName ?playerName ;
+            :playsFor ?team .
+    # Restrict to only H2 database individuals (not ABox individuals)
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+    
+    ?team a :Team ;
+          :hasName ?teamName ;
+          :hasCoach ?coach .
+    
+    ?coach a :Coach ;
+           :hasName ?coachName .
+    
+    OPTIONAL {
+        ?player :hasMarketValue ?marketValue .
+    }
+}
+ORDER BY ?teamName ?playerName
+
+#### TEAM_SQUAD_ANALYSIS ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+SELECT ?teamName (COUNT(?player) AS ?squadSize) ?avgAge
+WHERE {
+    ?team a :Team ;
+          :hasName ?teamName ;
+          :hasPlayer ?player .
+    # Restrict to only H2 database individuals (not ABox individuals)
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+    
+    ?player :hasAge ?age .
+}
+GROUP BY ?teamName
+ORDER BY DESC(?squadSize)
+
+#### CONTRACT_OVERVIEW ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+SELECT ?personName ?teamName ?contractType ?salary
+WHERE {
+    ?person a :Person ;
+            :hasName ?personName ;
+            :hasContract ?contract .
+    # Restrict to only H2 database individuals (not ABox individuals)
+    FILTER(STRSTARTS(STR(?person), "http://www.semanticweb.org/sports/data#"))
+    
+    ?contract a :Contract ;
+              :contractWith ?team ;
+              :hasSalary ?salary .
+    
+    ?team :hasName ?teamName .
+    
+    OPTIONAL {
+        ?person a ?personType .
+        FILTER(?personType IN (:Player, :Coach))
+        BIND(IF(?personType = :Player, "Player Contract", "Coach Contract") AS ?contractType)
+    }
+}
+ORDER BY ?teamName ?personName
+
+#### AVERAGE_MARKET_VALUE_BY_TEAM ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+SELECT ?teamName (AVG(?marketValue) AS ?avgMarketValue) (COUNT(?player) AS ?playerCount) (MAX(?marketValue) AS ?highestValuePlayer) ?stadiumCapacity
+WHERE {
+    ?team a :Team ;
+          :hasName ?teamName ;
+          :hasPlayer ?player ;
+          :hasStadiumCapacity ?stadiumCapacity .
+    
+    ?player a :Player ;
+            :hasMarketValue ?marketValue .
+    # Restrict to only H2 database individuals (not ABox individuals)
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+    
+    FILTER(?marketValue > 0)
+}
+GROUP BY ?teamName ?stadiumCapacity
+HAVING (COUNT(?player) > 1)
+ORDER BY DESC(?avgMarketValue)
+

@@ -1,0 +1,128 @@
+# Sport Ontology Test Queries: Reasoning Domain
+# All SPARQL queries for reasoning tests with OWL inference validation
+
+# Query: count_inferred_top_players
+# Test: REA-01 - Top player inference  
+# Description: Count TopPlayer instances after OWL reasoning with HermiT
+# Expected: 5 inferred instances (reasoning should classify high-value players)
+#### COUNT_INFERRED_TOP_PLAYERS ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+
+SELECT (COUNT(?player) AS ?count)
+WHERE {
+  ?player a sports:TopPlayer .
+}
+
+# Query: count_inferred_young_players
+# Test: REA-02 - Young player inference
+# Description: Count YoungPlayer instances after OWL reasoning 
+# Expected: 3 inferred instances (reasoning should classify players under 23)
+#### COUNT_INFERRED_YOUNG_PLAYERS ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+
+SELECT (COUNT(?player) AS ?count)
+WHERE {
+  ?player a sports:YoungPlayer .
+}
+
+# Query: count_inferred_top_young_players  
+# Test: REA-03 - Multiple inheritance inference
+# Description: Count players inferred as both TopPlayer AND YoungPlayer
+# Expected: 1 inferred instance (multiple inheritance via reasoning)
+#### COUNT_INFERRED_TOP_YOUNG_PLAYERS ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+
+SELECT (COUNT(?player) as ?count) 
+WHERE {
+  ?player a sports:TopPlayer .
+  ?player a sports:YoungPlayer
+}
+
+# Query: young_players_by_age
+# Test: REA-01 - Young Player automatic classification
+# Description: Count players under 23 years old via SPARQL (no reasoning)
+# Expected: 3 (H2 database only) - should match SQL results from database
+#### YOUNG_PLAYERS_BY_AGE ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT (COUNT(DISTINCT ?player) AS ?count)
+WHERE {
+  ?player a sports:Player ;
+          sports:hasAge ?age .
+  FILTER(?age < 23)
+  FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+
+# Query: top_players_by_value
+# Test: REA-02 - Top Player market value-based classification
+# Description: Count players worth 100M+ euros via SPARQL (no reasoning)
+# Expected: 6 (H2 database only) - should match SQL results from database
+#### TOP_PLAYERS_BY_VALUE ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT (COUNT(DISTINCT ?player) AS ?count)
+WHERE {
+  ?player a sports:Player ;
+          sports:hasMarketValue ?value .
+  FILTER(?value >= 100000000)
+  FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+
+# Query: top_young_players
+# Test: REA-03 - Multiple inheritance intersection test
+# Description: Count players who are BOTH high-value AND young via SPARQL (no reasoning)
+# Expected: 1 (H2 database only) - should match SQL results from database
+#### TOP_YOUNG_PLAYERS ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT (COUNT(DISTINCT ?player) AS ?count)
+WHERE {
+  ?player a sports:Player ;
+          sports:hasMarketValue ?value ;
+          sports:hasAge ?age .
+  FILTER(?value >= 100000000 && ?age < 23)
+  FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+
+# Query: complex_team_classification
+# Test: REA-04 - Complex class hierarchy inference
+# Description: Count teams classified as EliteTeam through reasoning (league position ≤ 3, has TopPlayer, high salaries)
+# Expected: 2 teams automatically inferred via EquivalentClasses axioms
+#### COMPLEX_TEAM_CLASSIFICATION ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+
+SELECT (COUNT(DISTINCT ?team) AS ?count)
+WHERE {
+  ?team a sports:EliteTeam .
+}
+
+# Query: transitive_league_participation
+# Test: REA-05 - Property chain reasoning
+# Description: Count players participating in Premier League via property chain (playsFor ∘ competesIn → participatesIn)
+# Expected: 3 players automatically inferred through property chain reasoning
+#### TRANSITIVE_LEAGUE_PARTICIPATION ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+
+SELECT (COUNT(DISTINCT ?player) AS ?count)
+WHERE {
+  ?player sports:participatesIn ?league .
+  ?league sports:hasName "Premier League" .
+  FILTER(STRSTARTS(STR(?league), "http://www.semanticweb.org/sports/abox#"))
+}
+
+# Query: bidirectional_player_team_relationships
+# Test: REA-06 - Inverse property demonstration
+# Description: Count active player-team relationships (demonstrating hasPlayer ⇔ playsFor equivalence)
+# Expected: 0 relationships (H2 database mapping doesn't expose team relationships in SPARQL)
+#### BIDIRECTIONAL_PLAYER_TEAM_RELATIONSHIPS ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+
+SELECT (COUNT(DISTINCT ?player) AS ?count)
+WHERE {
+  ?player a sports:Player ;
+          sports:playsFor ?team .
+  FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}

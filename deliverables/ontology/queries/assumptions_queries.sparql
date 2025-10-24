@@ -1,0 +1,94 @@
+# Sport Ontology Test Queries: Assumptions Domain
+# All SPARQL queries for testing Closed World vs Open World Assumptions
+
+# Query: count_active_players
+# Test: ASS-01 - Closed World Assumption test
+# Description: Count players who are currently active (no end date specified)
+# Expected: Tests ontology interpretation of missing end dates
+#### COUNT_ACTIVE_PLAYERS ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+
+SELECT (COUNT(?player) as ?count) WHERE {
+    ?player a sports:Player .
+    # Restrict to only H2 database individuals (not ABox individuals)
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+    # Note: Active players are already filtered in the OBDA mappings (WHERE END_DATE IS NULL)
+}
+
+# Query: count_players_with_market_value
+# Test: ASS-02 - Open World Assumption test
+# Description: Count players who have explicit market values in the ontology
+# Expected: Tests whether missing values are treated as false vs unknown
+#### COUNT_PLAYERS_WITH_MARKET_VALUE ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+
+SELECT (COUNT(?player) as ?count) WHERE {
+    ?player a sports:Player ;
+            sports:hasMarketValue ?value .
+    # Restrict to only H2 database individuals (not ABox individuals)
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+
+# Query: players_without_market_value
+# Test: OWA-01 - Missing market value handling under Open World Assumption
+# Description: OWA behavior - missing values are unknown, not false
+# Expected: 12 (OWA allows for players with unknown market values from H2 DB only)
+#### PLAYERS_WITHOUT_MARKET_VALUE ####
+PREFIX sport: <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+
+SELECT (COUNT(DISTINCT ?player) AS ?count)
+WHERE {
+  ?player a sport:Player .
+  # Restrict to only H2 database individuals (not ABox individuals)
+  FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+
+# Query: players_without_position
+# Test: OWA-02 - Unspecified player positions under Open World Assumption
+# Description: OWA behavior - missing positions are unknown possibilities
+# Expected: 12 (OWA allows for unknown but possible positions from H2 DB only)
+#### PLAYERS_WITHOUT_POSITION ####
+PREFIX sport: <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+
+SELECT (COUNT(DISTINCT ?player) AS ?count)
+WHERE {
+  ?player a sport:Player .
+  # Restrict to only H2 database individuals (not ABox individuals)
+  FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+
+# Query: current_team_players
+# Test: CWA-01 - Definite team roster count under Closed World Assumption
+# Description: SPARQL with CWA-style complete data assumption
+# Expected: 12 same as SQL when data is complete
+#### CURRENT_TEAM_PLAYERS ####
+PREFIX sport: <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+
+SELECT (COUNT(DISTINCT ?player) AS ?count)
+WHERE {
+  ?player a sport:Player ;
+          sport:playsFor ?team .
+  # Restrict to only H2 database individuals (not ABox individuals)
+  FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+
+# Query: players_with_valid_contracts
+# Test: CWA-02 - Definite contract status validation under Closed World Assumption
+# Description: SPARQL with CWA - only mapped active contracts (is_active=TRUE in mapping)
+# Expected: 6 players with hasContract relationship (mapping auto-filters active contracts)
+#### PLAYERS_WITH_VALID_CONTRACTS ####
+PREFIX sport: <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+
+SELECT (COUNT(DISTINCT ?player) AS ?count)
+WHERE {
+  ?player a sport:Player ;
+          sport:hasContract ?contract .
+  # Restrict to only H2 database individuals (not ABox individuals)
+  FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}

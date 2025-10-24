@@ -1,0 +1,2211 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/sports/ontology"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.semanticweb.org/sports/ontology">
+    <Prefix name="" IRI="http://www.semanticweb.org/sports/ontology#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="abox" IRI="http://www.semanticweb.org/sports/abox#"/>
+    <Prefix name="data" IRI="http://www.semanticweb.org/sports/data#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="sports" IRI="http://www.semanticweb.org/sports/ontology#"/>
+    <Declaration>
+        <Class IRI="#Academy"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AdministrativeStaff"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AmateurLeague"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AssistantCoach"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AttackingMidfielder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BoxToBoxMidfielder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CentralMidfielder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CentreBack"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CentreForward"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChampionshipTeam"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Club"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ClubSecretary"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Coach"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Competition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Contract"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CupCompetition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DataAnalyst"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Defender"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DefensiveMidfielder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Division"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DomesticCompetition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#EliteTeam"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#EquipmentManager"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ExperiencedCoach"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ExperiencedPlayer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FalseNine"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FitnessCoach"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FootballFederation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ForeignPlayer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Forward"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FullBack"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Goalkeeper"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GoalkeeperCoach"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HeadCoach"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HomegrownPlayer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#InternationalCompetition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#League"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LeagueCompetition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LeftBack"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LeftWingBack"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LeftWingMidfielder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LeftWinger"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LoanContract"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LoaneePlayer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LongTermContract"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LowerDivision"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MediaOfficer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MedicalStaff"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MidTableTeam"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Midfielder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Nutritionist"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Organization"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#OutfieldPlayer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PerformanceAnalyst"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PermanentContract"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Person"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Physiotherapist"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PlayMaker"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Player"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PreContract"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ProfessionalContract"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ProfessionalLeague"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PromotionTeam"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RelegationTeam"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ReserveTeam"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RightBack"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RightWingBack"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RightWingMidfielder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RightWinger"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RookieCoach"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ScholarshipContract"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Scout"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SeasonalContract"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SecondStriker"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SeniorTeam"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ShortTermContract"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SpecialistCoach"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SportingDirector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SportsPsychologist"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#StaffMember"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#StarPlayer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Striker"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Sweeper"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TacticalAnalyst"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Team"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TeamDoctor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TechnicalStaff"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TopCoach"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TopDivision"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TopPlayer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TopTeam"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TournamentCompetition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TrialContract"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#U16Team"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#U18Team"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#U21Team"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#VeteranPlayer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#VideoAnalyst"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WingBack"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WingMidfielder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Winger"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#YoungPlayer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#YouthCoach"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#YouthContract"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#YouthTeam"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#belongsToDivision"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#belongsToFederation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#belongsToLeague"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#canPlayPosition"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#captainOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#coaches"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#competesWith"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#contractWith"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasCaptain"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasCoach"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasContract"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasDivision"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasLeague"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPlayer"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasTeam"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isRivalOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#managedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#manages"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#onLoanFrom"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#onLoanTo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#playsFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#playsPosition"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#preferredPosition"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#specialistIn"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#transferredFrom"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#participatesIn"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#coachesFor"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasAge"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasAnnualSalary"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasAssists"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasBonusClause"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasCity"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasCoachingLicense"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasContractEndDate"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasContractStartDate"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasCountry"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasDateOfBirth"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasDivisionLevel"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasFoundedYear"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasGoalsAgainst"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasGoalsFor"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasGoalsScored"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasHeight"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasInternationalCaps"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasInternationalGoals"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasJerseyNumber"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasLeagueName"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasMarketValue"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasMatchesDrawn"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasMatchesLost"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasMatchesPlayed"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasMatchesWon"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasName"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasNationality"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasPlaceOfBirth"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasPoints"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasPreferredFoot"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasRedCards"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasReleaseClause"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasSalary"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasSeasonRanking"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasSecondNationality"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasStadiumCapacity"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasStadiumName"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasTransferFee"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasTrophiesWon"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasWeeklySalary"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasWeight"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasWinPercentage"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasYearsCoaching"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasYearsExperience"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasYellowCards"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Bayern_Munich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Erling_Haaland"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Harry_Kane"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Jude_Bellingham"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Kevin_De_Bruyne"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Kylian_Mbappe"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Manchester_City"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Nico_Paz"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_PSG"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Real_Madrid"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Rico_Lewis"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Vinicius_Junior"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Premier_League"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_LaLiga"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Bundesliga"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Ligue_1"/>
+    </Declaration>
+    <Declaration>
+        <Datatype abbreviatedIRI="xsd:date"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="#EliteTeam"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Team"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPlayer"/>
+                <Class IRI="#StarPlayer"/>
+            </ObjectSomeValuesFrom>
+            <DataSomeValuesFrom>
+                <DataProperty IRI="#hasStadiumCapacity"/>
+                <Datatype abbreviatedIRI="xsd:integer"/>
+            </DataSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#ExperiencedPlayer"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Player"/>
+            <DataSomeValuesFrom>
+                <DataProperty IRI="#hasYearsExperience"/>
+                <Datatype abbreviatedIRI="xsd:integer"/>
+            </DataSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#HomegrownPlayer"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Player"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#playsFor"/>
+                <Class IRI="#Team"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#ProfessionalLeague"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#League"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasTeam"/>
+                <Class IRI="#Team"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#StarPlayer"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Player"/>
+            <DataSomeValuesFrom>
+                <DataProperty IRI="#hasInternationalCaps"/>
+                <Datatype abbreviatedIRI="xsd:integer"/>
+            </DataSomeValuesFrom>
+            <DataSomeValuesFrom>
+                <DataProperty IRI="#hasMarketValue"/>
+                <Datatype abbreviatedIRI="xsd:decimal"/>
+            </DataSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#TopCoach"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Coach"/>
+            <DataSomeValuesFrom>
+                <DataProperty IRI="#hasTrophiesWon"/>
+                <Datatype abbreviatedIRI="xsd:integer"/>
+            </DataSomeValuesFrom>
+            <DataSomeValuesFrom>
+                <DataProperty IRI="#hasYearsCoaching"/>
+                <Datatype abbreviatedIRI="xsd:integer"/>
+            </DataSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#TopPlayer"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Player"/>
+            <DataSomeValuesFrom>
+                <DataProperty IRI="#hasMarketValue"/>
+                <DatatypeRestriction>
+                    <Datatype abbreviatedIRI="xsd:decimal"/>
+                    <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">100000000</Literal>
+                    </FacetRestriction>
+                </DatatypeRestriction>
+            </DataSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#VeteranPlayer"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Player"/>
+            <DataSomeValuesFrom>
+                <DataProperty IRI="#hasAge"/>
+                <Datatype abbreviatedIRI="xsd:integer"/>
+            </DataSomeValuesFrom>
+            <DataSomeValuesFrom>
+                <DataProperty IRI="#hasYearsExperience"/>
+                <Datatype abbreviatedIRI="xsd:integer"/>
+            </DataSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#YoungPlayer"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Player"/>
+            <DataSomeValuesFrom>
+                <DataProperty IRI="#hasAge"/>
+                <DatatypeRestriction>
+                    <Datatype abbreviatedIRI="xsd:integer"/>
+                    <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#maxExclusive">
+                        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">23</Literal>
+                    </FacetRestriction>
+                </DatatypeRestriction>
+            </DataSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    
+    <!-- ===== ADVANCED REASONING AXIOMS FOR EXCELLENCE TESTS ===== -->
+    
+    <!-- REA-04: Complex Class Hierarchy - EliteTeam Definition -->
+    <!-- EliteTeam ≡ Team ⊓ (hasStadiumCapacity ≥ 50000) ⊓ (∃hasPlayer.TopPlayer) -->
+    <EquivalentClasses>
+        <Class IRI="#EliteTeam"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Team"/>
+            <DataSomeValuesFrom>
+                <DataProperty IRI="#hasStadiumCapacity"/>
+                <DatatypeRestriction>
+                    <Datatype abbreviatedIRI="xsd:integer"/>
+                    <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">50000</Literal>
+                    </FacetRestriction>
+                </DatatypeRestriction>
+            </DataSomeValuesFrom>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPlayer"/>
+                <Class IRI="#TopPlayer"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    
+    <!-- REA-04: TopTeam Definition for Multiple Inheritance -->
+    <!-- TopTeam ≡ Team ⊓ (∃hasPlayer.(hasMarketValue ≥ 50M)) -->
+    <EquivalentClasses>
+        <Class IRI="#TopTeam"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Team"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPlayer"/>
+                <ObjectIntersectionOf>
+                    <Class IRI="#Player"/>
+                    <DataSomeValuesFrom>
+                        <DataProperty IRI="#hasMarketValue"/>
+                        <DatatypeRestriction>
+                            <Datatype abbreviatedIRI="xsd:decimal"/>
+                            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">50000000</Literal>
+                            </FacetRestriction>
+                        </DatatypeRestriction>
+                    </DataSomeValuesFrom>
+                </ObjectIntersectionOf>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    
+    <!-- REA-05: Property Chain Reasoning - Transitive League Participation -->
+    <!-- playsFor ∘ competesIn → participatesIn -->
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#playsFor"/>
+            <ObjectProperty IRI="#competesIn"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#participatesIn"/>
+    </SubObjectPropertyOf>
+    
+    <!-- REA-06: Inverse Properties - Bidirectional Player-Team Relationships -->
+    <!-- hasPlayer ≡ playsFor⁻ -->
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasPlayer"/>
+        <ObjectProperty IRI="#playsFor"/>
+    </InverseObjectProperties>
+    
+    <!-- Additional Inverse Properties for Complete Relationship Network -->
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasCoach"/>
+        <ObjectProperty IRI="#coachesFor"/>
+    </InverseObjectProperties>
+    
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasContract"/>
+        <ObjectProperty IRI="#contractWith"/>
+    </InverseObjectProperties>
+    
+    <!-- ===== END ADVANCED REASONING AXIOMS ===== -->
+    
+    <SubClassOf>
+        <Class IRI="#Academy"/>
+        <Class IRI="#Organization"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AdministrativeStaff"/>
+        <Class IRI="#StaffMember"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AmateurLeague"/>
+        <Class IRI="#League"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AssistantCoach"/>
+        <Class IRI="#Coach"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AttackingMidfielder"/>
+        <Class IRI="#Midfielder"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BoxToBoxMidfielder"/>
+        <Class IRI="#CentralMidfielder"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CentralMidfielder"/>
+        <Class IRI="#Midfielder"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CentreBack"/>
+        <Class IRI="#Defender"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CentreForward"/>
+        <Class IRI="#Striker"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChampionshipTeam"/>
+        <Class IRI="#Team"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Club"/>
+        <Class IRI="#Organization"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ClubSecretary"/>
+        <Class IRI="#AdministrativeStaff"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Coach"/>
+        <Class IRI="#Person"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Coach"/>
+        <Class IRI="#StaffMember"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Coach"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#coaches"/>
+            <Class IRI="#Team"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CupCompetition"/>
+        <Class IRI="#Competition"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DataAnalyst"/>
+        <Class IRI="#AdministrativeStaff"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Defender"/>
+        <Class IRI="#OutfieldPlayer"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DefensiveMidfielder"/>
+        <Class IRI="#Midfielder"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Division"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#belongsToLeague"/>
+            <Class IRI="#League"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DomesticCompetition"/>
+        <Class IRI="#Competition"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#EliteTeam"/>
+        <Class IRI="#SeniorTeam"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#EquipmentManager"/>
+        <Class IRI="#TechnicalStaff"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ExperiencedCoach"/>
+        <Class IRI="#Coach"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ExperiencedPlayer"/>
+        <Class IRI="#Player"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FalseNine"/>
+        <Class IRI="#Forward"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FitnessCoach"/>
+        <Class IRI="#SpecialistCoach"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FootballFederation"/>
+        <Class IRI="#Organization"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ForeignPlayer"/>
+        <Class IRI="#Player"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Forward"/>
+        <Class IRI="#OutfieldPlayer"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FullBack"/>
+        <Class IRI="#Defender"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Goalkeeper"/>
+        <Class IRI="#Player"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GoalkeeperCoach"/>
+        <Class IRI="#SpecialistCoach"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HeadCoach"/>
+        <Class IRI="#Coach"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HomegrownPlayer"/>
+        <Class IRI="#Player"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#InternationalCompetition"/>
+        <Class IRI="#Competition"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#League"/>
+        <Class IRI="#Organization"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#League"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#belongsToFederation"/>
+            <Class IRI="#FootballFederation"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LeagueCompetition"/>
+        <Class IRI="#Competition"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LeftBack"/>
+        <Class IRI="#FullBack"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LeftWingBack"/>
+        <Class IRI="#WingBack"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LeftWingMidfielder"/>
+        <Class IRI="#WingMidfielder"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LeftWinger"/>
+        <Class IRI="#Winger"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LoanContract"/>
+        <Class IRI="#Contract"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LoaneePlayer"/>
+        <Class IRI="#Player"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LongTermContract"/>
+        <Class IRI="#Contract"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LowerDivision"/>
+        <Class IRI="#Division"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MediaOfficer"/>
+        <Class IRI="#AdministrativeStaff"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MedicalStaff"/>
+        <Class IRI="#StaffMember"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MidTableTeam"/>
+        <Class IRI="#SeniorTeam"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Midfielder"/>
+        <Class IRI="#OutfieldPlayer"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Nutritionist"/>
+        <Class IRI="#MedicalStaff"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#OutfieldPlayer"/>
+        <Class IRI="#Player"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PerformanceAnalyst"/>
+        <Class IRI="#TechnicalStaff"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PermanentContract"/>
+        <Class IRI="#Contract"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Physiotherapist"/>
+        <Class IRI="#MedicalStaff"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PlayMaker"/>
+        <Class IRI="#AttackingMidfielder"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Player"/>
+        <Class IRI="#Person"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Player"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#playsFor"/>
+            <Class IRI="#Team"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PreContract"/>
+        <Class IRI="#Contract"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ProfessionalContract"/>
+        <Class IRI="#PermanentContract"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ProfessionalLeague"/>
+        <Class IRI="#League"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PromotionTeam"/>
+        <Class IRI="#Team"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RelegationTeam"/>
+        <Class IRI="#SeniorTeam"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ReserveTeam"/>
+        <Class IRI="#Team"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RightBack"/>
+        <Class IRI="#FullBack"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RightWingBack"/>
+        <Class IRI="#WingBack"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RightWingMidfielder"/>
+        <Class IRI="#WingMidfielder"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RightWinger"/>
+        <Class IRI="#Winger"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RookieCoach"/>
+        <Class IRI="#Coach"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ScholarshipContract"/>
+        <Class IRI="#Contract"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Scout"/>
+        <Class IRI="#AdministrativeStaff"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SeasonalContract"/>
+        <Class IRI="#Contract"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SecondStriker"/>
+        <Class IRI="#Forward"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SeniorTeam"/>
+        <Class IRI="#Team"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ShortTermContract"/>
+        <Class IRI="#Contract"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SpecialistCoach"/>
+        <Class IRI="#Coach"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SportingDirector"/>
+        <Class IRI="#AdministrativeStaff"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SportsPsychologist"/>
+        <Class IRI="#MedicalStaff"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#StaffMember"/>
+        <Class IRI="#Person"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#StarPlayer"/>
+        <Class IRI="#Player"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Striker"/>
+        <Class IRI="#Forward"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Sweeper"/>
+        <Class IRI="#Defender"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TacticalAnalyst"/>
+        <Class IRI="#SpecialistCoach"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TacticalAnalyst"/>
+        <Class IRI="#TechnicalStaff"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Team"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#belongsToDivision"/>
+            <Class IRI="#Division"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TeamDoctor"/>
+        <Class IRI="#MedicalStaff"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TechnicalStaff"/>
+        <Class IRI="#StaffMember"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TopDivision"/>
+        <Class IRI="#Division"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TopPlayer"/>
+        <Class IRI="#Player"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TournamentCompetition"/>
+        <Class IRI="#Competition"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TrialContract"/>
+        <Class IRI="#ShortTermContract"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#U16Team"/>
+        <Class IRI="#YouthTeam"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#U18Team"/>
+        <Class IRI="#YouthTeam"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#U21Team"/>
+        <Class IRI="#YouthTeam"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#VeteranPlayer"/>
+        <Class IRI="#Player"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#VideoAnalyst"/>
+        <Class IRI="#TechnicalStaff"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WingBack"/>
+        <Class IRI="#FullBack"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WingMidfielder"/>
+        <Class IRI="#Midfielder"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Winger"/>
+        <Class IRI="#Forward"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#YoungPlayer"/>
+        <Class IRI="#Player"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#YouthCoach"/>
+        <Class IRI="#Coach"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#YouthContract"/>
+        <Class IRI="#ShortTermContract"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#YouthTeam"/>
+        <Class IRI="#Team"/>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasContract"/>
+            <Class IRI="#Contract"/>
+        </ObjectSomeValuesFrom>
+        <ObjectUnionOf>
+            <Class IRI="#Coach"/>
+            <Class IRI="#Player"/>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#AmateurLeague"/>
+        <Class IRI="#ProfessionalLeague"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#AssistantCoach"/>
+        <Class IRI="#HeadCoach"/>
+        <Class IRI="#SpecialistCoach"/>
+        <Class IRI="#YouthCoach"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#AttackingMidfielder"/>
+        <Class IRI="#CentralMidfielder"/>
+        <Class IRI="#DefensiveMidfielder"/>
+        <Class IRI="#WingMidfielder"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#CentreBack"/>
+        <Class IRI="#FullBack"/>
+        <Class IRI="#Sweeper"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Coach"/>
+        <Class IRI="#Player"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Defender"/>
+        <Class IRI="#Forward"/>
+        <Class IRI="#Midfielder"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#EliteTeam"/>
+        <Class IRI="#MidTableTeam"/>
+        <Class IRI="#RelegationTeam"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#FalseNine"/>
+        <Class IRI="#SecondStriker"/>
+        <Class IRI="#Striker"/>
+        <Class IRI="#Winger"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#FitnessCoach"/>
+        <Class IRI="#GoalkeeperCoach"/>
+        <Class IRI="#TacticalAnalyst"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Goalkeeper"/>
+        <Class IRI="#OutfieldPlayer"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#LeftBack"/>
+        <Class IRI="#RightBack"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#LeftWingBack"/>
+        <Class IRI="#RightWingBack"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#LeftWingMidfielder"/>
+        <Class IRI="#RightWingMidfielder"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#LeftWinger"/>
+        <Class IRI="#RightWinger"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#LoanContract"/>
+        <Class IRI="#PermanentContract"/>
+        <Class IRI="#ScholarshipContract"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#LongTermContract"/>
+        <Class IRI="#ShortTermContract"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#LowerDivision"/>
+        <Class IRI="#TopDivision"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#SeniorTeam"/>
+        <Class IRI="#YouthTeam"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#Team"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Bayern_Munich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Player"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Erling_Haaland"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Player"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Harry_Kane"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Player"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Jude_Bellingham"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Player"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Kevin_De_Bruyne"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Player"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Kylian_Mbappe"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Team"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Manchester_City"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Player"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Nico_Paz"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Team"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_PSG"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Team"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Real_Madrid"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Player"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Rico_Lewis"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Player"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Vinicius_Junior"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#playsFor"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Erling_Haaland"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Manchester_City"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#playsFor"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Harry_Kane"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Bayern_Munich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#playsFor"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Jude_Bellingham"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Real_Madrid"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#playsFor"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Kevin_De_Bruyne"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Manchester_City"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#playsFor"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Kylian_Mbappe"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_PSG"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#playsFor"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Vinicius_Junior"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Real_Madrid"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasAge"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Erling_Haaland"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">24</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasMarketValue"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Erling_Haaland"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">180000000</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Erling_Haaland"/>
+        <Literal>ABox Erling Haaland</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasAge"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Harry_Kane"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">31</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasMarketValue"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Harry_Kane"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">100000000</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasAge"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Jude_Bellingham"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">21</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasMarketValue"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Jude_Bellingham"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">180000000</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Jude_Bellingham"/>
+        <Literal>ABox Jude Bellingham</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasAge"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Kevin_De_Bruyne"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">33</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasMarketValue"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Kevin_De_Bruyne"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">85000000</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Kevin_De_Bruyne"/>
+        <Literal>ABox Kevin De Bruyne</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasAge"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Kylian_Mbappe"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">25</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasMarketValue"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Kylian_Mbappe"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">180000000</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasAge"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Nico_Paz"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">20</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasMarketValue"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Nico_Paz"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">8000000</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Nico_Paz"/>
+        <Literal>ABox Nico Paz</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasAge"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Rico_Lewis"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">19</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasMarketValue"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Rico_Lewis"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">15000000</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Rico_Lewis"/>
+        <Literal>ABox Rico Lewis</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasAge"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Vinicius_Junior"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">24</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasMarketValue"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Vinicius_Junior"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">150000000</Literal>
+    </DataPropertyAssertion>
+
+    <!-- REA-05: League individuals for property chain reasoning -->
+    <ClassAssertion>
+        <Class IRI="#League"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Premier_League"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#League"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_LaLiga"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#League"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Bundesliga"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#League"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Ligue_1"/>
+    </ClassAssertion>
+
+    <!-- REA-05: competesIn relationships for property chain playsFor ∘ competesIn → participatesIn -->
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#competesIn"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Manchester_City"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Premier_League"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#competesIn"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Real_Madrid"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_LaLiga"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#competesIn"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Bayern_Munich"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Bundesliga"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#competesIn"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_PSG"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Ligue_1"/>
+    </ObjectPropertyAssertion>
+
+    <!-- REA-05: League names for query filtering -->
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Premier_League"/>
+        <Literal>Premier League</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_LaLiga"/>
+        <Literal>LaLiga</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Bundesliga"/>
+        <Literal>Bundesliga</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Ligue_1"/>
+        <Literal>Ligue 1</Literal>
+    </DataPropertyAssertion>
+
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#belongsToDivision"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#belongsToFederation"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#belongsToLeague"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasCaptain"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasContract"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#preferredPosition"/>
+    </FunctionalObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#belongsToDivision"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#belongsToFederation"/>
+        <Class IRI="#League"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#belongsToLeague"/>
+        <Class IRI="#Division"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#canPlayPosition"/>
+        <Class IRI="#Player"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#captainOf"/>
+        <Class IRI="#Player"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#coaches"/>
+        <Class IRI="#Coach"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#competesWith"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#contractWith"/>
+        <Class IRI="#Contract"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasCaptain"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasCoach"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasContract"/>
+        <Class IRI="#Person"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasDivision"/>
+        <Class IRI="#League"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasLeague"/>
+        <Class IRI="#FootballFederation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasPlayer"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasTeam"/>
+        <Class IRI="#Division"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isRivalOf"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#managedBy"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#manages"/>
+        <Class IRI="#HeadCoach"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#onLoanFrom"/>
+        <Class IRI="#Player"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#onLoanTo"/>
+        <Class IRI="#Player"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#playsFor"/>
+        <Class IRI="#Player"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#playsPosition"/>
+        <Class IRI="#Player"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#preferredPosition"/>
+        <Class IRI="#Player"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#specialistIn"/>
+        <Class IRI="#Coach"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#transferredFrom"/>
+        <Class IRI="#Player"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#belongsToDivision"/>
+        <Class IRI="#Division"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#belongsToFederation"/>
+        <Class IRI="#FootballFederation"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#belongsToLeague"/>
+        <Class IRI="#League"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#canPlayPosition"/>
+        <ObjectUnionOf>
+            <Class IRI="#Defender"/>
+            <Class IRI="#Forward"/>
+            <Class IRI="#Goalkeeper"/>
+            <Class IRI="#Midfielder"/>
+        </ObjectUnionOf>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#captainOf"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#coaches"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#competesWith"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#contractWith"/>
+        <Class IRI="#Person"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasCaptain"/>
+        <Class IRI="#Player"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasCoach"/>
+        <Class IRI="#Coach"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasContract"/>
+        <Class IRI="#Contract"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasDivision"/>
+        <Class IRI="#Division"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasLeague"/>
+        <Class IRI="#League"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasPlayer"/>
+        <Class IRI="#Player"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasTeam"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isRivalOf"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#managedBy"/>
+        <Class IRI="#HeadCoach"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#manages"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#onLoanFrom"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#onLoanTo"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#playsFor"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#playsPosition"/>
+        <ObjectUnionOf>
+            <Class IRI="#Defender"/>
+            <Class IRI="#Forward"/>
+            <Class IRI="#Goalkeeper"/>
+            <Class IRI="#Midfielder"/>
+        </ObjectUnionOf>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#preferredPosition"/>
+        <ObjectUnionOf>
+            <Class IRI="#Defender"/>
+            <Class IRI="#Forward"/>
+            <Class IRI="#Goalkeeper"/>
+            <Class IRI="#Midfielder"/>
+        </ObjectUnionOf>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#specialistIn"/>
+        <ObjectUnionOf>
+            <Class IRI="#Defender"/>
+            <Class IRI="#Forward"/>
+            <Class IRI="#Goalkeeper"/>
+            <Class IRI="#Midfielder"/>
+        </ObjectUnionOf>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#transferredFrom"/>
+        <Class IRI="#Team"/>
+    </ObjectPropertyRange>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasCity"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasCountry"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasDateOfBirth"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasFoundedYear"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasJerseyNumber"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasName"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasNationality"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasPlaceOfBirth"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasStadiumName"/>
+    </FunctionalDataProperty>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasAge"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasAnnualSalary"/>
+        <Class IRI="#Contract"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasAssists"/>
+        <Class IRI="#Player"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasBonusClause"/>
+        <Class IRI="#Contract"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasCity"/>
+        <Class IRI="#Team"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasCoachingLicense"/>
+        <Class IRI="#Coach"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasContractEndDate"/>
+        <Class IRI="#Contract"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasContractStartDate"/>
+        <Class IRI="#Contract"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasCountry"/>
+        <Class IRI="#Team"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasDateOfBirth"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasDivisionLevel"/>
+        <Class IRI="#Division"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasFoundedYear"/>
+        <Class IRI="#Team"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasGoalsAgainst"/>
+        <Class IRI="#Team"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasGoalsFor"/>
+        <Class IRI="#Team"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasGoalsScored"/>
+        <Class IRI="#Player"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasHeight"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasInternationalCaps"/>
+        <Class IRI="#Player"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasInternationalGoals"/>
+        <Class IRI="#Player"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasJerseyNumber"/>
+        <Class IRI="#Player"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasLeagueName"/>
+        <Class IRI="#League"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasMarketValue"/>
+        <Class IRI="#Player"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasMatchesDrawn"/>
+        <Class IRI="#Team"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasMatchesLost"/>
+        <Class IRI="#Team"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasMatchesPlayed"/>
+        <Class IRI="#Player"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasMatchesWon"/>
+        <Class IRI="#Team"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasName"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasNationality"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasPlaceOfBirth"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasPoints"/>
+        <Class IRI="#Team"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasPreferredFoot"/>
+        <Class IRI="#Player"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasRedCards"/>
+        <Class IRI="#Player"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasReleaseClause"/>
+        <Class IRI="#Contract"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasSalary"/>
+        <Class IRI="#Contract"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasSeasonRanking"/>
+        <Class IRI="#Team"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasSecondNationality"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasStadiumCapacity"/>
+        <Class IRI="#Team"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasStadiumName"/>
+        <Class IRI="#Team"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasTransferFee"/>
+        <Class IRI="#Contract"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasTrophiesWon"/>
+        <Class IRI="#Coach"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasWeeklySalary"/>
+        <Class IRI="#Contract"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasWeight"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasWinPercentage"/>
+        <Class IRI="#Coach"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasYearsCoaching"/>
+        <Class IRI="#Coach"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasYearsExperience"/>
+        <Class IRI="#Player"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasYellowCards"/>
+        <Class IRI="#Player"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasAge"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasAnnualSalary"/>
+        <Datatype abbreviatedIRI="xsd:decimal"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasAssists"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasBonusClause"/>
+        <Datatype abbreviatedIRI="xsd:decimal"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasCity"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasCoachingLicense"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasContractEndDate"/>
+        <Datatype abbreviatedIRI="xsd:date"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasContractStartDate"/>
+        <Datatype abbreviatedIRI="xsd:date"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasCountry"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasDateOfBirth"/>
+        <Datatype abbreviatedIRI="xsd:date"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasDivisionLevel"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasFoundedYear"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasGoalsAgainst"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasGoalsFor"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasGoalsScored"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasHeight"/>
+        <Datatype abbreviatedIRI="xsd:decimal"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasInternationalCaps"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasInternationalGoals"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasJerseyNumber"/>
+        <DatatypeRestriction>
+            <Datatype abbreviatedIRI="xsd:integer"/>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1</Literal>
+            </FacetRestriction>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#maxInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">99</Literal>
+            </FacetRestriction>
+        </DatatypeRestriction>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasLeagueName"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasMarketValue"/>
+        <Datatype abbreviatedIRI="xsd:decimal"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasMatchesDrawn"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasMatchesLost"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasMatchesPlayed"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasMatchesWon"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasName"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasNationality"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasPlaceOfBirth"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasPoints"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasPreferredFoot"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasRedCards"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasReleaseClause"/>
+        <Datatype abbreviatedIRI="xsd:decimal"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasSalary"/>
+        <Datatype abbreviatedIRI="xsd:decimal"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasSeasonRanking"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasSecondNationality"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasStadiumCapacity"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasStadiumName"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasTransferFee"/>
+        <Datatype abbreviatedIRI="xsd:decimal"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasTrophiesWon"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasWeeklySalary"/>
+        <Datatype abbreviatedIRI="xsd:decimal"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasWeight"/>
+        <Datatype abbreviatedIRI="xsd:decimal"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasWinPercentage"/>
+        <DatatypeRestriction>
+            <Datatype abbreviatedIRI="xsd:decimal"/>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">0</Literal>
+            </FacetRestriction>
+            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#maxInclusive">
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">100</Literal>
+            </FacetRestriction>
+        </DatatypeRestriction>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasYearsCoaching"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasYearsExperience"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasYellowCards"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
+

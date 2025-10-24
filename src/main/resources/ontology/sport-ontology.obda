@@ -1,0 +1,137 @@
+[PrefixDeclaration]
+:		http://www.semanticweb.org/sports/ontology#
+owl:		http://www.w3.org/2002/07/owl#
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+xml:		http://www.w3.org/XML/1998/namespace
+xsd:		http://www.w3.org/2001/XMLSchema#
+abox:		http://www.semanticweb.org/sports/abox#
+data:		http://www.semanticweb.org/sports/data#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+sports:		http://www.semanticweb.org/sports/ontology#
+
+[MappingDeclaration] @collection [[
+mappingId	mapping--1386711896
+target		data:person/{PERSON_ID} :hasInternationalCaps {CAPS}^^xsd:integer . 
+source		SELECT PERSON_ID, CASE WHEN MARKET_VALUE >= 150000000 THEN 50 WHEN MARKET_VALUE >= 100000000 THEN 25 WHEN MARKET_VALUE >= 50000000 THEN 10 ELSE 0 END as CAPS FROM PLAYER_ROLE WHERE END_DATE IS NULL AND MARKET_VALUE IS NOT NULL
+
+mappingId	mapping-1560523001
+target		data:contract/{CONTRACT_ID} a :LoanContract . 
+source		SELECT CONTRACT_ID FROM CONTRACT WHERE CONTRACT_TYPE = 'LoanContract'
+
+mappingId	mapping-1590627929
+target		data:person/{PERSON_ID} :hasContract data:contract/{CONTRACT_ID} . 
+source		SELECT PERSON_ID, CONTRACT_ID FROM CONTRACT WHERE IS_ACTIVE = TRUE
+
+mappingId	mapping-1363331519
+target		data:team/{TEAM_ID} a :Team ; :hasFoundedYear {FOUNDED_YEAR}^^xsd:integer ; :hasStadiumCapacity {STADIUM_CAPACITY}^^xsd:integer ; :hasName {NAME}^^xsd:string . 
+source		SELECT TEAM_ID, NAME, STADIUM_CAPACITY, FOUNDED_YEAR FROM TEAM
+
+mappingId	mapping--1104199799
+target		data:team/{TEAM_ID} :hasCoach data:person/{PERSON_ID} . 
+source		SELECT TEAM_ID, PERSON_ID FROM COACH_ROLE WHERE END_DATE IS NULL
+
+mappingId	mapping-280102393
+target		data:person/{PERSON_ID} :hasTrophiesWon {TROPHIES}^^xsd:integer ; :hasYearsCoaching {COACHING_YEARS}^^xsd:integer . 
+source		SELECT cr.PERSON_ID, GREATEST(0, TIMESTAMPDIFF('YEAR', p.BIRTH_DATE, CURRENT_DATE) - 35) as COACHING_YEARS, CASE WHEN cr.ROLE_TYPE = 'HeadCoach' THEN 5 ELSE 2 END as TROPHIES FROM COACH_ROLE cr JOIN PERSON p ON cr.PERSON_ID = p.PERSON_ID WHERE cr.END_DATE IS NULL
+
+mappingId	mapping-1080401561
+target		data:person/{PERSON_ID} a :YoungPlayer . 
+source		SELECT pr.PERSON_ID FROM PLAYER_ROLE pr JOIN PERSON p ON pr.PERSON_ID = p.PERSON_ID WHERE pr.END_DATE IS NULL AND TIMESTAMPDIFF('YEAR', p.BIRTH_DATE, CURRENT_DATE) < 23
+
+mappingId	mapping-931305077
+target		data:person/{PERSON_ID} a :VeteranPlayer . 
+source		SELECT pr.PERSON_ID FROM PLAYER_ROLE pr JOIN PERSON p ON pr.PERSON_ID = p.PERSON_ID WHERE pr.END_DATE IS NULL AND TIMESTAMPDIFF('YEAR', p.BIRTH_DATE, CURRENT_DATE) >= 33
+
+mappingId	mapping--401434971
+target		data:person/{PERSON_ID} a :HeadCoach . 
+source		SELECT PERSON_ID FROM COACH_ROLE WHERE ROLE_TYPE = 'HeadCoach' AND END_DATE IS NULL
+
+mappingId	mapping-2091822003
+target		data:team/{TEAM_ID} a :SeniorTeam . 
+source		SELECT TEAM_ID FROM TEAM WHERE TEAM_TYPE = 'SeniorTeam'
+
+mappingId	mapping--2130393107
+target		data:person/{PERSON_ID} a :HomegrownPlayer . 
+source		SELECT PERSON_ID FROM PLAYER_ROLE WHERE END_DATE IS NULL
+
+mappingId	mapping--27370099
+target		data:person/{PERSON_ID} a :Person ; :hasName {FULL_NAME}^^xsd:string ; :hasAge {AGE}^^xsd:integer ; :hasNationality {NATIONALITY}^^xsd:string . 
+source		SELECT PERSON_ID, FULL_NAME, NATIONALITY, TIMESTAMPDIFF('YEAR', BIRTH_DATE, CURRENT_DATE) as AGE FROM PERSON
+
+mappingId	mapping-1779671715
+target		data:contract/{CONTRACT_ID} a :PermanentContract . 
+source		SELECT CONTRACT_ID FROM CONTRACT WHERE CONTRACT_TYPE = 'PermanentContract'
+
+mappingId	mapping--1801903177
+target		data:team/{TEAM_ID} a :EliteTeam . 
+source		SELECT TEAM_ID FROM TEAM WHERE STADIUM_CAPACITY >= 50000
+
+mappingId	mapping-796255124
+target		data:person/{PERSON_ID} :coaches data:team/{TEAM_ID} . 
+source		SELECT PERSON_ID, TEAM_ID FROM COACH_ROLE WHERE END_DATE IS NULL
+
+mappingId	mapping-489366404
+target		data:person/{PERSON_ID} a :Defender . 
+source		SELECT PERSON_ID FROM PLAYER_ROLE WHERE POSITION = 'Defender' AND END_DATE IS NULL
+
+mappingId	mapping--238968988
+target		data:team/{TEAM_ID} a :YouthTeam . 
+source		SELECT TEAM_ID FROM TEAM WHERE TEAM_TYPE = 'YouthTeam'
+
+mappingId	mapping--1679617307
+target		data:person/{PERSON_ID} a :AssistantCoach . 
+source		SELECT PERSON_ID FROM COACH_ROLE WHERE ROLE_TYPE = 'AssistantCoach' AND END_DATE IS NULL
+
+mappingId	mapping--145134277
+target		data:person/{PERSON_ID} a :Player ; :hasMarketValue {MARKET_VALUE}^^xsd:float ; :hasJerseyNumber {JERSEY_NUMBER}^^xsd:integer . 
+source		SELECT PERSON_ID, JERSEY_NUMBER, MARKET_VALUE FROM PLAYER_ROLE WHERE END_DATE IS NULL
+
+mappingId	mapping--1340497447
+target		data:person/{PERSON_ID} a :TopCoach . 
+source		SELECT cr.PERSON_ID FROM COACH_ROLE cr JOIN PERSON p ON cr.PERSON_ID = p.PERSON_ID WHERE cr.END_DATE IS NULL AND cr.ROLE_TYPE = 'HeadCoach' AND TIMESTAMPDIFF('YEAR', p.BIRTH_DATE, CURRENT_DATE) >= 50
+
+mappingId	mapping-68769284
+target		data:person/{PERSON_ID} a :Midfielder . 
+source		SELECT PERSON_ID FROM PLAYER_ROLE WHERE POSITION = 'Midfielder' AND END_DATE IS NULL
+
+mappingId	mapping-1481470258
+target		data:person/{PERSON_ID} a :Goalkeeper . 
+source		SELECT PERSON_ID FROM PLAYER_ROLE WHERE POSITION = 'Goalkeeper' AND END_DATE IS NULL
+
+mappingId	mapping--1675593156
+target		data:person/{PERSON_ID} a :StarPlayer . 
+source		SELECT PERSON_ID FROM PLAYER_ROLE WHERE END_DATE IS NULL AND MARKET_VALUE >= 100000000
+
+mappingId	mapping--2125132436
+target		data:person/{PERSON_ID} :hasYearsExperience {EXPERIENCE}^^xsd:integer . 
+source		SELECT pr.PERSON_ID, GREATEST(0, TIMESTAMPDIFF('YEAR', p.BIRTH_DATE, CURRENT_DATE) - 18) as EXPERIENCE FROM PLAYER_ROLE pr JOIN PERSON p ON pr.PERSON_ID = p.PERSON_ID WHERE pr.END_DATE IS NULL
+
+mappingId	mapping--421097783
+target		data:team/{TEAM_ID} :hasPlayer data:person/{PERSON_ID} . 
+source		SELECT TEAM_ID, PERSON_ID FROM PLAYER_ROLE WHERE END_DATE IS NULL
+
+mappingId	mapping--1401791487
+target		data:person/{PERSON_ID} a :Coach . 
+source		SELECT PERSON_ID FROM COACH_ROLE WHERE END_DATE IS NULL
+
+mappingId	mapping-474407921
+target		data:contract/{CONTRACT_ID} a :Contract ; :hasSalary {SALARY}^^xsd:float . 
+source		SELECT CONTRACT_ID, SALARY FROM CONTRACT
+
+mappingId	mapping-131177046
+target		data:person/{PERSON_ID} a :TopPlayer . 
+source		SELECT PERSON_ID FROM PLAYER_ROLE WHERE END_DATE IS NULL AND MARKET_VALUE >= 50000000
+
+mappingId	mapping-818755087
+target		data:person/{PERSON_ID} :playsFor data:team/{TEAM_ID} . 
+source		SELECT PERSON_ID, TEAM_ID FROM PLAYER_ROLE WHERE END_DATE IS NULL
+
+mappingId	mapping-896876301
+target		data:person/{PERSON_ID} a :ExperiencedPlayer . 
+source		SELECT pr.PERSON_ID FROM PLAYER_ROLE pr JOIN PERSON p ON pr.PERSON_ID = p.PERSON_ID WHERE pr.END_DATE IS NULL AND TIMESTAMPDIFF('YEAR', p.BIRTH_DATE, CURRENT_DATE) >= 28
+
+mappingId	mapping-1503400240
+target		data:person/{PERSON_ID} a :Forward . 
+source		SELECT PERSON_ID FROM PLAYER_ROLE WHERE POSITION = 'Forward' AND END_DATE IS NULL
+]]
+

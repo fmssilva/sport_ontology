@@ -1,0 +1,56 @@
+# Performance SPARQL Queries - Consolidated file for all performance domain queries
+# Each query is separated by a comment block for easy identification
+
+#### SIMPLE_PLAYER_COUNT ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+SELECT (COUNT(?player) AS ?playerCount)
+WHERE {
+    ?player a :Player .
+    # Restrict to only H2 database individuals (not ABox individuals)
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+
+#### COMPLEX_AGGREGATION_TEST ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+SELECT ?teamName (COUNT(?player) AS ?playerCount)
+WHERE {
+    ?team a :Team ;
+          :hasName ?teamName ;
+          :hasPlayer ?player .
+    
+    # Restrict to only H2 database individuals (not ABox individuals)
+    FILTER(STRSTARTS(STR(?team), "http://www.semanticweb.org/sports/data#"))
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+GROUP BY ?teamName
+ORDER BY DESC(?playerCount)
+
+#### POSITION_DISTRIBUTION ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+SELECT ?positionName (COUNT(?player) AS ?count)
+WHERE {
+    ?player a :Player ;
+            :playsPosition ?position .
+    
+    ?position :hasPositionName ?positionName .
+}
+GROUP BY ?positionName
+ORDER BY DESC(?count)
+
+#### COMPLEX_TEAM_STATISTICS ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+SELECT ?teamName (COUNT(?player) AS ?playerCount)
+WHERE {
+    ?team a :Team ;
+          :hasName ?teamName ;
+          :hasPlayer ?player .
+    
+    # Restrict to only H2 database individuals (not ABox individuals)
+    FILTER(STRSTARTS(STR(?team), "http://www.semanticweb.org/sports/data#"))
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+GROUP BY ?teamName
+ORDER BY DESC(?playerCount)
