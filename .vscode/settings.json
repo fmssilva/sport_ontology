@@ -1,0 +1,63 @@
+{
+  "markdown-pdf.type": "pdf",
+  "markdown-pdf.quality": 100,
+  "markdown-pdf.clip.x": 0,
+  "markdown-pdf.clip.y": 0,
+  "markdown-pdf.clip.width": 0,
+  "markdown-pdf.clip.height": 0,
+  "markdown-pdf.omitBackground": false,
+  "markdown-pdf.includeBackground": true,
+  "markdown-pdf.format": "A4",
+  "markdown-pdf.orientation": "portrait",
+  "markdown-pdf.border.top": "2.5cm",
+  "markdown-pdf.border.bottom": "2.5cm",
+  "markdown-pdf.border.right": "2.5cm",
+  "markdown-pdf.border.left": "2.5cm",
+  "markdown-pdf.displayHeaderFooter": true,
+  "markdown-pdf.headerTemplate": "<div style='font-size:9px; margin-left:1cm;'><span class='title'></span></div><div style='font-size:9px; margin-right:1cm; text-align:right;'><span class='date'></span></div>",
+  "markdown-pdf.footerTemplate": "<div style='font-size:9px; margin:0 auto;'><span class='pageNumber'></span> / <span class='totalPages'></span></div>",
+  "markdown-pdf.styles": [
+    "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css"
+  ],
+  "markdown-pdf.highlight.style": "github",
+  "markdown-pdf.math.enabled": true,
+  "markdown-pdf.plantuml.server": "https://www.plantuml.com/plantuml",
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      "command": "C:\\Program Files\\MiKTeX\\miktex\\bin\\x64\\latexmk.exe",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode", 
+        "-file-line-error",
+        "-pdf",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {
+        "PATH": "C:\\Strawberry\\perl\\bin;C:\\Program Files\\MiKTeX\\miktex\\bin\\x64\\;%PATH%"
+      }
+    },
+    {
+      "name": "pdflatex",
+      "command": "C:\\Program Files\\MiKTeX\\miktex\\bin\\x64\\pdflatex.exe",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ]
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk 🔃",
+      "tools": ["latexmk"]
+    },
+    {
+      "name": "pdflatex ➞ pdflatex", 
+      "tools": ["pdflatex", "pdflatex"]
+    }
+  ],
+  "latex-workshop.view.pdf.viewer": "tab"
+}

@@ -1812,9 +1812,11 @@
     <FunctionalDataProperty>
         <DataProperty IRI="#hasFoundedYear"/>
     </FunctionalDataProperty>
+    <!-- Temporarily disabled for troubleshooting:
     <FunctionalDataProperty>
         <DataProperty IRI="#hasJerseyNumber"/>
     </FunctionalDataProperty>
+    -->
     <FunctionalDataProperty>
         <DataProperty IRI="#hasName"/>
     </FunctionalDataProperty>
@@ -2081,15 +2083,7 @@
     </DataPropertyRange>
     <DataPropertyRange>
         <DataProperty IRI="#hasJerseyNumber"/>
-        <DatatypeRestriction>
-            <Datatype abbreviatedIRI="xsd:integer"/>
-            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
-                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1</Literal>
-            </FacetRestriction>
-            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#maxInclusive">
-                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">99</Literal>
-            </FacetRestriction>
-        </DatatypeRestriction>
+        <Datatype abbreviatedIRI="xsd:integer"/>
     </DataPropertyRange>
     <DataPropertyRange>
         <DataProperty IRI="#hasLeagueName"/>
@@ -2181,15 +2175,7 @@
     </DataPropertyRange>
     <DataPropertyRange>
         <DataProperty IRI="#hasWinPercentage"/>
-        <DatatypeRestriction>
-            <Datatype abbreviatedIRI="xsd:decimal"/>
-            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
-                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">0</Literal>
-            </FacetRestriction>
-            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#maxInclusive">
-                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">100</Literal>
-            </FacetRestriction>
-        </DatatypeRestriction>
+        <Datatype abbreviatedIRI="xsd:decimal"/>
     </DataPropertyRange>
     <DataPropertyRange>
         <DataProperty IRI="#hasYearsCoaching"/>

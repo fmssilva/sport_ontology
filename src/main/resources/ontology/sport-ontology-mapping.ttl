@@ -103,11 +103,22 @@
       rr:class :Player
     ];
   rr:predicateObjectMap [
-      rr:predicate :hasJerseyNumber;
-      rr:objectMap [ rr:column "JERSEY_NUMBER"; rr:datatype xsd:integer ]
-    ], [
       rr:predicate :hasMarketValue;
       rr:objectMap [ rr:column "MARKET_VALUE"; rr:datatype xsd:decimal ]
+    ] .
+
+# Jersey Number Mapping: Only for players with valid jersey numbers (NULL-safe)
+<urn:r2rml:jersey-number-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID, JERSEY_NUMBER FROM PLAYER_ROLE WHERE END_DATE IS NULL AND JERSEY_NUMBER IS NOT NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI
+    ];
+  rr:predicateObjectMap [
+      rr:predicate :hasJerseyNumber;
+      rr:objectMap [ rr:column "JERSEY_NUMBER"; rr:datatype xsd:integer ]
     ] .
 
 # Coach Mapping: H2 compatible

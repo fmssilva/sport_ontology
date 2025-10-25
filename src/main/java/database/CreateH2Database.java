@@ -66,8 +66,8 @@ public class CreateH2Database {
                 "full_name VARCHAR(100) NOT NULL, " +
                 "birth_date DATE, " +
                 "nationality VARCHAR(50), " +
-                "height FLOAT, " +
-                "weight FLOAT)");
+                "height DECIMAL(4,2), " +
+                "weight DECIMAL(5,2))");
             
             // Tabela: Player Role
             stmt.execute("CREATE TABLE player_role (" +
@@ -76,7 +76,7 @@ public class CreateH2Database {
                 "team_id INTEGER NOT NULL, " +
                 "position VARCHAR(50), " +
                 "jersey_number INTEGER, " +
-                "market_value FLOAT, " +
+                "market_value DECIMAL(15,2), " +
                 "start_date DATE, " +
                 "end_date DATE, " +
                 "FOREIGN KEY (person_id) REFERENCES person(person_id), " +
@@ -102,7 +102,7 @@ public class CreateH2Database {
                 "contract_type VARCHAR(50), " +
                 "start_date DATE, " +
                 "end_date DATE, " +
-                "salary FLOAT, " +
+                "salary DECIMAL(15,2), " +
                 "is_active BOOLEAN, " +
                 "FOREIGN KEY (person_id) REFERENCES person(person_id), " +
                 "FOREIGN KEY (team_id) REFERENCES team(team_id))");
@@ -171,7 +171,7 @@ public class CreateH2Database {
             stmt.execute("INSERT INTO player_role VALUES (7, 6, 3, 'Forward', 9, 100000000, '2023-08-12', NULL)");
             
             // PSG Players
-            stmt.execute("INSERT INTO player_role VALUES (8, 5, 4, 'Forward', 7, 180000000, '2017-08-31', NULL)");
+            stmt.execute("INSERT INTO player_role VALUES (8, 5, 4, 'Forward', 7, 180000000, '2017-08-31', '2024-06-30')");
             
             // Barcelona Players
             stmt.execute("INSERT INTO player_role VALUES (9, 9, 5, 'Forward', 9, 45000000, '2022-07-01', NULL)");

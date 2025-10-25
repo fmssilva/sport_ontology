@@ -1,0 +1,38 @@
+   INFO  02:14:59  ------------------------------- Running Reasoner -------------------------------
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: VeteranPlayer EquivalentTo Player and (hasAge some integer) and (hasYearsExperience some integer) (unsupported construct Player
+ and (hasAge some integer)
+ and (hasYearsExperience some integer))
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: playsPosition Range Defender or Forward or Goalkeeper or Midfielder (unsupported operation in Defender or Forward or Goalkeeper or Midfielder)
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: specialistIn Range Defender or Forward or Goalkeeper or Midfielder (unsupported operation in Defender or Forward or Goalkeeper or Midfielder)
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: TopPlayer EquivalentTo Player and (hasMarketValue some decimal[>= 100000000]) (unsupported construct Player
+ and (hasMarketValue some decimal[>= 100000000]))
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: ProfessionalLeague EquivalentTo League and (hasTeam some Team) (unsupported construct League
+ and (hasTeam some Team))
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: preferredPosition Range Defender or Forward or Goalkeeper or Midfielder (unsupported operation in Defender or Forward or Goalkeeper or Midfielder)
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: TopTeam EquivalentTo Team and (hasPlayer some 
+(Player and (hasMarketValue some decimal[>= 50000000]))) (unsupported construct Team
+ and (hasPlayer some 
+    (Player
+     and (hasMarketValue some decimal[>= 50000000]))))
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: ExperiencedPlayer EquivalentTo Player and (hasYearsExperience some integer) (unsupported construct Player
+ and (hasYearsExperience some integer))
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: hasContract some Contract SubClassOf Coach or Player (null)
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: YoungPlayer EquivalentTo Player and (hasAge some integer[< 23]) (unsupported construct Player
+ and (hasAge some integer[< 23]))
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: StarPlayer EquivalentTo Player and (hasInternationalCaps some integer) and (hasMarketValue some decimal) (unsupported construct Player
+ and (hasInternationalCaps some integer)
+ and (hasMarketValue some decimal))
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: playsFor o competesIn SubPropertyOf: participatesIn
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: canPlayPosition Range Defender or Forward or Goalkeeper or Midfielder (unsupported operation in Defender or Forward or Goalkeeper or Midfielder)
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: EliteTeam EquivalentTo Team and (hasPlayer some TopPlayer) and (hasStadiumCapacity some integer[>= 50000]) (unsupported construct Team
+ and (hasPlayer some TopPlayer)
+ and (hasStadiumCapacity some integer[>= 50000]))
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: EliteTeam EquivalentTo Team and (hasPlayer some StarPlayer) and (hasStadiumCapacity some integer) (unsupported construct Team
+ and (hasPlayer some StarPlayer)
+ and (hasStadiumCapacity some integer))
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: HomegrownPlayer EquivalentTo Player and (playsFor some Team) (unsupported construct Player
+ and (playsFor some Team))
+   WARN  02:14:59  Axiom does not belong to OWL 2 QL: TopCoach EquivalentTo Coach and (hasTrophiesWon some integer) and (hasYearsCoaching some integer) (unsupported construct Coach
+ and (hasTrophiesWon some integer)
+ and (hasYearsCoaching some integer))
+   INFO  02:14:59  Ontop has completed the setup and it is ready for query answering!

@@ -1,0 +1,19 @@
+so now, knowing all the work we did, and checking again our ontology, etc. write this subsection now. 
+keep the language simple and short and direct and scientific, but interesting and natural, not like a novel book. 
+make it human to not be detected as AI generated text. 
+and also, when you think it would be good and interesting to have some other visual aspect like a print from protege or the ontology graph or some table of the DB, or some specific code etc... just do it, or prepare the space for it with some minted code block with ASCII chars...  and then i will get the image to put there and complete it 
+and also when you are shwoing axioms and constructurs etc, if possible use thelogical chars like τ (≡BoW_inside_salt_water_and_no_estuary.ocean) => BoW ⊓ (inlandopen.inland ⊓ saltfreshtype.Saltwater) ⊓ (¬ Estuary.Ocean)    (just make sure to use things that will compile with, for example ASCII equivalnts for the symbols??)
+and read the previous sections to make sure we are not repeating the same information and ideas. lets keep the global report clean and well organized.
+then compile to see everything is ok and run
+latexmk -C sport_ontology_report.tex ; latexmk -pdf sport_ontology_report.tex
+
+so now do this part: 
+
+
+
+Now see if this file we created during the developement process is still valid or not, 
+and then confirm if there is here some information that would be good to have in our report. 
+(but lets not grow our report to big... lets try to keep it under 40 pages... so add interesting and important information but keep it simple and don't add trivial information)
+and also, if there are some specific important practical insight about how to us our project so just append it to the README file and we will clean it latter 
+
+

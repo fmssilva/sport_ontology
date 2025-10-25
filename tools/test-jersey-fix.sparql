@@ -1,0 +1,12 @@
+# Test query to verify jersey number constraint consistency fix
+# This query should return only players WITH jersey numbers (NULL values excluded)
+
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+
+SELECT ?player ?name ?jersey WHERE {
+    ?player a sports:Player ;
+            sports:hasName ?name ;
+            sports:hasJerseyNumber ?jersey .
+}
+ORDER BY ?jersey
