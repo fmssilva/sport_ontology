@@ -1,5 +1,14 @@
-Now confirm that all tests are passing
-and remember: We want to have all TBox + ABox in the same ontology file to be used in protégé easy by both hermit and ontop. But we want for our ontop sparql queries to not access the ABox. So keep those name spaces well separated. Check other queries how we do that. So the goal is for sparql to do the OWA and reasoning normally, but just accessing the H2 DB data, so we can better compare with the SQL queries. 
+
+
+
+
+
+Now that we are passing all the tests, check if in the sports-ontology-report we should update any info related to that
+
+
+
+Tests: 
+remember: We want to have all TBox + ABox in the same ontology file to be used in protégé easy by both hermit and ontop. But we want for our ontop sparql queries to not access the ABox. So keep those name spaces well separated. Check other queries how we do that. So the goal is for sparql to do the OWA and reasoning normally, but just accessing the H2 DB data, so we can better compare with the SQL queries. 
 And then we keep the ABox to be used by hermit only. 
 And confirm that sparql and hermit always do the "full stack" of the query. for example don't just call the sparql engine and get the answers instead of actually calling the ontop CLI and doing the whole reaosing pipeline 
 To run the tests use the -q flag when running all tests because they take to long maybe????

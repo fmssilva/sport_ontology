@@ -32,7 +32,7 @@ public class TestManagerListener implements TestExecutionListener {
     @Override
     public void executionStarted(TestIdentifier testIdentifier) {
         if (testIdentifier.isTest()) {
-            System.out.printf("▶️  Starting: %s%n", testIdentifier.getDisplayName());
+            System.out.printf("[START] %s%n", testIdentifier.getDisplayName());
         }
     }
     
@@ -42,7 +42,7 @@ public class TestManagerListener implements TestExecutionListener {
         if (testIdentifier.isTest()) {
             String status = testExecutionResult.getStatus().name();
             String icon = testExecutionResult.getStatus() == 
-                org.junit.platform.engine.TestExecutionResult.Status.SUCCESSFUL ? "✅" : "❌";
+                org.junit.platform.engine.TestExecutionResult.Status.SUCCESSFUL ? "[PASS]" : "[FAIL]";
             
             System.out.printf("%s Finished: %s [%s]%n", 
                 icon, testIdentifier.getDisplayName(), status);

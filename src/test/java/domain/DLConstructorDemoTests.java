@@ -68,8 +68,8 @@ public class DLConstructorDemoTests {
             "ObjectIntersectionOf: Complex class definition with multiple existential restrictions",
             "SELECT p.full_name, pr.market_value, " +
             "CASE WHEN pr.international_caps IS NOT NULL THEN pr.international_caps ELSE 0 END as international_caps " +
-            "FROM person p " +
-            "JOIN player_role pr ON p.person_id = pr.person_id " +
+            "FROM PERSON p " +
+            "JOIN PLAYER_ROLE pr ON p.person_id = pr.person_id " +
             "WHERE pr.end_date IS NULL " +
             "AND pr.market_value IS NOT NULL " +
             "AND pr.international_caps IS NOT NULL " +
@@ -114,9 +114,9 @@ public class DLConstructorDemoTests {
             "DC-02", "datatype_restriction_top_player", "DL_CONSTRUCTOR",
             "DatatypeRestriction: Numeric constraints with facet restrictions",
             "SELECT p.full_name, pr.market_value, t.name as team_name " +
-            "FROM person p " +
-            "JOIN player_role pr ON p.person_id = pr.person_id " +
-            "JOIN team t ON pr.team_id = t.team_id " +
+            "FROM PERSON p " +
+            "JOIN PLAYER_ROLE pr ON p.person_id = pr.person_id " +
+            "JOIN TEAM t ON pr.team_id = t.team_id " +
             "WHERE pr.end_date IS NULL " +
             "AND pr.market_value >= 100000000 " +
             "ORDER BY pr.market_value DESC",
@@ -158,10 +158,10 @@ public class DLConstructorDemoTests {
             "DC-03", "object_property_chain_league", "DL_CONSTRUCTOR",
             "ObjectPropertyChain: Transitive property composition",
             "SELECT DISTINCT p.full_name, l.name as league_name " +
-            "FROM person p " +
-            "JOIN player_role pr ON p.person_id = pr.person_id " +
-            "JOIN team t ON pr.team_id = t.team_id " +
-            "JOIN league l ON t.league_id = l.league_id " +
+            "FROM PERSON p " +
+            "JOIN PLAYER_ROLE pr ON p.person_id = pr.person_id " +
+            "JOIN TEAM t ON pr.team_id = t.team_id " +
+            "JOIN LEAGUE l ON t.league_id = l.league_id " +
             "WHERE pr.end_date IS NULL " +
             "ORDER BY l.name, p.full_name",
             "PREFIX : <http://www.semanticweb.org/sports/ontology#> " +

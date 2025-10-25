@@ -66,7 +66,7 @@ public class QueryLoader {
             
             // Try /* */ style comments first (for backward compatibility)
             Pattern pattern1 = Pattern.compile(
-                "/\\*\\s*" + Pattern.quote(queryMarker) + "\\s*\\*/\\s*\\n(.*?)(?=/\\*|####|$)", 
+                "/\\*\\s*" + Pattern.quote(queryMarker) + "\\s*\\*/\\s*[\\r\\n]+(.*?)(?=/\\*|####|--\\s*Query:|$)", 
                 Pattern.DOTALL | Pattern.CASE_INSENSITIVE
             );
             
@@ -77,7 +77,7 @@ public class QueryLoader {
             
             // Try #### style comments (Protégé-friendly)
             Pattern pattern2 = Pattern.compile(
-                "####\\s*" + Pattern.quote(queryMarker) + "\\s*####\\s*\\n(.*?)(?=####|/\\*|$)", 
+                "####\\s*" + Pattern.quote(queryMarker) + "\\s*####\\s*[\\r\\n]+(.*?)(?=####|/\\*|#\\s*Query:|$)", 
                 Pattern.DOTALL | Pattern.CASE_INSENSITIVE
             );
             

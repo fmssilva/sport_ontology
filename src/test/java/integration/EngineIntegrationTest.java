@@ -28,7 +28,7 @@ public class EngineIntegrationTest {
         sparqlEngine = new SPARQLEngine(dbEngine);
         sparqlEngine.setup();
         
-        System.out.println("✅ All engines initialized for testing");
+        System.out.println("[OK] All engines initialized for testing");
     }
     
     @AfterAll
@@ -43,7 +43,7 @@ public class EngineIntegrationTest {
             dbEngine.stop();
         }
         
-        System.out.println("✅ All engines cleaned up");
+        System.out.println("[OK] All engines cleaned up");
     }
     
     @Test
@@ -55,18 +55,18 @@ public class EngineIntegrationTest {
         Assertions.assertTrue(dbEngine.isStarted(), "Database engine should be started");
         
         // Test database statistics (using the print method for now)
-        System.out.println("   📊 Database Statistics:");
+        System.out.println("   [STATS] Database Statistics:");
         dbEngine.printDatabaseStats();
         
         // Test basic query execution
-        try (var rs = dbEngine.executeQuery("SELECT COUNT(*) FROM team")) {
+        try (var rs = dbEngine.executeQuery("SELECT COUNT(*) FROM TEAM")) {
             Assertions.assertTrue(rs.next(), "Should have at least one result");
             int teamCount = rs.getInt(1);
             System.out.println("      Teams found: " + teamCount);
             Assertions.assertTrue(teamCount > 0, "Should have teams data");
         }
         
-        System.out.println("   ✅ Database engine tests passed");
+        System.out.println("   [OK] Database engine tests passed");
     }
     
     @Test
@@ -76,10 +76,10 @@ public class EngineIntegrationTest {
         
         // Test count queries that match our original test cases
         String[] sqlQueries = {
-            "SELECT COUNT(*) FROM team",
-            "SELECT COUNT(*) FROM person WHERE person_id IN (SELECT person_id FROM player_role)",
-            "SELECT COUNT(*) FROM person WHERE person_id IN (SELECT person_id FROM coach_role)",
-            "SELECT COUNT(*) FROM player_role WHERE position = 'Forward'"
+            "SELECT COUNT(*) FROM TEAM",
+            "SELECT COUNT(*) FROM PERSON WHERE PERSON_ID IN (SELECT PERSON_ID FROM PLAYER_ROLE)",
+            "SELECT COUNT(*) FROM PERSON WHERE PERSON_ID IN (SELECT PERSON_ID FROM COACH_ROLE)",
+            "SELECT COUNT(*) FROM PLAYER_ROLE WHERE POSITION = 'Forward'"
         };
         
         String[] testNames = {
@@ -100,7 +100,7 @@ public class EngineIntegrationTest {
             }
         }
         
-        System.out.println("   ✅ SQL query tests passed");
+        System.out.println("   [OK] SQL query tests passed");
     }
     
     @Test
@@ -133,6 +133,8 @@ public class EngineIntegrationTest {
                 
                 List<String> results = sparqlEngine.executeSPARQL(sparqlQueries[i]);
                 
+                // results.isEmpty() should be false (we want results)
+                // So assertFalse(results.isEmpty()) is correct
                 Assertions.assertFalse(results.isEmpty(), "SPARQL query should return results");
                 
                 System.out.println("      Results: " + results.size() + " lines");
@@ -147,11 +149,11 @@ public class EngineIntegrationTest {
                 }
             }
             
-            System.out.println("   ✅ SPARQL query tests passed - FULL OBDA STACK WORKING!");
+            System.out.println("   [OK] SPARQL query tests passed - FULL OBDA STACK WORKING!");
             
         } catch (RuntimeException e) {
             if (e.getMessage().contains("ONTOP CLI NOT FOUND")) {
-                System.err.println("   ⚠️  SPARQL tests skipped - Ontop CLI not available");
+                System.err.println("   [WARN] SPARQL tests skipped - Ontop CLI not available");
                 System.err.println("   📥 To test full OBDA stack, please install Ontop CLI");
                 Assumptions.assumeTrue(false, "Ontop CLI not available - skipping SPARQL tests");
             } else {
@@ -172,11 +174,11 @@ public class EngineIntegrationTest {
             // Run the comprehensive test suite from SPARQL engine
             sparqlEngine.runTestQueries();
             
-            System.out.println("   ✅ Full pipeline test completed - REAL OBDA WORKING!");
+            System.out.println("   [OK] Full pipeline test completed - REAL OBDA WORKING!");
             
         } catch (RuntimeException e) {
             if (e.getMessage().contains("ONTOP CLI NOT FOUND")) {
-                System.err.println("   ⚠️  Full pipeline test skipped - Ontop CLI not available");
+                System.err.println("   [WARN] Full pipeline test skipped - Ontop CLI not available");
                 System.err.println("   📋 Database tests passed, but SPARQL→SQL translation unavailable");
                 Assumptions.assumeTrue(false, "Ontop CLI not available - skipping full pipeline test");
             } else {
@@ -194,13 +196,13 @@ public class EngineIntegrationTest {
         
             // Run multiple queries to test performance
             for (int i = 0; i < 5; i++) {
-                dbEngine.executeQuery("SELECT COUNT(*) FROM team");
+                dbEngine.executeQuery("SELECT COUNT(*) FROM TEAM");
             }        long dbTime = System.currentTimeMillis() - startTime;
-        System.out.println("   ⏱️  Database queries (5x): " + dbTime + "ms");
+        System.out.println("   [TIME] Database queries (5x): " + dbTime + "ms");
         
         // SPARQL performance would be tested here if Ontop CLI was available
-        System.out.println("   ⏱️  SPARQL queries: Skipped (Ontop CLI not configured)");
+        System.out.println("   [TIME] SPARQL queries: Skipped (Ontop CLI not configured)");
         
-        System.out.println("   ✅ Performance test completed");
+        System.out.println("   [OK] Performance test completed");
     }
 }

@@ -36,9 +36,9 @@ public class H2_SQLEngine {
         try {
             System.out.println("🔄 Starting H2 Database Engine...");
             
-            // Step 1: Create and populate database using existing code
+            // Step 1: Create and populate database using existing code with correct path
             System.out.println("   📊 Creating/populating database schema...");
-            CreateH2Database.main(new String[]{});
+            CreateH2Database.main(new String[]{dbPath});
             
             // Step 2: Establish connection
             System.out.println("   🔗 Establishing connection...");
@@ -179,7 +179,7 @@ public class H2_SQLEngine {
         
         System.out.println("\n📊 DATABASE STATISTICS:");
         
-        String[] tables = {"team", "person", "player_role", "coach_role", "contract"};
+        String[] tables = {"TEAM", "PERSON", "PLAYER_ROLE", "COACH_ROLE", "CONTRACT"};
         
         for (String table : tables) {
             try {
@@ -190,7 +190,7 @@ public class H2_SQLEngine {
                 }
                 rs.close();
             } catch (SQLException e) {
-                System.out.println("   ❌ " + table + ": Error reading table");
+                System.out.println("   ❌ " + table + ": Error reading table - " + e.getMessage());
             }
         }
         System.out.println();

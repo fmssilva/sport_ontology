@@ -148,8 +148,8 @@ public class WorldAssumptionTests {
             
             // SQL Query - CWA behavior
             "SELECT COUNT(DISTINCT p.person_id) as count \n" +
-            "FROM person p \n" +
-            "JOIN player_role pr ON p.person_id = pr.person_id \n" +
+            "FROM PERSON p \n" +
+            "JOIN PLAYER_ROLE pr ON p.person_id = pr.person_id \n" +
             "WHERE pr.market_value IS NULL \n" +
             "  AND pr.end_date IS NULL",
             
@@ -226,7 +226,7 @@ public class WorldAssumptionTests {
             
             // SQL Query - CWA behavior (only explicitly active)
             "SELECT COUNT(DISTINCT c.person_id) as count \n" +
-            "FROM contract c \n" +
+            "FROM CONTRACT c \n" +
             "WHERE c.is_active = TRUE",
             
             // SPARQL Query - OWA behavior (all contracts via OBDA mapping)
@@ -304,8 +304,8 @@ public class WorldAssumptionTests {
             
             // SQL Query - CWA behavior (exact count from database)
             "SELECT COUNT(DISTINCT pr.person_id) as count \n" +
-            "FROM player_role pr \n" +
-            "JOIN team t ON pr.team_id = t.team_id \n" +
+            "FROM PLAYER_ROLE pr \n" +
+            "JOIN TEAM t ON pr.team_id = t.team_id \n" +
             "WHERE t.name = 'Manchester City' \n" +
             "  AND pr.end_date IS NULL",
             

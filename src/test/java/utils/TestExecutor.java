@@ -52,13 +52,18 @@ public class TestExecutor {
         try {
             ResultSet rs = sqlEngine.executeQuery(testCase.sqlQuery);
             
-            // Count the number of rows returned (for meaningful result sets)
+            // For COUNT queries, extract the count value from the first column
             int actualResult = 0;
-            while (rs.next()) {
-                actualResult++;
-                // For debugging: print first few results
-                if (actualResult <= 3) {
-                    StringBuilder row = new StringBuilder("Row " + actualResult + ": ");
+            if (rs.next()) {
+                // Check if this is a COUNT query by looking for COUNT in the first column value or metadata
+                Object firstValue = rs.getObject(1);
+                if (firstValue instanceof Number) {
+                    actualResult = ((Number) firstValue).intValue();
+                    System.out.printf("  Row 1: %s=%s%n", rs.getMetaData().getColumnName(1), firstValue);
+                } else {
+                    // Fallback: count rows for non-COUNT queries
+                    actualResult = 1;
+                    StringBuilder row = new StringBuilder("Row 1: ");
                     int columnCount = rs.getMetaData().getColumnCount();
                     for (int i = 1; i <= Math.min(columnCount, 3); i++) {
                         if (i > 1) row.append(", ");
@@ -67,6 +72,21 @@ public class TestExecutor {
                            .append(rs.getString(i));
                     }
                     System.out.println("  " + row.toString());
+                    
+                    // Continue counting additional rows
+                    while (rs.next()) {
+                        actualResult++;
+                        if (actualResult <= 3) {
+                            row = new StringBuilder("Row " + actualResult + ": ");
+                            for (int i = 1; i <= Math.min(columnCount, 3); i++) {
+                                if (i > 1) row.append(", ");
+                                row.append(rs.getMetaData().getColumnName(i))
+                                   .append("=")
+                                   .append(rs.getString(i));
+                            }
+                            System.out.println("  " + row.toString());
+                        }
+                    }
                 }
             }
             
@@ -163,24 +183,64 @@ public class TestExecutor {
     }
     
     /**
-     * Parse SPARQL results to count data rows (excluding header)
+     * Parse SPARQL results to extract count value or count data rows (excluding header)
      */
     private int parseSPARQLCount(List<String> results) {
         if (results == null || results.isEmpty()) {
             return 0;
         }
         
-        int rowCount = 0;
         boolean foundHeader = false;
+        String headerLine = null;
+        String firstDataLine = null;
         
         for (String line : results) {
             line = line.trim();
             if (line.isEmpty()) continue;
             
-            // Skip header line (first non-empty line)
+            // Capture header line (first non-empty line)
             if (!foundHeader) {
                 foundHeader = true;
+                headerLine = line;
                 System.out.println("  SPARQL Header: " + line);
+                continue;
+            }
+            
+            // Capture first data line
+            if (firstDataLine == null) {
+                firstDataLine = line;
+                System.out.println("  SPARQL Row 1: " + line);
+                
+                // Check if this is a COUNT query (header contains 'count')
+                if (headerLine != null && headerLine.toLowerCase().contains("count")) {
+                    try {
+                        // Try to parse the count value directly
+                        String countValue = line.trim();
+                        // Handle potential decimal format
+                        if (countValue.contains(".")) {
+                            countValue = countValue.substring(0, countValue.indexOf('.'));
+                        }
+                        int count = Integer.parseInt(countValue);
+                        System.out.println("  SPARQL returned count value: " + count);
+                        return count;
+                    } catch (NumberFormatException e) {
+                        System.out.println("  Warning: Could not parse count value, falling back to row counting");
+                    }
+                }
+            }
+        }
+        
+        // Fallback: count data rows for non-COUNT queries
+        int rowCount = 0;
+        foundHeader = false;
+        
+        for (String line : results) {
+            line = line.trim();
+            if (line.isEmpty()) continue;
+            
+            // Skip header line
+            if (!foundHeader) {
+                foundHeader = true;
                 continue;
             }
             

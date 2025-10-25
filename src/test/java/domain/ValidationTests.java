@@ -203,7 +203,7 @@ public class ValidationTests {
                 // Data integrity cross-validation
                 if (sqlResult != null && sparqlResult != null) {
                     if (sparqlResult.actual >= sqlResult.actual) {
-                        System.out.printf("  OBDA MAPPING INTEGRITY: SPARQL (%d) ≥ SQL (%d) - Correct (includes ABox) ✓%n", 
+                        System.out.printf("  OBDA MAPPING INTEGRITY: SPARQL (%d) >= SQL (%d) - Correct (includes ABox) [OK]%n", 
                             sparqlResult.actual, sqlResult.actual);
                         System.out.printf("  Foundation Status: OBDA mappings working correctly%n");
                     } else {
@@ -216,7 +216,7 @@ public class ValidationTests {
                 // Reasoning consistency verification
                 if (sqlResult != null && reasoningResult != null) {
                     if (sqlResult.actual == reasoningResult.actual) {
-                        System.out.printf("  REASONING ACCURACY: SQL (%d) = HermiT (%d) - Perfect inference ✓%n", 
+                        System.out.printf("  REASONING ACCURACY: SQL (%d) = HermiT (%d) - Perfect inference [OK]%n", 
                             sqlResult.actual, reasoningResult.actual);
                         System.out.printf("  Logical Consistency: OWL axioms match manual calculations%n");
                     } else {
@@ -231,10 +231,10 @@ public class ValidationTests {
         System.out.println("=== CONSISTENCY & VALIDATION SUMMARY ===");
         System.out.printf("All consistency tests passed: %s%n", allConsistencyTestsPassed ? "YES" : "NO");
         System.out.println("Validation Results:");
-        System.out.println("  ✓ OBDA mapping correctness verified");
-        System.out.println("  ✓ System integration functional");
-        System.out.println("  ✓ Reasoning engine accuracy validated");
-        System.out.println("  ✓ Foundation for reliable testing established");
+        System.out.println("  [OK] OBDA mapping correctness verified");
+        System.out.println("  [OK] System integration functional");
+        System.out.println("  [OK] Reasoning engine accuracy validated");
+        System.out.println("  [OK] Foundation for reliable testing established");
         
         // Display test summary table for this domain
         displayDomainSummary("VALIDATION", consistencyTests, allTestResults);
@@ -263,9 +263,9 @@ public class ValidationTests {
             System.out.printf("HermiT Team Classification: %d individuals%n", teamCount);
             
             if (playerCount > 0 && teamCount > 0) {
-                System.out.println("✓ Basic classification successful - ontology consistent");
+                System.out.println("[OK] Basic classification successful - ontology consistent");
             } else {
-                System.out.println("⚠ Classification issues detected - check axioms");
+                System.out.println("[WARN] Classification issues detected - check axioms");
                 ontologyConsistent = false;
             }
             
@@ -280,9 +280,9 @@ public class ValidationTests {
             System.out.printf("Erling Haaland (age 24) classified as YoungPlayer: %s%n", haalaandIsYoung);
             
             if (bellinghamIsYoung && !haalaandIsYoung) {
-                System.out.println("✓ YoungPlayer axiom working correctly");
+                System.out.println("[OK] YoungPlayer axiom working correctly");
             } else {
-                System.out.println("⚠ YoungPlayer axiom needs review");
+                System.out.println("[WARN] YoungPlayer axiom needs review");
             }
             
             // TopPlayer axiom: Player ⊓ ∃hasMarketValue.≥100M
@@ -293,9 +293,9 @@ public class ValidationTests {
             System.out.printf("Rico Lewis (15M) classified as TopPlayer: %s%n", lowValuePlayerIsTop);
             
             if (bellinghamIsTop && !lowValuePlayerIsTop) {
-                System.out.println("✓ TopPlayer axiom working correctly");
+                System.out.println("[OK] TopPlayer axiom working correctly");
             } else {
-                System.out.println("⚠ TopPlayer axiom needs review");
+                System.out.println("[WARN] TopPlayer axiom needs review");
             }
             
             // Test 3: Multiple inheritance (TopPlayer ∩ YoungPlayer)
@@ -305,9 +305,9 @@ public class ValidationTests {
             System.out.printf("Players who are both TopPlayer AND YoungPlayer: %d%n", intersectionCount);
             
             if (intersectionCount == 1) { // Should be Jude Bellingham only
-                System.out.println("✓ Multiple inheritance working correctly");
+                System.out.println("[OK] Multiple inheritance working correctly");
             } else {
-                System.out.printf("⚠ Expected 1 player in intersection, found %d%n", intersectionCount);
+                System.out.printf("[WARN] Expected 1 player in intersection, found %d%n", intersectionCount);
             }
             
         } catch (Exception e) {
@@ -341,7 +341,7 @@ public class ValidationTests {
             
             // Test Player mapping (using person + player_role join)
             java.sql.ResultSet sqlPlayers = sqlEngine.executeQuery(
-                "SELECT COUNT(DISTINCT p.person_id) FROM person p JOIN player_role pr ON p.person_id = pr.person_id WHERE pr.end_date IS NULL");
+                "SELECT COUNT(DISTINCT p.person_id) FROM PERSON p JOIN PLAYER_ROLE pr ON p.person_id = pr.person_id WHERE pr.end_date IS NULL");
             sqlPlayers.next();
             int sqlPlayerCount = sqlPlayers.getInt(1);
             
@@ -353,14 +353,14 @@ public class ValidationTests {
             System.out.printf("SPARQL Player Count: %d%n", sparqlPlayerCount);
             
             if (sparqlPlayerCount >= sqlPlayerCount) {
-                System.out.println("✓ Player mapping working (SPARQL includes SQL + ABox)");
+                System.out.println("[OK] Player mapping working (SPARQL includes SQL + ABox)");
             } else {
                 System.out.println("✗ Player mapping incomplete");
                 mappingCorrect = false;
             }
             
             // Test Team mapping
-            java.sql.ResultSet sqlTeams = sqlEngine.executeQuery("SELECT COUNT(*) FROM Team");
+            java.sql.ResultSet sqlTeams = sqlEngine.executeQuery("SELECT COUNT(*) FROM TEAM");
             sqlTeams.next();
             int sqlTeamCount = sqlTeams.getInt(1);
             
@@ -372,7 +372,7 @@ public class ValidationTests {
             System.out.printf("SPARQL Team Count: %d%n", sparqlTeamCount);
             
             if (sparqlTeamCount >= sqlTeamCount) {
-                System.out.println("✓ Team mapping working (SPARQL includes SQL + ABox)");
+                System.out.println("[OK] Team mapping working (SPARQL includes SQL + ABox)");
             } else {
                 System.out.println("✗ Team mapping incomplete");
                 mappingCorrect = false;
@@ -389,9 +389,9 @@ public class ValidationTests {
             System.out.printf("Players with age data in SPARQL: %d%n", playersWithAge);
             
             if (playersWithAge > 0) {
-                System.out.println("✓ Age property mapping functional");
+                System.out.println("[OK] Age property mapping functional");
             } else {
-                System.out.println("⚠ Age property mapping needs verification");
+                System.out.println("[WARN] Age property mapping needs verification");
             }
             
             // Test market value property mapping
@@ -402,9 +402,9 @@ public class ValidationTests {
             System.out.printf("Players with market value data in SPARQL: %d%n", playersWithValue);
             
             if (playersWithValue > 0) {
-                System.out.println("✓ Market value property mapping functional");
+                System.out.println("[OK] Market value property mapping functional");
             } else {
-                System.out.println("⚠ Market value property mapping needs verification");
+                System.out.println("[WARN] Market value property mapping needs verification");
             }
             
         } catch (Exception e) {
