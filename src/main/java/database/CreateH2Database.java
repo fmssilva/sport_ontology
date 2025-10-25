@@ -19,8 +19,20 @@ public class CreateH2Database {
             dbPath = Paths.get(customPath);
             System.out.println("Using custom database path: " + customPath);
         } else {
-            dbPath = Paths.get(System.getProperty("user.dir")).resolve("sports-db");
-            System.out.println("Using default database path");
+            // Store database files in database folder instead of root directory
+            Path databaseDir = Paths.get(System.getProperty("user.dir")).resolve("database");
+            dbPath = databaseDir.resolve("sports-db");
+            System.out.println("Using default database path in database folder");
+            
+            // Ensure database directory exists
+            try {
+                if (!Files.exists(databaseDir)) {
+                    Files.createDirectories(databaseDir);
+                    System.out.println("📁 Created database directory: " + databaseDir);
+                }
+            } catch (Exception e) {
+                System.err.println("⚠️  Warning: Could not create database directory: " + e.getMessage());
+            }
         }
         
         String url = "jdbc:h2:" + dbPath.toString() + ";DATABASE_TO_UPPER=true;CASE_INSENSITIVE_IDENTIFIERS=true";

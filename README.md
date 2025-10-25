@@ -14,7 +14,7 @@ A complete Ontology-Based Data Access (OBDA) system for sports data using:
 mvn test
 
 # Generate Protégé deliverable files  
-mvn exec:exec@deliverables
+mvn exec:exec@protege_files
 
 # Clean and compile project
 mvn clean compile
@@ -35,8 +35,8 @@ mvn test -q
 ```
 
 ### File Locations After Tests
-- **H2 Database Files:** `sports-db.mv.db`, `sports-db.lock.db`, `sports-db.trace.db` (created in project root)
-- **Protégé Files:** `protege_files/` folder (created by `mvn exec:exec@deliverables`)
+- **H2 Database Files:** `database/sports-db.mv.db`, `database/sports-db.lock.db`, `database/sports-db.trace.db` (created in database folder)
+- **Protégé Files:** `protege_files/` folder (created by `mvn exec:exec@protege_files`)
 - **Test Logs:** Available in Maven output
 
 ## 📦 Prerequisites
@@ -56,7 +56,7 @@ choco install maven
 # Standard development cycle
 mvn clean compile        # Compile sources
 mvn test                 # Run all tests  
-mvn exec:exec@deliverables   # Generate Protégé files
+mvn exec:exec@protege_files   # Generate Protégé files
 
 # Quick testing
 mvn test -q             # Quiet test output
@@ -70,7 +70,7 @@ mvn clean install -Pprod   # Skip tests (production mode)
 ### What happens automatically:
 1. **Ontop CLI 5.1.2** - Downloaded and configured automatically
 2. **H2 JDBC Driver** - Copied to Ontop's classpath  
-3. **Sports Database** - Created and populated with test data (sports-db.*)
+3. **Sports Database** - Created and populated with test data (database/sports-db.*)
 4. **Protégé Package** - Generated in `protege_files/` folder  
 5. **Full OBDA Testing** - SPARQL queries executed via real Ontop CLI
 
@@ -316,10 +316,10 @@ mvn test -Dtest="*OWA*"          # Open vs Closed World demonstrations
 
 ### **Complete OBDA Setup in Protégé**
 ```bash
-# Generate portable deliverables (includes H2 driver)
-mvn exec:exec@deliverables
+# Generate portable protege_files (includes H2 driver)
+mvn exec:exec@protege_files
 
-# Files created in deliverables/ folder:
+# Files created in protege_files/ folder:
 # - sport-ontology.owl (ontology)
 # - sports-deliverable-db.mv.db (H2 database)
 # - sport-ontology-mapping.ttl (OBDA mappings)
@@ -328,12 +328,12 @@ mvn exec:exec@deliverables
 ```
 
 ### **Protégé Quick Setup**
-1. **Install H2 Driver**: Copy `deliverables/database/h2-2.4.240.jar` to Protégé plugins folder
-2. **Load Ontology**: Open `deliverables/ontology/sport-ontology.owl`
+1. **Install H2 Driver**: Copy `protege_files/database/h2-2.4.240.jar` to Protégé plugins folder
+2. **Load Ontology**: Open `protege_files/ontology/sport-ontology.owl`
 3. **Start HermiT**: Reasoner → HermiT → Start reasoner
 4. **Connect Database**: DataSource → Add connection with auto-generated JDBC URL
-5. **Load Mappings**: Import `deliverables/ontology/sport-ontology-mapping.ttl`
-6. **Run Queries**: Load `deliverables/ontology/sports-tests.q`
+5. **Load Mappings**: Import `protege_files/ontology/sport-ontology-mapping.ttl`
+6. **Run Queries**: Load `protege_files/ontology/sports-tests.q`
 
 ### **Expected Results in Protégé**
 - **Consistency**: ✅ Ontology should be consistent
@@ -375,11 +375,11 @@ FILTER(STRSTARTS(STR(?entity), "http://www.semanticweb.org/sports/abox#"))
 - ✅ Tests can isolate database performance vs reasoning capabilities
 - ✅ Clean separation enables hybrid architectures for production systems
 
-## 🚀 Deliverables System (Portable Distribution)
+## 🚀 Protege Files System (Portable Distribution)
 
 ### **Self-Contained Package**
-The `mvn exec:exec@deliverables` command creates a **completely portable** package:
-- **Zero External Dependencies**: Everything included in deliverables/ folder
+The `mvn exec:exec@protege_files` command creates a **completely portable** package:
+- **Zero External Dependencies**: Everything included in protege_files/ folder
 - **Cross-Platform Compatible**: Works on any system with Protégé
 - **Academic Distribution**: Perfect for sharing with supervisors, colleagues
 - **Production Ready**: Complete OBDA stack with real data
@@ -727,7 +727,7 @@ hermit-performance-helper.bat → Option 2 (Full ontology)
 mvn clean test (uses full ontology automatically)
 
 # Distribution (portable package)
-mvn exec:exec@deliverables (generates cross-platform package)
+mvn exec:exec@protege_files (generates cross-platform package)
 ```
 
 ---

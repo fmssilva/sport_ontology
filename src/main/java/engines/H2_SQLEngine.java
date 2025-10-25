@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.nio.file.Files;
 
 /**
  * SQL Engine - Manages H2 database lifecycle and SQL operations
@@ -20,8 +22,20 @@ public class H2_SQLEngine {
     
     public H2_SQLEngine() {
         // Use Maven project structure with AUTO_SERVER for concurrent access
-        this.dbPath = Paths.get(System.getProperty("user.dir")).resolve("sports-db").toString();
+        // Store database files in database folder instead of root directory
+        Path databaseDir = Paths.get(System.getProperty("user.dir")).resolve("database");
+        this.dbPath = databaseDir.resolve("sports-db").toString();
         this.dbUrl = "jdbc:h2:" + dbPath + ";DATABASE_TO_UPPER=true;CASE_INSENSITIVE_IDENTIFIERS=true;AUTO_SERVER=true;AUTO_SERVER_PORT=9092";
+        
+        // Ensure database directory exists
+        try {
+            if (!Files.exists(databaseDir)) {
+                Files.createDirectories(databaseDir);
+                System.out.println("📁 Created database directory: " + databaseDir);
+            }
+        } catch (Exception e) {
+            System.err.println("⚠️  Warning: Could not create database directory: " + e.getMessage());
+        }
     }
     
     /**

@@ -264,7 +264,13 @@ public class SPARQLEngine {
     private String findOntopCLI() {
         // Common locations to check for Ontop CLI (Project-managed first)
         String[] possiblePaths = {
-            // Project-managed Ontop CLI (highest priority)
+            // Project-managed Ontop CLI in ontop subfolder (highest priority)
+            System.getProperty("user.dir") + "\\tools\\ontop\\ontop.bat", // Windows absolute
+            System.getProperty("user.dir") + "/tools/ontop/ontop",         // Unix absolute
+            "tools\\ontop\\ontop.bat",                                     // Windows relative
+            "tools/ontop/ontop",                                           // Unix relative
+            
+            // Legacy project-managed Ontop CLI (backward compatibility)
             System.getProperty("user.dir") + "\\tools\\ontop.bat", // Windows absolute
             System.getProperty("user.dir") + "/tools/ontop",       // Unix absolute
             "tools\\ontop.bat",                                     // Windows relative

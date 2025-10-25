@@ -1,18 +1,24 @@
-review introduciton and conclusion
-
 
 
 
 Now that we are passing all the tests, check if in the sports-ontology-report we should update any info related to that
-
-
 
 Tests: 
 remember i want sparql querries to access only the H2 DB data. sparql queries are NOT to include the ABox values. ABox is only for hermit.  
 nevertheless, even if sparq is only to access the H2 DB, it is to perform the full stack query path through the ontop CLI, doing the reasoning procedures and to return the OWA and not the CWA. 
 
 
+review introduciton and conclusion
+
+falta usar e meter no relatorio as tools pra meter o diagrama
+
+
+
 no report dizer que temos empty classes sem individuos, para manter a seed o mais pequeno possivel para raciocinar sobre os resultados esperaveis dos queries ....
+
+
+review the pom file to confirm its clean and we don't have there unused or not important commands or dependencies
+
 
 
 see the project assignment requests. 

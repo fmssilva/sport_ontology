@@ -109,9 +109,9 @@
                     <mainClass>app.AppRunner</mainClass>
                 </configuration>
                 <executions>
-                    <!-- Generate deliverables command: mvn exec:exec@deliverables (backward compatible) -->
+                    <!-- Generate protege_files command: mvn exec:exec@protege_files -->
                     <execution>
-                        <id>deliverables</id>
+                        <id>protege_files</id>
                         <goals>
                             <goal>exec</goal>
                         </goals>
@@ -120,14 +120,14 @@
                             <arguments>
                                 <argument>clean</argument>
                                 <argument>compile</argument>
-                                <argument>exec:java@deliverables-java</argument>
+                                <argument>exec:java@protege_files-java</argument>
                             </arguments>
                         </configuration>
                     </execution>
                     
                     <!-- Internal Java execution target -->
                     <execution>
-                        <id>deliverables-java</id>
+                        <id>protege_files-java</id>
                         <goals>
                             <goal>java</goal>
                         </goals>
@@ -195,7 +195,7 @@
                                     <version>${h2.version}</version>
                                     <type>jar</type>
                                     <overWrite>true</overWrite>
-                                    <outputDirectory>${project.basedir}/tools/jdbc</outputDirectory>
+                                    <outputDirectory>${project.basedir}/tools/ontop/jdbc</outputDirectory>
                                     <destFileName>h2-${h2.version}.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
@@ -224,20 +224,25 @@
                         </goals>
                         <configuration>
                             <target>
-                                <!-- Create tools directory -->
+                                <!-- Create tools and ontop directories -->
                                 <mkdir dir="${project.basedir}/tools"/>
-                                <mkdir dir="${project.basedir}/tools/jdbc"/>
+                                <mkdir dir="${project.basedir}/tools/ontop"/>
+                                <mkdir dir="${project.basedir}/tools/ontop/jdbc"/>
                                 
-                                <echo message="📦 Extracting Ontop CLI..."/>
+                                <echo message="📦 Extracting Ontop CLI to ontop subfolder..."/>
                                 <unzip src="${project.basedir}/tools/ontop-cli-5.1.2.zip" 
-                                       dest="${project.basedir}/tools/" 
+                                       dest="${project.basedir}/tools/ontop/" 
                                        overwrite="true"/>
                                 
+                                <!-- Delete the ZIP file after extraction -->
+                                <delete file="${project.basedir}/tools/ontop-cli-5.1.2.zip"/>
+                                <echo message="🗑️ Cleaned up ZIP file: ontop-cli-5.1.2.zip"/>
+                                
                                 <!-- Make ontop executable on Unix systems -->
-                                <chmod file="${project.basedir}/tools/ontop" perm="755" 
+                                <chmod file="${project.basedir}/tools/ontop/ontop" perm="755" 
                                        osfamily="unix" failonerror="false"/>
                                 
-                                <echo message="✅ Ontop CLI ready at: ${project.basedir}/tools/ontop"/>
+                                <echo message="✅ Ontop CLI ready at: ${project.basedir}/tools/ontop/ontop"/>
                             </target>
                         </configuration>
                     </execution>

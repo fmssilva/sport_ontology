@@ -34,6 +34,7 @@
    - **Username:** sa
    - **Password:** (leave empty)
 3. **Test Connection** - should succeed
+4. **Alternative:** Load settings from `database/H2_Config.properties`
 
 ## Step 5: Load OBDA Mappings
 1. In DataSource tab: **Load mappings**
