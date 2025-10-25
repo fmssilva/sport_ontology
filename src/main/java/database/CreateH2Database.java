@@ -19,7 +19,7 @@ public class CreateH2Database {
             dbPath = Paths.get(customPath);
             System.out.println("Using custom database path: " + customPath);
         } else {
-            dbPath = Paths.get(System.getProperty("user.dir")).resolve("sports-db");
+            dbPath = Paths.get(System.getProperty("user.dir")).resolve("sportsdb");
             System.out.println("Using default database path");
         }
         
@@ -32,6 +32,7 @@ public class CreateH2Database {
         String password = "";
         
         try {
+            Class.forName("org.h2.Driver");
             Connection conn = DriverManager.getConnection(url, user, password);
             System.out.println("Conectado à base de dados!");
             

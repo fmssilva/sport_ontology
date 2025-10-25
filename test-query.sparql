@@ -1,0 +1,8 @@
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+
+# Simple consistency test query
+SELECT ?player ?jersey WHERE {
+  ?player a sports:Player ;
+          sports:hasJerseyNumber ?jersey .
+}
+LIMIT 5

@@ -1,6 +1,6 @@
 # Sport Ontology - Deliverable Files
 
-*Generated automatically by BuildDeliverables.java on 2025-10-25 00:42*
+*Generated automatically by BuildDeliverables.java on 2025-10-25 01:23*
 
 ## Overview
 Complete OBDA system with H2 database, rich OWL ontology, and Protégé integration.
@@ -50,7 +50,7 @@ Contracts (13): 10 active, 3 historical/inactive
 ```
 
 ## System Information
-- **Build date:** 2025-10-25 00:42:00
+- **Build date:** 2025-10-25 01:23:13
 - **Database path:** `C:/Users/franc/Desktop/RCR/projects/sport_ontology/deliverables/database`
 - **Java version:** 25
 - **OS:** Windows 11 10.0
