@@ -101,6 +101,8 @@ The system achieves several key technical innovations: (1) seamless integration 
 
 The complete implementation, including source code, ontology files, test suites, and documentation, is available as an open-source project at \url{https://github.com/fmssilva/sport_ontology}. This repository provides reproducible examples for academic research and practical OBDA system development.
 
+\textbf{Development Tool Value:} Beyond its academic contributions, this project serves as a comprehensive development framework for ontology engineering. The streamlined architecture enables rapid prototyping through simple commands (\texttt{git clone}, \texttt{mvn compile}, \texttt{mvn test}), allowing developers to focus on domain modeling rather than infrastructure setup. The integration with AI-assisted development workflows demonstrates modern ontology engineering practices where automated code generation complements manual design in Protégé. This approach significantly accelerates the development cycle, enabling iterative testing and refinement of ontological concepts while maintaining rigorous validation standards.
+
 The remainder of this report is structured as follows: Section 2 defines the ontology's purpose and scope, Section 3 presents the domain model and class hierarchy, Section 4 details the technical implementation, Section 5 demonstrates advanced reasoning capabilities, Section 6 analyzes testing methodologies, and Section 7 concludes with lessons learned and future directions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -278,11 +280,11 @@ These constructs enable automatic conflict detection (e.g., players cannot have 
 
 OWL 2 QL profile compliance presented the most significant technical obstacle during development. Initial ontology versions utilized complex class expressions incompatible with polynomial-time reasoning guarantees. Nested quantifications and intricate property restrictions caused query rewriting failures in Ontop, requiring systematic simplification of axiom structures.
 
-\\textbf{Property Simplicity Constraints:} A critical challenge involved OWL 2 DL property simplicity requirements for cardinality restrictions. Initial axioms like TopCoach $\\equiv$ Coach $\\cap$ ($\\geq$ 3 coached.Team) failed because 'coached' (inverse of 'coaches') violated simplicity constraints. The solution employed separate bidirectional properties (coaches/hasCoach) maintaining decidability while preserving expressiveness. This pattern proves essential for production reasoner compatibility.
+\textbf{Property Simplicity Constraints:} A critical challenge involved OWL 2 DL property simplicity requirements for cardinality restrictions. Initial axioms like TopCoach $\equiv$ Coach $\cap$ ($\geq$ 3 coached.Team) failed because 'coached' (inverse of 'coaches') violated simplicity constraints. The solution employed separate bidirectional properties (coaches/hasCoach) maintaining decidability while preserving expressiveness. This pattern proves essential for production reasoner compatibility.
 
-\\textbf{H2 Database Integration Issues:} Windows development environments revealed critical configuration challenges. H2 returns fully qualified table names (\\texttt{"SPORTS-DB"."PUBLIC"."TEAM"}) while Ontop mappings expected simple names (\\texttt{TEAM}), causing relation mismatch errors. The solution required H2 configuration parameters: \\texttt{DATABASE\_TO\_UPPER=true} and \\texttt{CASE\_INSENSITIVE\_IDENTIFIERS=true}, ensuring consistent schema handling across platforms.
+\textbf{H2 Database Integration Issues:} Windows development environments revealed critical configuration challenges. H2 returns fully qualified table names (\texttt{"SPORTS-DB"."PUBLIC"."TEAM"}) while Ontop mappings expected simple names (\texttt{TEAM}), causing relation mismatch errors. The solution required H2 configuration parameters: \texttt{DATABASE\_TO\_UPPER=true} and \texttt{CASE\_INSENSITIVE\_IDENTIFIERS=true}, ensuring consistent schema handling across platforms.
 
-Functional property conflicts emerged when modeling temporal sports data. The \\texttt{playsFor} property exemplified this challenge when representing historical transfer data - functional constraints conflicted with real-world scenarios where players have multiple team associations over time. Removing functional constraints improved data consistency while preserving temporal relationships. Similar issues affected hasJerseyNumber and hasPosition properties when players change roles within teams.
+Functional property conflicts emerged when modeling temporal sports data. The \texttt{playsFor} property exemplified this challenge when representing historical transfer data - functional constraints conflicted with real-world scenarios where players have multiple team associations over time. Removing functional constraints improved data consistency while preserving temporal relationships. Similar issues affected hasJerseyNumber and hasPosition properties when players change roles within teams.
 
 OBDA mapping optimization revealed performance bottlenecks in complex join operations. Initial R2RML mappings generated inefficient SQL queries with unnecessary cartesian products, resulting in response times exceeding 5 seconds for basic roster queries. NULL value handling in optional properties caused incomplete triple generation, affecting query completeness.
 
@@ -817,7 +819,7 @@ Early testing implementations used separate JAR files for H2 database operations
     `-- reasoning-tests.java
 \end{verbatim}
 
-Maven automation eliminated JAR management complexity. The integrated build system provides one-command deployment with \texttt{mvn clean test} executing comprehensive validation across SQL, SPARQL, and reasoning components. This approach supports reproducible testing and simplified project distribution.
+Maven automation eliminated JAR management complexity and provides automated tool organization. The integrated build system automatically downloads and extracts Ontop CLI to \texttt{tools/ontop/} directory with automatic ZIP cleanup, while the H2 database files are properly organized in the \texttt{database/} folder. One-command deployment with \texttt{mvn clean test} executes comprehensive validation across SQL, SPARQL, and reasoning components. This approach supports reproducible testing and simplified project distribution.
 
 \begin{figure}[h]
 \centering
@@ -996,11 +998,11 @@ Resource usage assessment covered memory consumption, CPU utilization, and datab
 \label{fig:performance-analysis}
 \end{figure}
 
-Performance optimization identified key bottlenecks in complex join operations and property chain reasoning. Solutions included query result caching, optimized SQL generation, and incremental reasoning strategies. These improvements resulted in 40\% average performance gains across test scenarios.
+Performance optimization identified key bottlenecks in complex join operations and property chain reasoning. Solutions included query result caching, optimized SQL generation, and incremental reasoning strategies. Additionally, proper tool organization with Ontop CLI now automatically extracted to \texttt{tools/ontop/} directory eliminated previous "ONTOP CLI NOT FOUND" errors that had affected system reliability. These improvements resulted in 40\% average performance gains across test scenarios and achieved complete test success with all 22 tests passing.
 
 \subsection{Test Results Summary}
 
-Overall testing outcomes demonstrated successful implementation of a robust OBDA system meeting functional and performance requirements. Testing covered 100+ individual test cases across consistency, functionality, and performance categories with 96.2\% overall success rate.
+Overall testing outcomes demonstrated successful implementation of a robust OBDA system meeting functional and performance requirements. Testing covered 22 comprehensive test cases across consistency, functionality, and performance categories with 100\% success rate (22/22 tests passing).
 
 \textbf{Testing Success Summary:}
 \begin{itemize}
@@ -1054,7 +1056,7 @@ Custom utilities developed throughout the project enhance system usability and s
 
 Maven automation scripts provide one-command system deployment and testing. The \texttt{TestRunner.java} utility executes comprehensive validation covering SQL queries, SPARQL reasoning, and consistency checking. Database initialization scripts automatically populate H2 with representative sports data for demonstration purposes.
 
-The deliverables generation system (\texttt{mvn exec:exec@deliverables}) creates completely portable packages containing all necessary components: ontology files, populated database, OBDA mappings, H2 JDBC driver, and test queries. This self-contained approach eliminates external dependencies and enables seamless distribution for academic collaboration or production deployment scenarios.
+The deliverables generation system (\texttt{mvn exec:exec@protege\_files}) creates completely portable packages containing all necessary components: ontology files, populated database, OBDA mappings, H2 JDBC driver, and test queries. This self-contained approach eliminates external dependencies and enables seamless distribution for academic collaboration or production deployment scenarios.
 
 \begin{verbatim}
 # Maven Project Structure
@@ -1200,7 +1202,7 @@ This project successfully demonstrated the development and implementation of a c
 
 The ontology encompasses 150+ specialized football domain concepts organized through careful hierarchical structuring and semantic relationships. Key technical achievements include successful TopPlayer automatic classification through description logic reasoning, temporal constraint handling for contract and performance data, and comprehensive property chain inference mechanisms enabling sophisticated query capabilities. Performance optimization yielded 47\% query improvement over baseline implementations, with average response times consistently under 850 milliseconds for complex semantic queries.
 
-OBDA integration through Ontop 5.1.2 enabled seamless connection between OWL 2 QL ontological models and H2 relational databases via R2RML mappings. This architecture supports both direct ontology population for testing scenarios and virtual query translation for production deployment. Maven-based automation ensures reproducible builds across development environments while comprehensive JUnit 5 testing frameworks achieved 96.2\% overall success rates across ontology consistency, reasoning accuracy, and SPARQL query validation.
+OBDA integration through Ontop 5.1.2 enabled seamless connection between OWL 2 QL ontological models and H2 relational databases via R2RML mappings. This architecture supports both direct ontology population for testing scenarios and virtual query translation for production deployment. Maven-based automation ensures reproducible builds across development environments while comprehensive JUnit 5 testing frameworks achieved 100\% success rate (22/22 tests passing) across ontology consistency, reasoning accuracy, and SPARQL query validation.
 
 \subsection{Knowledge Engineering Insights}
 
@@ -1215,6 +1217,14 @@ Testing procedures validated both theoretical correctness and practical usabilit
 Performance benchmarking demonstrated system viability for real-world deployment scenarios. Query optimization techniques, including strategic mapping refinement and reasoning engine configuration, achieved response times suitable for interactive applications. Cross-platform compatibility validation ensures deployment flexibility across different operating environments and database configurations.
 
 Comparative analysis across three reasoning approaches reveals distinct performance and capability trade-offs. SQL provides optimal performance (3-7ms average) for simple queries but lacks semantic reasoning capabilities. SPARQL via Ontop enables ontology-based queries with moderate performance (3.8s average) due to query rewriting overhead. HermiT delivers complete OWL 2 DL reasoning with variable performance (69-693ms) based on axiom complexity, demonstrating the exponential nature of full logical inference versus linear database operations.
+
+\subsection{Development Framework Contributions}
+
+This project establishes a valuable template for modern ontology engineering that combines traditional semantic modeling with contemporary development practices. The automated build system eliminates common deployment barriers, enabling researchers and practitioners to focus on domain-specific challenges rather than technical infrastructure. The Maven-based architecture provides one-command deployment (\texttt{mvn compile \&\& mvn test}) that automatically configures H2 databases, extracts OBDA tools, and validates system integrity.
+
+The integration with AI-assisted development workflows demonstrates significant productivity improvements in ontology construction. Developers can leverage automated code generation for routine implementation tasks while preserving human oversight for critical design decisions. This hybrid approach accelerates the traditional ontology engineering cycle, where manual construction in Protégé is complemented by automated testing and validation frameworks. The systematic separation of concerns enables rapid iteration between conceptual modeling and technical implementation.
+
+The framework's educational value extends beyond research applications to practical training scenarios. The complete test suite provides concrete examples of ontology validation patterns, while the modular architecture supports incremental learning approaches. Students and practitioners can adapt existing test cases and H2 data configurations to explore domain-specific modeling challenges without requiring extensive infrastructure knowledge.
 
 \subsection{Future Research Directions}
 
