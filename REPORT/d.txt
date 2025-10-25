@@ -11,9 +11,10 @@ so now do this part:
 
 
 
-Now see if this file we created during the developement process is still valid or not, 
+Now see if these files we created during the developement process is still valid or not, 
 and then confirm if there is here some information that would be good to have in our report. 
 (but lets not grow our report to big... lets try to keep it under 40 pages... so add interesting and important information but keep it simple and don't add trivial information)
+(and also don't create now new files to add with some explanation... lets clean our repo - but don't delete the files, i will delete them)
 and also, if there are some specific important practical insight about how to us our project so just append it to the README file and we will clean it latter 
 
 
