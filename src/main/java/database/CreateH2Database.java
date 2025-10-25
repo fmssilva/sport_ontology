@@ -19,7 +19,7 @@ public class CreateH2Database {
             dbPath = Paths.get(customPath);
             System.out.println("Using custom database path: " + customPath);
         } else {
-            dbPath = Paths.get(System.getProperty("user.dir")).resolve("sportsdb");
+            dbPath = Paths.get(System.getProperty("user.dir")).resolve("sports-db");
             System.out.println("Using default database path");
         }
         

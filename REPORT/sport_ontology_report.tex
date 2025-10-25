@@ -332,6 +332,8 @@ OBDA mapping optimization employed NULL-safe SQL generation and indexed foreign 
 
 Namespace-based data separation resolved query result inconsistencies between database instances and reasoning individuals. The implementation utilizes distinct URI namespaces: `data:` for H2 database-driven instances via OBDA mappings, and `abox:` for reasoning-specific individuals. This architectural pattern enables clean SQL$\leftrightarrow$SPARQL result comparisons and eliminates interference between static reasoning data and dynamic database content.
 
+\textbf{Concrete Implementation:} SPARQL queries include namespace filtering via \texttt{FILTER(STRSTARTS(STR(?entity), "http://www.semanticweb.org/sports/data\#"))} to restrict results to database-only entities, ensuring consistent comparison with SQL queries that inherently access only H2 data. R2RML mappings generate database entities using \texttt{data:player\_\{person\_id\}} templates, while ABox individuals use \texttt{abox:ABox\_*} patterns for reasoning validation.
+
 \begin{lstlisting}[language=SQL, caption=SQL Query Optimization Example]
 -- Original: Inefficient cartesian product
 SELECT p.name, t.name, r.position 

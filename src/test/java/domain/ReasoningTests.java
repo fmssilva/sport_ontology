@@ -146,7 +146,7 @@ public class ReasoningTests {
                 QueryLoader.loadSQL("reasoning", "young_players_by_age"),
                 QueryLoader.loadSPARQL("reasoning", "young_players_by_age"),
                 3, // SQL: 3 players (Rico Lewis: 19, Nico Paz: 20, Jude Bellingham: 21)
-                0, // SPARQL: 0 (no reasoning)
+                3, // SPARQL: 3 (H2 database access via Ontop OBDA)
                 3, // HermiT: 3 (automatic inference)
                 "OWL_REASONING",
                 "OWA"
@@ -160,7 +160,7 @@ public class ReasoningTests {
                 QueryLoader.loadSQL("reasoning", "top_players_by_value"),
                 QueryLoader.loadSPARQL("reasoning", "top_players_by_value"),
                 5, // SQL: 5 players (Haaland, Vinicius, Bellingham, Mbappe, Kane: ≥100M)
-                0, // SPARQL: 0 (no reasoning)
+                5, // SPARQL: 5 (H2 database access via Ontop OBDA)
                 5, // HermiT: 5 (automatic inference)
                 "OWL_REASONING",
                 "OWA"
@@ -174,7 +174,7 @@ public class ReasoningTests {
                 QueryLoader.loadSQL("reasoning", "top_young_players"),
                 QueryLoader.loadSPARQL("reasoning", "top_young_players"),
                 1, // SQL: 1 player (Jude Bellingham: 180M + age 21)
-                0, // SPARQL: 0 (no reasoning)
+                1, // SPARQL: 1 (H2 database access via Ontop OBDA)
                 1, // HermiT: 1 (dual classification)
                 "OWL_REASONING",
                 "OWA"
@@ -226,9 +226,9 @@ public class ReasoningTests {
                 }
             }
             
-            // Show SPARQL behavior (should be 0 for reasoning-dependent queries)
+            // Show SPARQL behavior (accesses H2 database via Ontop OBDA)
             if (sparqlResult != null) {
-                System.out.printf("  SPARQL (no reasoning): %d - Expected behavior for inference queries%n", 
+                System.out.printf("  SPARQL (H2 via OBDA): %d - Expected behavior for H2 database access%n", 
                     sparqlResult.actual);
             }
         }

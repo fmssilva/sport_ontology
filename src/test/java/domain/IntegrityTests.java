@@ -135,7 +135,7 @@ public class IntegrityTests {
                 QueryLoader.loadSQL("integrity", "count_all_teams"),
                 QueryLoader.loadSPARQL("integrity", "count_all_teams"),
                 7, // SQL: 7 teams from CreateH2Database (5 senior + 2 youth)
-                11, // SPARQL: 11 teams (7 from DB + 4 ABox individuals in OWL)
+                7, // SPARQL: 7 teams (same as SQL, restricted to H2 data: namespace only)
                 null, // No reasoning expectation
                 "SQL<->SPARQL",
                 "CWA"
@@ -149,7 +149,7 @@ public class IntegrityTests {
                 QueryLoader.loadSQL("integrity", "count_unique_players"),
                 QueryLoader.loadSPARQL("integrity", "count_unique_players"),
                 12, // SQL: 12 unique players from CreateH2Database
-                20, // SPARQL: 20 players (12 from DB + 8 ABox individuals in OWL)
+                12, // SPARQL: 12 players (same as SQL, restricted to H2 data: namespace only)
                 null, // No reasoning expectation
                 "SQL<->SPARQL",
                 "CWA"

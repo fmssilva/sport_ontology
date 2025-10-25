@@ -29,10 +29,13 @@ ORDER BY DESC(?playerCount)
 
 #### POSITION_DISTRIBUTION ####
 PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
 SELECT ?positionName (COUNT(?player) AS ?count)
 WHERE {
     ?player a :Player ;
             :playsPosition ?position .
+    # Restrict to only H2 database individuals (not ABox individuals)
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
     
     ?position :hasPositionName ?positionName .
 }

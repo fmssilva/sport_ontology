@@ -1,4 +1,4 @@
-
+review introduciton and conclusion
 
 
 
@@ -8,48 +8,23 @@ Now that we are passing all the tests, check if in the sports-ontology-report we
 
 
 Tests: 
-remember: We want to have all TBox + ABox in the same ontology file to be used in protégé easy by both hermit and ontop. But we want for our ontop sparql queries to not access the ABox. So keep those name spaces well separated. Check other queries how we do that. So the goal is for sparql to do the OWA and reasoning normally, but just accessing the H2 DB data, so we can better compare with the SQL queries. 
-And then we keep the ABox to be used by hermit only. 
-And confirm that sparql and hermit always do the "full stack" of the query. for example don't just call the sparql engine and get the answers instead of actually calling the ontop CLI and doing the whole reaosing pipeline 
-To run the tests use the -q flag when running all tests because they take to long maybe????
-And also confirm we are not doing some data seed just for the test with some fixture. I want then to run all the tests in protege and get the same results. so lets use just the data in the CreateH2Database and ABox in sport-ontology
-and then run mvn exec:exec@deliverables again nd confirm that the correct files are generated. and make the BuildDeliverables to produce the sparql queries file as a .sparql also instead of just q??
+remember i want sparql querries to access only the H2 DB data. sparql queries are NOT to include the ABox values. ABox is only for hermit.  
+nevertheless, even if sparq is only to access the H2 DB, it is to perform the full stack query path through the ontop CLI, doing the reasoning procedures and to return the OWA and not the CWA. 
 
 
-now that we have our final ontology that works in both our local tests as well as in protege, 
-lets go back to the tests we will want to implement. 
-now that we have a new structure, confirm what good tests will be nice to do to shwo the project requirements 
-and now think about what will be the good seed to run these tests and improve if necessary the TOP_TESTS file for us to have an idea of what will b the good tests to run
-(and there, give descriptive names to the tests, not only some code)
-and so confirm the good tests to do and update the file
-
-and then lets review the necesary seed. 
-we want a seed that is a bit big to show reach things and reasoning, 
-but not too big so we can track the results "by hand" without much effort 
-and so then update our H2 DB data seed and also the ABox for hermit
-(and confirm each of them are in diferent spaces som sparq won't use the Abox data, just hermit will)
-and so correct and update the needed seeds we will want to have
-and write in the TOP_TEST file the final data seed we will have (and delete the previous seed notes that we might have there)
-
-
-now lets go back again to our seed task. we have DB seed for SQL and SPARQ and ABox for SPAQ and hermit. 
-but we would want maybe to filter out the ABOX from the SPAQ queries so we can better compare with the SQL queries... so maybe we could add somethign like "ABox" at the end or start of every name in our ABox, and so when we do the SPAQR queries we would filter out these results, and so we would compare easliy the results with sparq... is this a good idea? 
-is this the best way to implement this? 
-are there any other best way to filter out the ABox individuals, while making the code still simple and clean? 
-so do that. implement those 2 namespaces, in order to separate sparq queries from hermit queries and abox. and make it in a way to be simple, and for it to work both in here in our local tests, and also in protege when i run the hermit reasoner and the sparq quereies there. 
-and then write this features in a file "H2_vs_ABox.md" and also include the tasks i should do, if any, to make it then work in protege smoothly 
-
+no report dizer que temos empty classes sem individuos, para manter a seed o mais pequeno possivel para raciocinar sobre os resultados esperaveis dos queries ....
 
 
 see the project assignment requests. 
 and see the deliverables i need to give
-and see the code we have now implmented
+and see 
+the code we have now implmented
 and then confirm what task we have already done and to what level
 is it good already for each area and task?
 what should we do more?
 keep in mind i want to go a bit beyong the requested to make this a very good prrojct 
 
-now see the full list of tests we add before enhancing our ontology 
+---now see the full list of tests we add before enhancing our ontology 
 and we are not gonna have time to implement all,
 so from these list, now, give me a list of tests that we should implement
 maybe the ones that are more interesting? and show reasoning? and OWA vs CWA? ??

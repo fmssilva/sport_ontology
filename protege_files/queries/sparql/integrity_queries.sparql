@@ -7,9 +7,12 @@
 # Expected: Should match SQL count exactly for mapping integrity validation
 #### COUNT_ALL_TEAMS ####
 PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
 
 SELECT (COUNT(?team) as ?count) WHERE {
-    ?team a sports:Team
+    ?team a sports:Team .
+    # Restrict to only H2 database individuals (not ABox individuals)
+    FILTER(STRSTARTS(STR(?team), "http://www.semanticweb.org/sports/data#"))
 }
 
 # Query: count_unique_players
@@ -18,7 +21,10 @@ SELECT (COUNT(?team) as ?count) WHERE {
 # Expected: Should match SQL count exactly for data consistency validation
 #### COUNT_UNIQUE_PLAYERS ####
 PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
 
 SELECT (COUNT(DISTINCT ?player) as ?count) WHERE {
-    ?player a sports:Player
+    ?player a sports:Player .
+    # Restrict to only H2 database individuals (not ABox individuals)
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
 }

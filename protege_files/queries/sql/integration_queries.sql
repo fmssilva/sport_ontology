@@ -57,7 +57,7 @@ SELECT t.name,
        COUNT(DISTINCT pr.player_role_id) as total_players,
        AVG(p.market_value) as avg_market_value,
        MAX(p.market_value) as max_market_value,
-       AVG(p.age) as avg_age,
+       AVG(YEAR(CURRENT_DATE) - YEAR(p.birth_date)) as avg_age,
        COUNT(DISTINCT cr.coach_role_id) as coaching_staff
 FROM team t
 LEFT JOIN player_role pr ON t.team_id = pr.team_id AND pr.end_date IS NULL

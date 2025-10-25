@@ -20,7 +20,7 @@ SELECT
 SELECT COUNT(DISTINCT p.person_id) as manual_young_count
 FROM person p
 JOIN player_role pr ON p.person_id = pr.person_id
-WHERE p.age < 23
+WHERE YEAR(CURRENT_DATE) - YEAR(p.birth_date) < 23
   AND pr.end_date IS NULL;
 
 -- Query: obda_mapping_validation_players

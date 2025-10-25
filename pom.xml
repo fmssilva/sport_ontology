@@ -134,7 +134,7 @@
                         <configuration>
                             <mainClass>BuildDeliverables</mainClass>
                             <arguments>
-                                <argument>deliverables</argument>
+                                <argument>protege_files</argument>
                             </arguments>
                         </configuration>
                     </execution>

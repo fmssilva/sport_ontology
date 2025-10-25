@@ -6,9 +6,40 @@ A complete Ontology-Based Data Access (OBDA) system for sports data using:
 - **R2RML mappings** for relational-to-RDF transformation
 - **OWL ontology** for semantic data modeling
 
-## 🚀 Quick Start
+## 🚀 Essential Maven Commands
 
-### Prerequisites
+### Core Commands
+```bash
+# Run all tests (includes automatic OBDA stack setup)
+mvn test
+
+# Generate Protégé deliverable files  
+mvn exec:exec@deliverables
+
+# Clean and compile project
+mvn clean compile
+
+# Full build (compile + test + package)
+mvn clean install
+```
+
+### Test Commands
+```bash
+# Run specific test categories
+mvn test -Dtest=IntegrityTests
+mvn test -Dtest=ReasoningTests  
+mvn test -Dtest=ValidationTests
+
+# Run with quiet output
+mvn test -q
+```
+
+### File Locations After Tests
+- **H2 Database Files:** `sports-db.mv.db`, `sports-db.lock.db`, `sports-db.trace.db` (created in project root)
+- **Protégé Files:** `protege_files/` folder (created by `mvn exec:exec@deliverables`)
+- **Test Logs:** Available in Maven output
+
+## 📦 Prerequisites
 ```bash
 # Check if Maven is installed
 mvn --version
@@ -18,33 +49,30 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 choco install maven
 ```
 
-### Standard Maven Commands
+## 🔧 Development Workflow
 
+### Development Commands
 ```bash
-# Clean and compile
-mvn clean compile
+# Standard development cycle
+mvn clean compile        # Compile sources
+mvn test                 # Run all tests  
+mvn exec:exec@deliverables   # Generate Protégé files
 
-# Run all tests (includes automatic OBDA stack setup)
-mvn clean test
+# Quick testing
+mvn test -q             # Quiet test output
+mvn test -Dtest=IntegrityTests   # Run specific test class
 
-# Run specific integration test
-mvn test -Dtest=EngineIntegrationTest
-
-# Build project (compile + test + package)
-mvn clean install
-
-# Development build (active by default)
-mvn clean compile
-
-# Production build (skip tests)
-mvn clean install -Pprod
+# Production build
+mvn clean install       # Full build with tests
+mvn clean install -Pprod   # Skip tests (production mode)
 ```
 
 ### What happens automatically:
 1. **Ontop CLI 5.1.2** - Downloaded and configured automatically
 2. **H2 JDBC Driver** - Copied to Ontop's classpath  
-3. **Sports Database** - Created and populated with test data
-4. **Full OBDA Testing** - SPARQL queries executed via real Ontop CLI
+3. **Sports Database** - Created and populated with test data (sports-db.*)
+4. **Protégé Package** - Generated in `protege_files/` folder  
+5. **Full OBDA Testing** - SPARQL queries executed via real Ontop CLI
 
 ## 📊 Verified Results
 - **7 teams** (5 senior, 2 youth)
@@ -331,6 +359,21 @@ FILTER(STRSTARTS(STR(?entity), "http://www.semanticweb.org/sports/abox#"))
 
 # Expected counts: 7 teams (database), 4 teams (abox), 11 teams (total)
 ```
+
+### **Practical Namespace Architecture Implementation**
+
+**Why Namespace Separation?** The system uses two distinct data sources: the H2 relational database (production data) and embedded ABox individuals (reasoning test data). Without proper separation, SPARQL queries return mixed results that cannot be compared with SQL queries.
+
+**Implementation Pattern:**
+- **Database URIs**: `http://www.semanticweb.org/sports/data#player_1` (from R2RML mappings)  
+- **ABox URIs**: `http://www.semanticweb.org/sports/abox#ABox_Jude_Bellingham` (ontology individuals)
+- **Query Filtering**: All SPARQL queries include namespace filters to ensure consistent comparisons
+
+**Benefits:**
+- ✅ SQL and SPARQL return identical counts when both access H2 database only
+- ✅ HermiT reasoning can validate complex inferences on ABox individuals  
+- ✅ Tests can isolate database performance vs reasoning capabilities
+- ✅ Clean separation enables hybrid architectures for production systems
 
 ## 🚀 Deliverables System (Portable Distribution)
 
