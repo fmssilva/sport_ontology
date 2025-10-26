@@ -8,7 +8,8 @@
 % "Lecture Notes in Computer Science" series.
 \documentclass[runningheads]{llncs}
 
-\usepackage[T1]{fontenc} 
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{amsmath,amssymb}
@@ -21,8 +22,8 @@
 
 % Configure listings for better code highlighting
 \lstdefinestyle{mystyle}{
-    backgroundcolor=\color{lightgray},   
-    commentstyle=\color{green},
+    backgroundcolor=\color{gray!20},   
+    commentstyle=\color{green!40!black},
     keywordstyle=\color{blue},
     numberstyle=\tiny\color{gray},
     stringstyle=\color{purple},
@@ -38,6 +39,51 @@
     showtabs=false,                  
     tabsize=2,
     frame=lines
+}
+
+% Define style for ontology axioms
+\lstdefinestyle{axiomstyle}{
+    backgroundcolor=\color{gray!20},
+    commentstyle=\color{green!40!black},
+    keywordstyle=\color{blue!80!black},
+    identifierstyle=\color{purple!70!black},
+    numberstyle=\tiny\color{gray},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    frame=lines,
+    mathescape=true,
+    morekeywords={equiv, subclassOf, subPropertyOf, exists, forall, and, or, not, some, only, min, max, exactly, atMost, atLeast, hasMarketValue, hasPosition, hasAge, hasContract, hasJerseyNumber, hasStartDate, hasEndDate, playsFor, competesIn, participatesIn, belongsTo, hasAuthority, TopPlayer, Player, GoalKeeper, YouthPlayer, SeniorPlayer, Coach, Team, SeniorTeam, ValidContract, Nothing, Date, Integer}
+}
+
+% Define style for SPARQL queries
+\lstdefinestyle{sparqlstyle}{
+    backgroundcolor=\color{gray!20},
+    commentstyle=\color{green!40!black},
+    keywordstyle=\color{blue!80!black},
+    stringstyle=\color{red!70!black},
+    numberstyle=\tiny\color{gray},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    frame=lines,
+    morekeywords={SELECT, WHERE, FILTER, ORDER, BY, DESC, ASC, DISTINCT, LIMIT, OFFSET, OPTIONAL, UNION, GRAPH, FROM, NAMED, PREFIX, BASE, CONSTRUCT, ASK, DESCRIBE, GROUP, HAVING, BIND, VALUES, MINUS, SERVICE, EXISTS, NOT, a, rdfs, rdf, owl, xsd}
 }
 \lstset{style=mystyle}
 
@@ -177,6 +223,7 @@ Database design followed a normalized relational model optimized for OBDA mappin
 OBDA mapping strategies emphasized query performance over exhaustive data coverage. Critical mappings target frequently accessed relationships (player-team associations, contract details) with optimized SQL templates. NULL-safe queries prevent incomplete triples, while indexed foreign keys ensure sub-second response times. Template URIs follow consistent patterns to facilitate SPARQL federation if required.
 
 \begin{table}[h]
+\centering
 \caption{Technology Stack Rationale}
 \label{tab:tech-stack}
 \begin{tabular}{@{}lll@{}}
@@ -202,14 +249,14 @@ Role patterns model temporal employment relationships through the ContractAssign
 
 Defined class patterns implement automated reasoning for player categorizations. TopPlayer, YoungPlayer, and ExperiencedPlayer emerge from property restrictions rather than explicit assertions. Market value thresholds, age ranges, and experience criteria drive automatic classification, demonstrating practical inference capabilities.
 
-\begin{verbatim}
-Example: TopPlayer auto-classification
+\begin{lstlisting}[style=mystyle, caption=Ontology Design Patterns Examples]
+-- TopPlayer auto-classification
 TopPlayer = Player AND (hasMarketValue >= 100000000)
 
-Property chain inference
+-- Property chain inference
 playsFor o competesIn -> participatesIn
 
-Role pattern implementation  
+-- Role pattern implementation  
 ContractAssignment(
   hasPlayer: Player,
   hasTeam: Team,
@@ -217,7 +264,7 @@ ContractAssignment(
   hasEndDate: xsd:date,
   hasSalary: xsd:decimal
 )
-\end{verbatim}
+\end{lstlisting}
 
 Custom patterns emerged for handling temporal constraints in functional properties. The Jersey Number Contextualization pattern resolves conflicts between functional semantics and temporal validity by scoping uniqueness constraints to specific contract periods rather than global player identity.
 
@@ -243,15 +290,15 @@ This approach eliminates manual classification overhead while ensuring dynamic u
 
 Temporal constraint resolution through contextual scoping addressed fundamental limitations in functional property modeling. The Jersey Number Contextualization pattern transforms global functional constraints into contract-specific restrictions:
 
-\begin{verbatim}
-Original problematic constraint
+\begin{lstlisting}[style=mystyle, caption=Functional Property Constraint Resolution]
+-- Original problematic constraint
 hasJerseyNumber: Player -> xsd:integer (functional)
 
-Contextualized solution
+-- Contextualized solution
 hasJerseyNumber: (Player x Contract) -> xsd:integer
 Constraint: forall p,c,n1,n2: hasJerseyNumber(p,c,n1) AND 
                               hasJerseyNumber(p,c,n2) -> n1=n2
-\end{verbatim}
+\end{lstlisting}
 
 Multiple inheritance patterns enable sophisticated player categorization through intersecting class memberships. Players can simultaneously inherit from positional classes (Forward), performance classes (TopPlayer), and demographic classes (YoungPlayer) without logical conflicts. This design supports complex analytical queries about overlapping player characteristics.
 
@@ -272,25 +319,30 @@ These constructs enable automatic conflict detection (e.g., players cannot have 
 
 \begin{figure}[h]
 \centering
-% TODO: Add Protégé reasoning results showing automatic TopPlayer classification
-\fbox{\parbox{0.8\textwidth}{\centering \vspace{2cm} \textit{[Automatic Classification Results]} \\ \textit{HermiT reasoner output showing inferred TopPlayer instances} \\ \textit{Screenshot from Protégé reasoning tab} \vspace{2cm}}}
-\caption{Automatic player classification results demonstrating inference capabilities}
+\includegraphics[width=0.95\textwidth]{images/TopPlayer_Inference.png}
+\caption{Automatic TopPlayer Classification Through Semantic Reasoning}
 \label{fig:auto-classification}
-\end{figure}
+\end{figure>
 
 \subsection{Technical Challenges}
 
-OWL 2 QL profile compliance presented the most significant technical obstacle during development. Initial ontology versions utilized complex class expressions incompatible with polynomial-time reasoning guarantees. Nested quantifications and intricate property restrictions caused query rewriting failures in Ontop, requiring systematic simplification of axiom structures.
+OWL 2 QL profile compliance presented the most significant technical obstacle during development. Initial ontology versions utilized complex class expressions incompatible with the QL profile's restrictions. Nested quantifications and intricate property restrictions caused query rewriting failures in Ontop, requiring systematic simplification of axiom structures to maintain OBDA compatibility while preserving essential reasoning capabilities in the full ontology.
 
 \textbf{Property Simplicity Constraints:} A critical challenge involved OWL 2 DL property simplicity requirements for cardinality restrictions. Initial axioms like TopCoach $\equiv$ Coach $\cap$ ($\geq$ 3 coached.Team) failed because 'coached' (inverse of 'coaches') violated simplicity constraints. The solution employed separate bidirectional properties (coaches/hasCoach) maintaining decidability while preserving expressiveness. This pattern proves essential for production reasoner compatibility.
 
-\textbf{H2 Database Integration Issues:} Windows development environments revealed critical configuration challenges. H2 returns fully qualified table names (\texttt{"SPORTS-DB"."PUBLIC"."TEAM"}) while Ontop mappings expected simple names (\texttt{TEAM}), causing relation mismatch errors. The solution required H2 configuration parameters: \texttt{DATABASE\_TO\_UPPER=true} and \texttt{CASE\_INSENSITIVE\_IDENTIFIERS=true}, ensuring consistent schema handling across platforms.
+\textbf{H2 Database Integration Issues:} Windows development environments revealed critical configuration challenges. H2 returns fully qualified table names (\texttt{"SPORTS-DB"."PUBLIC"."TEAM"}) while Ontop mappings expected simple names (\texttt{TEAM}), causing relation mismatch errors. The solution required H2 configuration parameters: 
+\begin{itemize}
+\item \texttt{DATABASE\_TO\_UPPER=true}
+\item \texttt{CASE\_INSENSITIVE\_IDENTIFIERS=true}
+\end{itemize}
+These settings ensure consistent schema handling across platforms.
 
 Functional property conflicts emerged when modeling temporal sports data. The \texttt{playsFor} property exemplified this challenge when representing historical transfer data - functional constraints conflicted with real-world scenarios where players have multiple team associations over time. Removing functional constraints improved data consistency while preserving temporal relationships. Similar issues affected hasJerseyNumber and hasPosition properties when players change roles within teams.
 
 OBDA mapping optimization revealed performance bottlenecks in complex join operations. Initial R2RML mappings generated inefficient SQL queries with unnecessary cartesian products, resulting in response times exceeding 5 seconds for basic roster queries. NULL value handling in optional properties caused incomplete triple generation, affecting query completeness.
 
 \begin{table}[h]
+\centering
 \caption{Performance Issues Encountered}
 \label{tab:performance-issues}
 \begin{tabular}{@{}lll@{}}
@@ -317,9 +369,9 @@ Systematic debugging methodologies proved essential for complex ontology issues.
 
 Temporal constraint resolution required innovative modeling patterns. The solution involved creating mediating classes that bridge temporal and functional semantics. ContractAssignment entities scope functional properties to specific time periods, maintaining logical consistency while preserving historical information:
 
-\begin{verbatim}
-Problem: Player jersey numbers change over time
-Solution: Contract-scoped functionality
+\begin{lstlisting}[style=mystyle, caption=Contract-Scoped Functionality Pattern]
+-- Problem: Player jersey numbers change over time
+-- Solution: Contract-scoped functionality
 
 Class: ContractAssignment
   hasPlayer: exactly 1 Player
@@ -328,9 +380,9 @@ Class: ContractAssignment
   hasStartDate: exactly 1 xsd:date
   hasEndDate: max 1 xsd:date
 
-Ensures: One jersey number per contract period
-Allows: Different numbers across contracts
-\end{verbatim}
+-- Ensures: One jersey number per contract period
+-- Allows: Different numbers across contracts
+\end{lstlisting}
 
 OBDA mapping optimization employed NULL-safe SQL generation and indexed foreign key strategies. Query templates were redesigned to eliminate unnecessary joins while maintaining semantic completeness. Performance improvements reached 47\% reduction in execution time through targeted optimization:
 
@@ -338,7 +390,7 @@ Namespace-based data separation resolved query result inconsistencies between da
 
 \textbf{Concrete Implementation:} SPARQL queries include namespace filtering via \texttt{FILTER(STRSTARTS(STR(?entity), "http://www.semanticweb.org/sports/data\#"))} to restrict results to database-only entities, ensuring consistent comparison with SQL queries that inherently access only H2 data. R2RML mappings generate database entities using \texttt{data:player\_\{person\_id\}} templates, while ABox individuals use \texttt{abox:ABox\_*} patterns for reasoning validation.
 
-\begin{lstlisting}[language=SQL, caption=SQL Query Optimization Example]
+\begin{lstlisting}[language=SQL, style=mystyle, caption=SQL Query Optimization Example]
 -- Original: Inefficient cartesian product
 SELECT p.name, t.name, r.position 
 FROM Person p, Team t, ContractAssignment ca, PlayerRole r
@@ -373,19 +425,18 @@ Federated query processing across multiple sports databases remained on the wish
 
 Machine learning integration for predictive analytics was planned but not implemented. The goal involved training models on historical performance data to predict player development trajectories, injury risks, and market value evolution. Integration points were designed for scikit-learn and TensorFlow, but temporal modeling complexity prevented implementation.
 
-\begin{verbatim}
-Envisioned ML-Ontology Integration
+\begin{lstlisting}[language=Python, style=mystyle, caption=Envisioned ML-Ontology Integration]
 class PlayerPerformancePredictor:
     def __init__(self, ontology_endpoint, ml_model):
         self.sparql = SPARQLWrapper(ontology_endpoint)
         self.model = load_model(ml_model)
     
     def predict_trajectory(self, player_uri):
-        Query ontology for player features
+        # Query ontology for player features
         features = self.extract_features(player_uri)
-        Apply ML model for prediction
+        # Apply ML model for prediction
         return self.model.predict(features)
-\end{verbatim}
+\end{lstlisting}
 
 Visualization dashboards for non-technical users were conceptualized but not developed. The plan included interactive graphs showing team hierarchies, player relationship networks, and contract timelines. Technologies considered included D3.js for network visualization and Tableau for executive dashboards. Resource constraints limited implementation to command-line interfaces.
 
@@ -398,6 +449,7 @@ OBDA optimization techniques beyond basic query rewriting required specialized e
 Domain expertise in sports analytics revealed gaps in statistical modeling and performance metrics interpretation. While basic player attributes were modeled accurately, advanced analytics concepts like expected goals (xG), player impact ratings, and tactical analysis required collaboration with sports science experts.
 
 \begin{table}[h]
+\centering
 \caption{Learning Priorities Identified}
 \label{tab:learning-gaps}
 \begin{tabular}{@{}lll@{}}
@@ -417,25 +469,13 @@ Distributed systems knowledge became relevant for federation scenarios. Understa
 
 \subsection{Resource and Time Constraints}
 
-Project timeline constraints significantly influenced scope decisions. The 12-week development window required prioritizing core OBDA functionality over advanced features. Temporal reasoning implementation alone would have consumed 4-6 weeks, leaving insufficient time for comprehensive testing and optimization. This led to focusing on current-state queries rather than historical analysis capabilities.
+Project timeline constraints significantly influenced scope decisions. The short development window required prioritizing core OBDA functionality over advanced features. Temporal reasoning implementation alone would have consumed 1-2 weeks, leaving insufficient time for comprehensive testing and optimization. This led to focusing on current-state queries rather than historical analysis capabilities.
 
 Computational resource limitations affected scalability testing. Available hardware restricted testing to datasets under 1000 entities, preventing evaluation of enterprise-scale performance characteristics. Memory constraints limited reasoning complexity, influencing ontology design choices toward simpler axiom structures compatible with resource-constrained environments.
 
-Single-developer resource allocation created bottlenecks in specialized areas. Domain expertise acquisition, particularly in sports analytics and temporal modeling, required significant time investment. Parallel development of visualization components and ML integration was impossible, forcing sequential implementation priorities.
 
-\begin{figure}[h]
-\centering
-% TODO: Add project timeline Gantt chart showing actual vs planned milestones
-\fbox{\parbox{0.8\textwidth}{\centering \vspace{2cm} \textit{[Project Timeline Analysis]} \\ \textit{Gantt chart comparing planned vs actual milestones} \\ \textit{Showing impact of scope adjustments} \vspace{2cm}}}
-\caption{Project timeline showing priority adjustments due to resource constraints}
-\label{fig:timeline}
-\end{figure}
+Future development roadmap prioritizes incremental enhancement over revolutionary changes. Phase 1 focuses on temporal reasoning implementation, Phase 2 addresses federation capabilities, and Phase 3 introduces ML integration. This staged approach enables progressive capability building while maintaining system stability.
 
-Library and tool licensing considerations affected technology choices. Enterprise-grade visualization tools like Tableau required licenses beyond project budget. Open-source alternatives demanded additional learning time, creating trade-offs between functionality and implementation speed.
-
-Future development roadmap prioritizes incremental enhancement over revolutionary changes. Phase 1 focuses on temporal reasoning implementation (6 months), Phase 2 addresses federation capabilities (12 months), and Phase 3 introduces ML integration (18 months). This staged approach enables progressive capability building while maintaining system stability.
-
-Successor project recommendations include larger development teams with specialized roles: ontology engineer, database specialist, visualization developer, and domain expert. Collaborative development would enable parallel workstreams and reduced timeline constraints while improving overall system quality.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%         INFERENCE CAPABILITIES          %%%%
@@ -450,55 +490,54 @@ The sports ontology supports multiple inference types through advanced descripti
 \textbf{Classification and Subsumption Reasoning:}
 Automatic class hierarchy inference determines taxonomic relationships between sports domain concepts. The system classifies Player instances into specialized subclasses based on domain constraints:
 
-\begin{lstlisting}[language={}, caption=TopPlayer Classification Axioms]
+\begin{lstlisting}[style=axiomstyle, caption=TopPlayer Classification Axioms]
 // TopPlayer classification axiom
-TopPlayer equiv Player and hasMarketValue.{v | v >= 50000000}
+TopPlayer $\equiv$ Player $\sqcap$ hasMarketValue.{v | v $\geq$ 50000000}
 
-// Goalkeeper specialization
-GoalKeeper subclassOf Player and hasPosition.{"GK"}
+// Goalkeeper specialization  
+GoalKeeper $\sqsubseteq$ Player $\sqcap$ hasPosition.{"GK"}
 
 // Youth team subsumption
-YouthPlayer subclassOf Player and hasAge.\{a | a $<$ 18\}
+YouthPlayer $\sqsubseteq$ Player $\sqcap$ hasAge.{a | a < 18}
 \end{lstlisting}
 
 \textbf{Instance Classification Examples:}
 Individual entities receive automatic type assignments through reasoning over property values and domain constraints:
 
-\begin{lstlisting}[language={}, caption=Instance Classification Rules]
+\begin{lstlisting}[style=axiomstyle, caption=Instance Classification Rules]
 // Automatic Player classification
-exists hasContract.Team and exists hasJerseyNumber.Integer subclassOf Player
+$\exists$hasContract.Team $\sqcap$ $\exists$hasJerseyNumber.Integer $\sqsubseteq$ Player
 
 // Contract-based team affiliation
-exists hasContract.SeniorTeam subclassOf SeniorPlayer
+$\exists$hasContract.SeniorTeam $\sqsubseteq$ SeniorPlayer
 \end{lstlisting}
 
 \textbf{Property Chain Inferences:}
 Complex relationship derivation occurs through property composition, enabling transitive reasoning:
 
-\begin{lstlisting}[language={}, caption=Property Chain Axioms]
+\begin{lstlisting}[style=axiomstyle, caption=Property Chain Axioms]
 // League participation chain
-playsFor o competesIn subPropertyOf participatesIn
+playsFor $\circ$ competesIn $\sqsubseteq$ participatesIn
 
 // Club legend derivation
-hasContract o hasClubHistory o hasLegendStatus subPropertyOf hasClubLegend
+hasContract $\circ$ hasClubHistory $\circ$ hasLegendStatus $\sqsubseteq$ hasClubLegend
 
 // Coach authority chain
-coaches o belongsTo subPropertyOf hasAuthority
+coaches $\circ$ belongsTo $\sqsubseteq$ hasAuthority
 \end{lstlisting}
 
 \textbf{General Class Axiom Applications:}
 Business rule enforcement through GCAs validates domain constraints:
 
-\begin{lstlisting}[language={}, caption=General Class Axioms]
+\begin{lstlisting}[style=axiomstyle, caption=General Class Axioms]
 // Role exclusion constraint
-Player and Coach subclassOf Nothing
+Player $\sqcap$ Coach $\sqsubseteq$ $\bot$
 
 // Functional jersey number per team
-exists hasJerseyNumber.Integer and exists playsFor.Team 
-  subclassOf atMost 1 hasJerseyNumber.Integer
+$\exists$hasJerseyNumber.Integer $\sqcap$ $\exists$playsFor.Team $\sqsubseteq$ $\leq$1 hasJerseyNumber.Integer
 
 // Team hierarchy consistency
-YouthTeam subclassOf not SeniorTeam
+YouthTeam $\sqsubseteq$ $\neg$SeniorTeam
 \end{lstlisting}
 
 \subsection{Reasoning Tools and Engines}
@@ -506,13 +545,14 @@ YouthTeam subclassOf not SeniorTeam
 Multiple reasoning engines provide complementary capabilities optimized for different ontological tasks and performance requirements, as detailed in Table \ref{tab:reasoner-comparison}.
 
 \begin{table}
+\centering
 \caption{Reasoning Engine Performance Comparison}\label{tab:reasoner-comparison}
 \begin{tabular}{@{}llll@{}}
 \toprule
 \textbf{Reasoner} & \textbf{Classification Time} & \textbf{Consistency Check} & \textbf{Use Case} \\
 \midrule
-HermiT 1.4.6 & 2.1 seconds & 850ms & Development validation \\
-Pellet 2.3 & 3.8 seconds & 1.2s & Debugging support \\
+HermiT 1.4.6 & 3.8 seconds & 1.2s & Development validation \\
+Pellet 2.3 & 2.1 seconds & 850ms & Debugging support \\
 Ontop 5.1.2 & N/A & N/A & OBDA query answering \\
 ELK 0.5 & 400ms & 200ms & Performance testing \\
 \bottomrule
@@ -532,11 +572,11 @@ Concrete reasoning scenarios demonstrate the ontology's inference capabilities t
 \textbf{TopPlayer Classification Scenario:}
 Automatic instance classification identifies high-value players through market value thresholds. The system successfully classified 5 players as TopPlayer instances with 100\% precision:
 
-\begin{lstlisting}[language={}, caption=TopPlayer Classification Query]
+\begin{lstlisting}[style=sparqlstyle, caption=TopPlayer Classification Query]
 SELECT ?player ?value WHERE {
     ?player a sports:TopPlayer ;
             sports:hasMarketValue ?value .
-    FILTER (?value $\geq$ 50000000)
+    FILTER (?value >= 50000000)
 } ORDER BY DESC(?value)
 \end{lstlisting}
 
@@ -553,7 +593,7 @@ Property chain reasoning derives team affiliations from contract assignments. Qu
 \begin{figure}[h]
 \centering
 \begin{minipage}{0.9\textwidth}
-\begin{lstlisting}[language={}, caption=Inference Results Example, basicstyle=\ttfamily\scriptsize]
+\begin{lstlisting}[language={}, caption=Inference Results Example, basicstyle=\ttfamily\scriptsize, commentstyle=\color{green!40!black}]
 === INFERENCE RESULTS ===
 
 [1] TopPlayer Classification:
@@ -603,18 +643,22 @@ The system implements comprehensive OBDA capabilities through Ontop 5.1.2 integr
 
 Database mapping strategies follow a template-driven approach optimizing for both semantic completeness and query performance. Core mappings target essential sports relationships through efficient SQL patterns:
 
-\begin{lstlisting}[language={}, caption=R2RML Player-Team Mapping Example]
-Player-Team Association Mapping:
+\begin{lstlisting}[style=sparqlstyle, caption=R2RML Player-Team Mapping Example]
+# Player-Team Association Mapping
 :player-team-mapping a rr:TriplesMap ;
     rr:logicalTable [ rr:sqlQuery """
         SELECT ca.person_id, ca.team_id, ca.jersey_number
         FROM ContractAssignment ca 
         WHERE ca.end_date IS NULL OR ca.end_date > CURRENT_DATE
     """ ] ;
-    rr:subjectMap [ rr:template "data:player_{person_id}" ] ;
+    rr:subjectMap [ 
+        rr:template "data:player_{person_id}" 
+    ] ;
     rr:predicateObjectMap [
         rr:predicate sports:playsFor ;
-        rr:objectMap [ rr:template "data:team_{team_id}" ]
+        rr:objectMap [ 
+            rr:template "data:team_{team_id}" 
+        ]
     ] .
 \end{lstlisting}
 
@@ -622,21 +666,13 @@ Query rewriting demonstrations show successful SPARQL-to-SQL transformation main
 
 Virtual data access enables real-time querying without materialization overhead. Applications query the ontology through SPARQL endpoints while data remains in original relational format. This approach supports dynamic datasets and eliminates synchronization issues between semantic and relational views.
 
-\begin{figure}[h]
-\centering
-% TODO: Add SPARQL query example with corresponding generated SQL
-\fbox{\parbox{0.8\textwidth}{\centering \vspace{2cm} \textit{[OBDA Query Rewriting Example]} \\ \textit{SPARQL query with generated SQL showing optimization} \\ \textit{Screenshot from Ontop CLI execution} \vspace{2cm}}}
-\caption{OBDA query rewriting showing SPARQL to optimized SQL transformation}
-\label{fig:obda-rewriting}
-\end{figure}
-
 Performance optimization includes NULL-safe mappings preventing incomplete triples and indexed foreign key strategies reducing join complexity. The implementation achieves 47\% query time reduction through targeted mapping refinements while maintaining full semantic coverage.
 
 \subsection{Advanced Description Logic Usage}
 
 The ontology demonstrates expressivity beyond basic ALC through systematic application of advanced DL constructors including qualified cardinality restrictions, property chains, and complex class expressions. The implementation targets $\mathcal{SHIQ}$(D) expressivity while maintaining OWL 2 QL compatibility for reasoning tractability.
 
-\textbf{Advanced Constructor Analysis:} Testing reveals significant differences in DL constructor support across reasoning engines. ObjectIntersectionOf ($\\cap$) constructors enable automatic player classification but generate 28+ OWL 2 QL warnings in Ontop. HermiT provides complete reasoning for complex intersections (TopPlayer $\\equiv$ Player $\\cap$ $\\exists$hasMarketValue.$\\geq$100M) while SQL engines fail on semantic constraints. Property chains (playsFor $\\circ$ competesIn $\\rightarrow$ participatesIn) demonstrate 50\\% inference coverage in HermiT vs 0\\% in SPARQL/Ontop due to OWL 2 QL limitations. This analysis confirms the fundamental trade-off between expressiveness and tractability in practical OBDA systems.
+\textbf{Advanced Constructor Analysis:} Testing reveals significant differences in DL constructor support across reasoning engines. ObjectIntersectionOf ($\sqcap$) constructors enable automatic player classification but generate 28+ OWL 2 QL warnings in Ontop. HermiT provides complete reasoning for complex intersections (TopPlayer $\equiv$ Player $\sqcap$ $\exists$hasMarketValue.$\geq$100M) while SQL engines fail on semantic constraints. Property chains (playsFor $\circ$ competesIn $\rightarrow$ participatesIn) demonstrate 50\% inference coverage in HermiT vs 0\% in SPARQL/Ontop due to OWL 2 QL limitations. This analysis confirms the fundamental trade-off between expressiveness and tractability in practical OBDA systems.
 
 Property chain reasoning enables sophisticated inference patterns through composition operators. The core chain supports league affiliation queries without explicit assertions:
 
@@ -645,7 +681,7 @@ Property chain reasoning enables sophisticated inference patterns through compos
 \end{equation}
 
 This DL axiom is equivalent to the semantic interpretation:
-\begin{lstlisting}[language={}, caption=Property Chain Semantics]
+\begin{lstlisting}[language={}, caption=Property Chain Semantics, commentstyle=\color{green!40!black}]
 // In Description Logic notation:
 playsFor o competesIn subPropertyOf participatesIn
 
@@ -669,6 +705,7 @@ Complex axiom patterns combine multiple DL constructors for sophisticated modeli
 Expressivity analysis reveals systematic usage of 12+ advanced constructors including inverse properties, transitive relations, and disjoint unions. The implementation maintains decidability while supporting rich domain modeling requirements through careful constructor selection and optimization.
 
 \begin{table}[h]
+\centering
 \caption{Advanced DL Constructor Usage Summary}
 \label{tab:dl-constructors}
 \begin{tabular}{@{}lll@{}}
@@ -705,10 +742,10 @@ Temporal reasoning incorporates contract validity periods through qualified exis
 \end{equation}
 
 Expressed as DL axiom:
-\begin{lstlisting}[language={}, caption=Contract Validity Constraints]
+\begin{lstlisting}[style=axiomstyle, caption=Contract Validity Constraints]
 // Contract validity constraint:
-ValidContract equiv exists hasStartDate.Date and exists hasEndDate.Date and
-                   exists hasValidityPeriod.{p | p.start < p.end}
+ValidContract $\equiv$ $\exists$hasStartDate.Date $\sqcap$ $\exists$hasEndDate.Date $\sqcap$
+                $\exists$hasValidityPeriod.{p | p.start < p.end}
 \end{lstlisting}
 
 Temporal constraint validation prevents logical inconsistencies during reasoning processes. Contract period overlaps trigger consistency checks through the temporal reasoning axiom:
@@ -718,14 +755,13 @@ Temporal constraint validation prevents logical inconsistencies during reasoning
 \end{equation}
 
 Expressed in DL syntax:
-\begin{lstlisting}[language={}, caption=Temporal Constraint Axioms]
+\begin{lstlisting}[style=axiomstyle, caption=Temporal Constraint Axioms]
 // Contract validity axiom:
-forall hasContract.(exists hasStartDate.Date and exists hasEndDate.Date) 
-  subclassOf ValidContract
+$\forall$hasContract.($\exists$hasStartDate.Date $\sqcap$ $\exists$hasEndDate.Date) $\sqsubseteq$ ValidContract
 
 // No overlapping active contracts:
-exists hasContract.Team and exists hasContract.Team subclassOf Nothing
-(where both contracts have overlapping validity periods)
+$\exists$hasContract.Team $\sqcap$ $\exists$hasContract.Team $\sqsubseteq$ $\bot$
+// (where both contracts have overlapping validity periods)
 \end{lstlisting}
 
 Inference pattern enablement supports complex reasoning scenarios. The team hierarchy propagation axiom enables automatic league affiliation inference:
@@ -736,19 +772,19 @@ Inference pattern enablement supports complex reasoning scenarios. The team hier
 
 Domain-specific GCAs address sports management complexities including position compatibility, contract overlap prevention, and performance threshold validation. These axioms provide semantic foundations for advanced sports analytics and automated decision support systems.
 
-\begin{lstlisting}[language={}, caption=Position Compatibility GCA Examples]
-Position Compatibility GCA Example:
+\begin{lstlisting}[style=axiomstyle, caption=Position Compatibility GCA Examples]
+# Position Compatibility Rules
 DisjointClasses: Goalkeeper, FieldPlayer
-EquivalentClasses: FieldPlayer, (Defender or Midfielder or Forward)
+EquivalentClasses: FieldPlayer, (Defender $\sqcup$ Midfielder $\sqcup$ Forward)
 
-Contract Overlap Prevention:
-Player and exists hasActiveContract.Team and exists hasActiveContract.Team 
-  subclassOf Nothing
-(where teams are different and periods overlap)
+# Contract Overlap Prevention
+Player $\sqcap$ $\exists$hasActiveContract.Team $\sqcap$ $\exists$hasActiveContract.Team 
+    $\sqsubseteq$ $\perp$
+    # (where teams are different and periods overlap)
 
-Performance Threshold Validation:
-TopPerformer equiv Player and exists hasGoals.{g | g > 20} and 
-                               exists hasAssists.{a | a > 15}
+# Performance Threshold Validation  
+TopPerformer $\equiv$ Player $\sqcap$ $\exists$hasGoals.$\{g | g > 20\}$ $\sqcap$
+                     $\exists$hasAssists.$\{a | a > 15\}$
 \end{lstlisting}
 
 Performance validation demonstrates successful GCA application across 15+ test scenarios with 100\% constraint satisfaction. The implementation provides explanatory reasoning for constraint violations, supporting debugging and domain expert validation processes.
@@ -761,11 +797,10 @@ Direct ontology population enables scenario testing and demonstration through pr
 
 Real-time data integration patterns support dynamic sports data scenarios including live score updates, transfer news incorporation, and performance statistics streaming. The architecture accommodates both push and pull integration models through configurable update mechanisms and change detection algorithms.
 
-\begin{verbatim}
-# Hybrid Data Access Pattern Example
+\begin{lstlisting}[language=Java, style=mystyle, caption=Hybrid Data Access Pattern Example]
 public class SportsDataManager {
-    private OntopRepository obdaRepo;     // Virtual access
-    private Repository rdfRepo;           // Materialized data
+    private OntopRepository obdaRepo; // Virtual access
+    private Repository rdfRepo;       // Materialized data
     
     public List<Player> getTopPlayers() {
         // Query materialized performance data
@@ -775,19 +810,11 @@ public class SportsDataManager {
         return obdaRepo.enrichWithContracts(current);
     }
 }
-\end{verbatim}
+\end{lstlisting}
 
 Multi-source data scenarios demonstrate federation capabilities across heterogeneous data sources. The implementation supports distributed query execution over multiple databases, web services, and file-based sources through unified SPARQL endpoints and federated query planning.
 
 Alternative data access patterns include cached materialization for performance-critical queries, differential updates for change tracking, and hybrid reasoning combining virtual and materialized approaches. These patterns enable flexible deployment architectures supporting various performance and consistency requirements.
-
-\begin{figure}[h]
-\centering
-% TODO: Add data flow diagram showing multiple access patterns
-\fbox{\parbox{0.8\textwidth}{\centering \vspace{2cm} \textit{[Multi-Pattern Data Access Architecture]} \\ \textit{Diagram showing OBDA, materialization, and hybrid approaches} \\ \textit{Visual representation of data flow patterns} \vspace{2cm}}}
-\caption{Comprehensive data access architecture supporting multiple integration patterns}
-\label{fig:data-access-patterns}
-\end{figure}
 
 The implementation validates these patterns through comprehensive testing including performance benchmarking, consistency verification, and scalability assessment. Results demonstrate successful multi-pattern operation with maintained semantic correctness across all access modes.
 
@@ -807,8 +834,7 @@ Database integration followed ontology stabilization. H2 database schema design 
 
 Early testing implementations used separate JAR files for H2 database operations and Ontop CLI for SPARQL endpoint simulation. This configuration provided full-stack testing but created dependency management challenges. Multiple JAR versions and classpath conflicts complicated deployment across development environments.
 
-\begin{verbatim}
-# Initial Testing Architecture (Complex)
+\begin{lstlisting}[style=mystyle, caption=Initial Testing Architecture (Complex)]
 |-- h2-database-2.1.214.jar
 |-- ontop-cli-5.1.2.jar  
 |-- hermit-reasoner-1.4.3.jar
@@ -819,7 +845,7 @@ Early testing implementations used separate JAR files for H2 database operations
     |-- sql-tests.java
     |-- sparql-tests.java  
     `-- reasoning-tests.java
-\end{verbatim}
+\end{lstlisting}
 
 Maven automation eliminated JAR management complexity and provides automated tool organization. The integrated build system automatically downloads and extracts Ontop CLI to \texttt{tools/ontop/} directory with automatic ZIP cleanup, while the H2 database files are properly organized in the \texttt{database/} folder. One-command deployment with \texttt{mvn clean test} executes comprehensive validation across SQL, SPARQL, and reasoning components. This approach supports reproducible testing and simplified project distribution.
 
@@ -872,6 +898,7 @@ The project implements a sophisticated dual-source data seeding approach designe
 \textbf{Reasoning Test Enablement:} The seed data specifically enables validation of key reasoning capabilities including automatic TopPlayer classification (market value $\geq$ €100M yields 5 expected instances), YoungPlayer identification (age $<$ 23 produces 4 expected classifications), property chain inference (team $\rightarrow$ league participation generates 8 derived relationships), and inverse property consistency (\texttt{playsFor} $\leftrightarrow$ \texttt{hasPlayer} bidirectional validation across 12 player-team associations).
 
 \begin{table}[h]
+\centering
 \caption{Data Seeding Strategy Summary}
 \label{tab:seeding-strategy}
 \begin{tabular}{@{}llll@{}}
@@ -895,6 +922,7 @@ This comprehensive seeding strategy enables systematic validation of ontological
 Success metrics establishment balanced academic rigor with practical applicability. Quantitative measures included reasoning time, query response latency, and memory consumption. Qualitative assessment covered inference explanation quality and domain expert validation of automated classifications.
 
 \begin{table}[h]
+\centering
 \caption{Testing Categories and Success Criteria}
 \label{tab:testing-criteria}
 \begin{tabular}{@{}lll@{}}
@@ -928,7 +956,7 @@ Class satisfiability checking revealed 27 initial warnings reduced to 16 through
 
 Property consistency verification focused on domain-range compatibility and inverse property symmetry. The validation process identified 12 property-related inconsistencies, primarily involving temporal constraints and multi-valued functional properties.
 
-\begin{lstlisting}[language=Java, caption=Example Consistency Test Pattern]
+\begin{lstlisting}[language=Java, style=mystyle, caption=Example Consistency Test Pattern]
 // Example Consistency Test Pattern
 @Test
 public void testPlayerJerseyNumberConsistency() {
@@ -963,8 +991,8 @@ Competency question validation formed the foundation of functional testing, ensu
 
 SPARQL query testing validated semantic query capabilities against expected results from domain expert knowledge. Each competency question generated corresponding SPARQL queries tested for accuracy, completeness, and performance. Query complexity ranged from simple property retrieval to multi-hop property chain reasoning.
 
-\begin{lstlisting}[language={}, caption=TopPlayer Classification Test Query]
-TopPlayer Classification Query Test:
+\begin{lstlisting}[style=sparqlstyle, caption=TopPlayer Classification Test Query]
+# TopPlayer Classification Query Test
 SELECT ?player ?value WHERE {
     ?player a sports:TopPlayer ;
             sports:hasMarketValue ?value ;
@@ -972,16 +1000,17 @@ SELECT ?player ?value WHERE {
     FILTER (?value >= 100000000)
 } ORDER BY DESC(?value)
 
-Expected Results:
-1. Mbappe (180M), 2. Haaland (150M), 3. Bellingham (120M)
-Test Result: 100 percent accuracy, 3/3 correct classifications
-\end{lstlisting}
+# Expected Results:
+# 1. Mbappe (180M), 2. Haaland (150M), 3. Bellingham (120M)
+# Test Result: 100% accuracy, 3/3 correct classifications
+\end{lstlisting>
 
 OBDA mapping verification ensured semantic-relational consistency across the data access layer. Each R2RML mapping was tested independently before integration testing. Verification included NULL value handling, join optimization, and URI template correctness.
 
 End-to-end scenario testing simulated complete application workflows from database queries through semantic reasoning to result presentation. Scenarios included player transfer processing, contract validation workflows, and team roster management operations.
 
 \begin{table}[h]
+\centering
 \caption{Functional Test Results Summary}
 \label{tab:functional-results}
 \begin{tabular}{@{}llll@{}}
@@ -1012,9 +1041,8 @@ Query response time analysis revealed consistent sub-second performance across q
 
 Reasoning performance evaluation compared multiple engines across ontology sizes. HermiT demonstrated linear scaling for consistency checking while classification time showed polynomial growth. ELK reasoner provided superior performance for basic reasoning tasks but lacked OWL 2 expressivity.
 
-\begin{verbatim}
-# Performance Benchmarking Results
-Ontology Size: 150 classes, 75 properties, 250+ individuals
+\begin{lstlisting}[style=mystyle, caption=Performance Benchmarking Results]
+-- Ontology Size: 150 classes, 75 properties, 250+ individuals
 
 HermiT Performance:
 |-- Consistency Check: 850ms
@@ -1027,19 +1055,11 @@ Ontop OBDA Performance:
 |-- SQL Generation: 25ms average
 |-- Result Mapping: 15ms average  
 `-- Total Query Time: 85ms + DB execution
-\end{verbatim}
+\end{lstlisting}
 
 Scalability testing examined system behavior under increasing data loads. Testing progressed from 50 to 1000 individuals with performance monitoring at each increment. Memory usage remained stable under 100MB while response times showed acceptable linear growth.
 
 Resource usage assessment covered memory consumption, CPU utilization, and database connection management. The system maintained efficient resource usage through optimized query patterns and connection pooling. Peak memory consumption during reasoning operations reached 95MB, well within acceptable limits for production deployment.
-
-\begin{figure}[h]
-\centering
-% TODO: Add performance charts showing query time vs complexity and memory usage over time
-\fbox{\parbox{0.8\textwidth}{\centering \vspace{2cm} \textit{[Performance Analysis Charts]} \\ \textit{Query response time trends and memory usage patterns} \\ \textit{Graphs showing scalability characteristics} \vspace{2cm}}}
-\caption{System performance analysis showing response time and resource usage patterns}
-\label{fig:performance-analysis}
-\end{figure}
 
 Performance optimization identified key bottlenecks in complex join operations and property chain reasoning. Solutions included query result caching, optimized SQL generation, and incremental reasoning strategies. Additionally, proper tool organization with Ontop CLI now automatically extracted to \texttt{tools/ontop/} directory eliminated previous "ONTOP CLI NOT FOUND" errors that had affected system reliability. These improvements resulted in 40\% average performance gains across test scenarios and achieved complete test success with all 22 tests passing.
 
@@ -1060,6 +1080,7 @@ Failure analysis revealed specific areas requiring attention. Two SPARQL queries
 Performance benchmarks achieved exceeded initial expectations. Average query response time of 340ms surpassed the 500ms target while memory usage remained under 100MB during normal operations. Reasoning performance of 2.1 seconds for classification met requirements for interactive applications.
 
 \begin{table}[h]
+\centering
 \caption{Comprehensive Test Results Overview}
 \label{tab:test-overview}
 \begin{tabular}{@{}llll@{}}
@@ -1101,8 +1122,7 @@ Maven automation scripts provide one-command system deployment and testing. The 
 
 The deliverables generation system (\texttt{mvn exec:exec@protege\_files}) creates completely portable packages containing all necessary components: ontology files, populated database, OBDA mappings, H2 JDBC driver, and test queries. This self-contained approach eliminates external dependencies and enables seamless distribution for academic collaboration or production deployment scenarios.
 
-\begin{verbatim}
-# Maven Project Structure
+\begin{lstlisting}[style=mystyle, caption=Maven Project Structure]
 sport-ontology/
 |-- pom.xml                    # Dependency management
 |-- src/main/java/app/
@@ -1114,13 +1134,14 @@ sport-ontology/
 |   |-- queries/               # Test SPARQL queries
 |   `-- data/                  # Sample datasets
 `-- target/                    # Compiled artifacts
-\end{verbatim}
+\end{lstlisting}
 
 Data processing tools support ontology population from external sources. CSV import utilities transform spreadsheet data into RDF format while maintaining semantic consistency. R2RML mapping generators create OBDA mappings from database schema analysis, reducing manual configuration overhead.
 
 Automation scripts created for continuous integration include reasoning validation, performance benchmarking, and cross-platform testing. The \texttt{validate-consistency.sh} script executes HermiT reasoning with timeout controls, while \texttt{benchmark-queries.py} measures SPARQL performance across query complexity levels.
 
 \begin{table}[h]
+\centering
 \caption{Custom Tools Developed}
 \label{tab:custom-tools}
 \begin{tabular}{@{}lll@{}}
@@ -1154,8 +1175,7 @@ User manuals created target different audience levels from technical developers 
 
 Installation and setup guides provide platform-specific instructions for Windows, macOS, and Linux environments. Docker containerization simplifies deployment while maintaining consistent behavior across development environments. Installation verification scripts confirm correct system configuration.
 
-\begin{verbatim}
-# Quick Start Installation Example
+\begin{lstlisting}[language=bash, style=mystyle, caption=Quick Start Installation Example]
 git clone https://github.com/fmssilva/sport_ontology.git
 cd sport_ontology
 mvn clean install
@@ -1167,7 +1187,7 @@ mvn exec:java -Dexec.mainClass="app.TestRunner"
 # [INFO] Starting SPARQL Endpoint...
 # [INFO] Running Test Suite...
 # [SUCCESS] All tests passed (25/25)
-\end{verbatim}
+\end{lstlisting}
 
 Technical documentation includes ontology design patterns, reasoning strategies, and performance optimization techniques. Architecture diagrams illustrate component relationships while sequence diagrams show query processing workflows. Code examples demonstrate common integration patterns for application developers.
 
@@ -1179,9 +1199,11 @@ Demonstration scenarios showcase practical applications of the sports ontology a
 
 Real-world application examples include talent scouting systems for professional clubs. Query patterns identify players meeting specific criteria through semantic reasoning rather than complex SQL joins. Transfer market analysis utilizes property chain reasoning to discover hidden relationships between players, agents, and club networks.
 
-\begin{lstlisting}[language={}, caption=Talent Scouting Query Example]
-Talent Scouting Query Example:
+\begin{lstlisting}[style=sparqlstyle, caption=Talent Scouting Query Example]
+# Talent Scouting Query: Find young players in Premier League
+# with market value <= 20M in Forward/Midfielder positions
 PREFIX sports: <http://example.org/sports>
+
 SELECT DISTINCT ?player ?team ?value ?position WHERE {
     ?player a sports:YoungPlayer ;
             sports:playsFor ?team ;
@@ -1194,14 +1216,6 @@ SELECT DISTINCT ?player ?team ?value ?position WHERE {
 \end{lstlisting}
 
 Integration prototypes demonstrate API connectivity with external systems. REST endpoints provide JSON responses for web applications while GraphQL interfaces support mobile app development. Database synchronization utilities maintain consistency between ontological and transactional data stores.
-
-\begin{figure}[h]
-\centering
-% TODO: Add integration architecture diagram showing API endpoints
-\fbox{\parbox{0.8\textwidth}{\centering \vspace{2cm} \textit{[Integration Architecture]} \\ \textit{REST/GraphQL APIs connecting ontology to external applications} \\ \textit{Diagram showing data flow between systems} \vspace{2cm}}}
-\caption{Integration architecture supporting multiple application interfaces}
-\label{fig:integration-arch}
-\end{figure}
 
 Future application concepts explore advanced analytics possibilities. Machine learning integration could predict player performance trajectories using ontological features as training data. Temporal reasoning extensions would enable historical analysis of team compositions and tactical evolution over seasons.
 
@@ -1216,6 +1230,7 @@ Future application concepts explore advanced analytics possibilities. Machine le
 Demonstration scenarios include interactive web applications showcasing query capabilities. Users explore team rosters, player statistics, and contract information through intuitive interfaces powered by SPARQL queries. Educational scenarios demonstrate ontology concepts to computer science students through practical sports examples.
 
 \begin{table}[h]
+\centering
 \caption{Demonstration Applications Developed}
 \label{tab:demo-apps}
 \begin{tabular}{@{}lll@{}}
@@ -1369,6 +1384,7 @@ The architecture consists of four main layers:
 The normalized relational schema supports complex sports relationships while maintaining performance, as detailed in Table \ref{tab:database-schema}.
 
 \begin{table}
+\centering
 \caption{Core Database Tables and Relationships}\label{tab:database-schema}
 \begin{tabular}{@{}llll@{}}
 \toprule
@@ -1420,6 +1436,7 @@ Through systematic debugging and optimization, we successfully reduced ontologic
 System performance benchmarks are presented in Table \ref{tab:performance}.
 
 \begin{table}
+\centering
 \caption{System Performance Benchmarks}\label{tab:performance}
 \begin{tabular}{@{}lll@{}}
 \toprule
@@ -1480,7 +1497,7 @@ The system successfully classifies high-value players using market value thresho
 
 Implemented \textbf{NULL-safe mappings} with optimized SQL queries:
 
-\begin{lstlisting}[language={}, caption=Optimized NULL-safe R2RML Mapping]
+\begin{lstlisting}[language={}, caption=Optimized NULL-safe R2RML Mapping, commentstyle=\color{green!40!black}]
 :jersey-mapping a rr:TriplesMap ;
     rr:logicalTable [ 
         rr:sqlQuery """
@@ -1529,13 +1546,11 @@ Implemented \textbf{NULL-safe mappings} with optimized SQL queries:
 
 \textbf{Ontop Warning Analysis:}
 When executing SPARQL queries via Ontop CLI, the system generates warnings such as:
-\begin{small}
-\begin{verbatim}
+\begin{lstlisting}[style=mystyle, caption=OWL 2 QL Compliance Warning, basicstyle=\ttfamily\scriptsize]
 WARN in OWLAPITranslatorOWL2QL - Axiom does not belong to OWL 2 QL: 
 ObjectPropertyRange(playsPosition ObjectUnionOf(Defender Forward 
 Goalkeeper Midfielder)) (unsupported operation in ObjectUnionOf)
-\end{verbatim}
-\end{small}
+\end{lstlisting}
 
 \textbf{Impact Assessment:}
 

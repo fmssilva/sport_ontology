@@ -1,6 +1,14 @@
+what are these REA??
 
-Great! The git clone worked (we can see "Cloning into 'OWL2VOWL'..."), but Maven can't find the mvn executable in the exec task. In Windows, we need to use mvn.cmd. Let me fix that:
-is it gonna work in any OS?
+Three advanced reasoning test scenarios demonstrate ontology superiority
+over traditional SQL approaches. REA-04 (Elite Team complex reasoning test)
+showcases automatic class classication where TopTeam entities are inferred
+through complex market value criteria, eliminating manual SQL JOIN opera-
+tions. REA-05 validates property chain reasoning with transitive league par-
+ticipation (playsFor ◦ competesIn → participatesIn), automatically deriving 8
+relationships versus explicit SQL traversal. REA-06 conrms inverse property
+consistency (hasPlayer ↔ playsFor) ensuring bidirectional data integrity with-
+out database triggers
 
 
 review introduciton and conclusion
