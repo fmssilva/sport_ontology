@@ -17,6 +17,7 @@
 \usepackage{ifthen}
 \usepackage{booktabs} % For professional tables
 \usepackage{url}
+\usepackage{eurosym} % For euro symbol
 
 % Configure listings for better code highlighting
 \lstdefinestyle{mystyle}{
@@ -123,7 +124,14 @@ The target user base includes club administrators, talent scouts, league officia
 
 The ontology encompasses core football domain entities including players, coaches, teams, and contractual relationships. The class hierarchy covers 150+ specialized concepts ranging from basic player positions (Goalkeeper, Defender, Midfielder, Forward) to advanced categorizations such as TopPlayer, YoungPlayer, and ExperiencedPlayer based on performance metrics and career attributes.
 
-The implementation achieves professional complexity across five major domains: Person hierarchy (25+ classes including Player/Coach/StaffMember specializations), Team classification system (8 classes for age-based and performance-based categories), Organizational structure (6 classes for federation/league/club entities), Competition framework (6 classes for domestic/international competitions), and Contract system (8 classes for duration and purpose-based classifications). This 40+ class structure with 3-4 level hierarchical depth matches Pizza ontology complexity standards while maintaining HermiT reasoning performance under 5 seconds.
+The implementation achieves professional complexity across five major domains: Person hierarchy (25+ classes including Player/Coach/StaffMember specializations), Team classification system (8 classes for age-based and performance-based categories), Organizational structure (6 classes for federation/league/club entities), Competition framework (6 classes for domestic/international competitions), and Contract system (8 classes for duration and purpose-based classifications). This 40+ class structure with 3-4 level hierarchical depth matches Pizza ontology complexity standards while maintaining HermiT reasoning performance under 5 seconds. The complete class taxonomy is shown in Figure~\ref{fig:class-hierarchy}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{images/Ontology_Class_Hierarchy.png}
+\caption{Ontology Class Hierarchy}
+\label{fig:class-hierarchy}
+\end{figure}
 
 Included domain elements comprise team hierarchies (SeniorTeam, YouthTeam, ReserveTeam), coaching roles (HeadCoach, AssistantCoach, SpecialistCoach), contract types (PermanentContract, LoanContract, YouthContract), and league structures with organizational relationships. The system models temporal aspects through contract periods and career progression tracking.
 
@@ -131,12 +139,14 @@ Deliberately excluded elements include match-level statistics, detailed tactical
 
 The domain boundaries center on professional football club management rather than amateur leagues, national team selections, or multi-sport organizations. This focused approach ensures depth in modeling critical relationships while maintaining system performance and reasoning tractability.
 
+
+
 \subsection{Limitations and Workarounds}
 Several technical constraints emerged during development, primarily related to OWL 2 QL profile restrictions and temporal data modeling. The most significant limitation involved functional properties conflicting with temporal aspects, particularly the hasJerseyNumber property which violated functionality constraints when players transferred between teams with different jersey numbers.
 
 The workaround involved contextualizing functional constraints at the contract level rather than applying them globally to players. This solution maintains logical consistency while preserving the ability to track historical jersey number assignments across different team affiliations.
 
-Reasoning performance limitations with large datasets required careful ontology design choices. While the ontology's SHOIN(D) expressivity inherently results in ExpTime reasoning complexity due to property chains and inverse properties, we minimized practical performance impact through strategic design decisions. Complex class expressions were simplified where possible, and property chain reasoning was limited to essential inferences (e.g., playsFor ∘ competesIn → participatesIn) to reduce the computational burden during reasoning and query evaluation.
+Reasoning performance limitations with large datasets required careful ontology design choices. While the ontology's SHOIN(D) expressivity inherently results in ExpTime reasoning complexity due to property chains and inverse properties, we minimized practical performance impact through strategic design decisions. Complex class expressions were simplified where possible, and property chain reasoning was limited to essential inferences (e.g., playsFor $\circ$ competesIn $\rightarrow$ participatesIn) to reduce the computational burden during reasoning and query evaluation.
 
 OBDA mapping optimization presented challenges with NULL value handling and complex joins. The solution implemented NULL-safe SQL queries with explicit filtering, reducing query execution time by 47\% while maintaining semantic correctness. Memory usage constraints led to eliminating redundant property assertions and optimizing R2RML mapping structures.
 
@@ -157,12 +167,6 @@ Property selection emphasized functional relationships over descriptive attribut
 
 Datatype selections followed OWL 2 QL compliance requirements. Market values and salaries use xsd:decimal rather than xsd:float to ensure reasoning tractability. Date properties employ xsd:date for contract periods, while performance metrics utilize xsd:integer for goals, assists, and appearances. Boolean properties were avoided in favor of explicit class memberships for better inferencing support.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.8\textwidth]{images/Ontology_Class_Hierarchy.png}
-\caption{Ontology Class Hierarchy}
-\label{fig:class-hierarchy}
-\end{figure}
 
 \subsection{Technical Architecture Choices}
 
@@ -188,7 +192,7 @@ Build System & Maven 3.9.4 & Dependency management, testing automation \\
 \end{tabular}
 \end{table}
 
-Performance optimization focused on reducing query rewriting complexity. Property chains were limited to essential inferences (playsFor $\circ$ competesIn $\rightarrow$ participatesIn) to prevent exponential expansion. Class expressions avoided nested quantifications, maintaining polynomial reasoning time. SPARQL endpoint configuration includes result set limits and timeout controls for production deployment.
+Performance optimization focused on reducing practical reasoning overhead despite the ontology's inherent ExpTime complexity. Property chains were limited to essential inferences (e.g. playsFor $\circ$ competesIn $\rightarrow$ participatesIn) to minimize computational burden during query evaluation. Class expressions avoided deeply nested quantifications to maintain reasonable reasoning times in practice. The OWL 2 QL profile compatibility for OBDA scenarios provides polynomial-time query answering over data (ABox queries), while full TBox+ABox reasoning remains in ExpTime. SPARQL endpoint configuration includes result set limits and timeout controls for production deployment.
 
 \subsection{Design Pattern Applications}
 
@@ -217,7 +221,7 @@ ContractAssignment(
 
 Custom patterns emerged for handling temporal constraints in functional properties. The Jersey Number Contextualization pattern resolves conflicts between functional semantics and temporal validity by scoping uniqueness constraints to specific contract periods rather than global player identity.
 
-Pattern effectiveness evaluation revealed successful automation of 15+ inference scenarios with 100% precision in test cases. The role pattern supports complex query answering about historical team compositions, while defined classes enable dynamic player categorization without manual classification maintenance.
+Pattern effectiveness evaluation revealed successful automation of 15+ inference scenarios with 100\% precision in test cases. The role pattern supports complex query answering about historical team compositions, while defined classes enable dynamic player categorization without manual classification maintenance.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%         SPECIAL FEATURES                %%%%
@@ -454,7 +458,7 @@ TopPlayer equiv Player and hasMarketValue.{v | v >= 50000000}
 GoalKeeper subclassOf Player and hasPosition.{"GK"}
 
 // Youth team subsumption
-YouthPlayer subclassOf Player and hasAge.{a | a < 18}
+YouthPlayer subclassOf Player and hasAge.\{a | a $<$ 18\}
 \end{lstlisting}
 
 \textbf{Instance Classification Examples:}
@@ -532,7 +536,7 @@ Automatic instance classification identifies high-value players through market v
 SELECT ?player ?value WHERE {
     ?player a sports:TopPlayer ;
             sports:hasMarketValue ?value .
-    FILTER (?value >= 50000000)
+    FILTER (?value $\geq$ 50000000)
 } ORDER BY DESC(?value)
 \end{lstlisting}
 
@@ -556,7 +560,7 @@ Property chain reasoning derives team affiliations from contract assignments. Qu
    Input:  Player(cristiano_ronaldo)
            hasMarketValue(cristiano_ronaldo, 75000000)
    Output: TopPlayer(cristiano_ronaldo) SUCCESS
-   Axiom:  TopPlayer equiv Player and hasMarketValue.{v | v >= 50000000}
+   Axiom:  TopPlayer equiv Player and hasMarketValue.\{v | v $\geq$ 50000000\}
 
 [2] League Participation Inference:
    Input:  playsFor(messi, psg)
@@ -821,8 +825,8 @@ Maven automation eliminated JAR management complexity and provides automated too
 
 \begin{figure}[h]
 \centering
-% TODO: Add development workflow diagram showing Protégé → H2 → Maven pipeline
-\fbox{\parbox{0.8\textwidth}{\centering \vspace{2cm} \textit{[Development Workflow]} \\ \textit{Protégé design → Reasoner validation → H2 integration → Maven automation} \\ \textit{Diagram showing complete development pipeline} \vspace{2cm}}}
+% TODO: Add development workflow diagram showing Protégé $\rightarrow$ H2 $\rightarrow$ Maven pipeline
+\fbox{\parbox{0.8\textwidth}{\centering \vspace{2cm} \textit{[Development Workflow]} \\ \textit{Protégé design $\rightarrow$ Reasoner validation $\rightarrow$ H2 integration $\rightarrow$ Maven automation} \\ \textit{Diagram showing complete development pipeline} \vspace{2cm}}}
 \caption{Systematic development workflow from ontology design to automated testing}
 \label{fig:dev-workflow}
 \end{figure}
@@ -844,7 +848,7 @@ Test case design principles emphasized real-world scenario modeling over synthet
     \item \textbf{Logical Consistency:} Zero unsatisfiable classes, coherent property domains
     \item \textbf{Semantic Correctness:} Inference results match domain expert expectations  
     \item \textbf{Query Completeness:} SPARQL results equivalent to direct SQL queries
-    \item \textbf{Performance Targets:} Sub-second response times, <100MB memory usage
+    \item \textbf{Performance Targets:} Sub-second response times, $<$100MB memory usage
 \end{itemize}
 
 \subsection{Data Seeding Strategy and Methodology}
@@ -853,7 +857,7 @@ The project implements a sophisticated dual-source data seeding approach designe
 
 \textbf{Dual-Source Architecture:} The implementation utilizes two distinct data sources with separate namespaces: (1) H2 Database Content accessible via SQL and SPARQL through OBDA mappings, utilizing namespace \texttt{http://www.semanticweb.org/sports/ontology\#} for database-driven instances, and (2) ABox Ontology Content embedded directly in the OWL file for pure reasoning validation, using namespace \texttt{http://www.semanticweb.org/sports/ontology\#ABox\_*} for reasoning-specific individuals.
 
-\textbf{Data Size Rationale and Manual Verification:} The seed data size was carefully calibrated to balance demonstration effectiveness with practical validation requirements. With 7 teams, 12 players, and 13 contracts, the dataset remains small enough for complete manual verification of reasoning results while providing sufficient complexity to demonstrate meaningful ontological concepts. This "sweet spot" sizing enables domain experts to manually validate every reasoning result - for instance, verifying that exactly 5 players meet TopPlayer criteria (market value ≥ €100M) or confirming that 4 players are correctly classified as YoungPlayer (age < 23). Each test result can be manually validated by domain experts, enabling immediate identification of reasoning errors or mapping inconsistencies.
+\textbf{Data Size Rationale and Manual Verification:} The seed data size was carefully calibrated to balance demonstration effectiveness with practical validation requirements. With 7 teams, 12 players, and 13 contracts, the dataset remains small enough for complete manual verification of reasoning results while providing sufficient complexity to demonstrate meaningful ontological concepts. This "sweet spot" sizing enables domain experts to manually validate every reasoning result - for instance, verifying that exactly 5 players meet TopPlayer criteria (market value $\geq$ \euro100M) or confirming that 4 players are correctly classified as YoungPlayer (age $<$ 23). Each test result can be manually validated by domain experts, enabling immediate identification of reasoning errors or mapping inconsistencies.
 
 \textbf{Size Optimization for Educational Purposes:} The deliberate constraint to small dataset size serves multiple purposes: (1) \textbf{Complete Manual Verification:} Every reasoning result can be hand-checked, essential for educational demonstration and debugging, (2) \textbf{Reasoning Transparency:} Small enough that inference chains can be manually traced and explained, (3) \textbf{Performance Clarity:} Eliminates performance bottlenecks that could mask logical errors, and (4) \textbf{Test Result Comprehension:} Results remain human-interpretable without requiring automated analysis tools. This approach prioritizes understanding over scale, making the system ideal for demonstrating semantic web concepts to learners and researchers.
 
@@ -865,7 +869,7 @@ The project implements a sophisticated dual-source data seeding approach designe
 
 \textbf{OWA vs CWA Demonstration Design:} Specific data scenarios were engineered to showcase fundamental differences between open and closed world reasoning. Contract data includes entities with missing \texttt{is\_active} flags, creating situations where SQL (CWA) returns only explicitly active contracts while SPARQL (OWA) includes contracts with unknown status. Player team assignments include temporal gaps and overlapping periods to demonstrate how different reasoning paradigms handle incomplete temporal information.
 
-\textbf{Reasoning Test Enablement:} The seed data specifically enables validation of key reasoning capabilities including automatic TopPlayer classification (market value ≥ €100M yields 5 expected instances), YoungPlayer identification (age < 23 produces 4 expected classifications), property chain inference (team → league participation generates 8 derived relationships), and inverse property consistency (\texttt{playsFor} ↔ \texttt{hasPlayer} bidirectional validation across 12 player-team associations).
+\textbf{Reasoning Test Enablement:} The seed data specifically enables validation of key reasoning capabilities including automatic TopPlayer classification (market value $\geq$ €100M yields 5 expected instances), YoungPlayer identification (age $<$ 23 produces 4 expected classifications), property chain inference (team $\rightarrow$ league participation generates 8 derived relationships), and inverse property consistency (\texttt{playsFor} $\leftrightarrow$ \texttt{hasPlayer} bidirectional validation across 12 player-team associations).
 
 \begin{table}[h]
 \caption{Data Seeding Strategy Summary}
@@ -886,7 +890,7 @@ Disjoint Respect & Above boundaries & Semantic preservation & Principle adherenc
 
 This comprehensive seeding strategy enables systematic validation of ontological concepts while maintaining practical constraints necessary for educational and research applications. The approach successfully balances theoretical rigor with practical usability, creating an effective foundation for both automated testing and manual verification of semantic reasoning capabilities.
 
-\textbf{Seeding Strategy Results Validation:} The implemented approach directly enables the test scenarios presented in subsequent sections. For instance, the choice to create players at \texttt{Player} level rather than position-specific subclasses allows tests REA-01 through REA-03 to demonstrate automatic classification capabilities. The deliberate inclusion of 5 high-value players (≥€100M market value) in the seed data ensures TopPlayer reasoning tests produce verifiable results. Similarly, the strategic mix of player ages (4 players under 23) validates YoungPlayer classification logic. Empty table detection capabilities are demonstrated through unpopulated \texttt{FEDERATION} and \texttt{YOUTH\_TEAM} tables, which Ontop correctly identifies as having zero instances, showcasing ontology-guided database completeness auditing.
+\textbf{Seeding Strategy Results Validation:} The implemented approach directly enables the test scenarios presented in subsequent sections. For instance, the choice to create players at \texttt{Player} level rather than position-specific subclasses allows tests REA-01 through REA-03 to demonstrate automatic classification capabilities. The deliberate inclusion of 5 high-value players ($\geq$\euro 100M market value) in the seed data ensures TopPlayer reasoning tests produce verifiable results. Similarly, the strategic mix of player ages (4 players under 23) validates YoungPlayer classification logic. Empty table detection capabilities are demonstrated through unpopulated \texttt{FEDERATION} and \texttt{YOUTH\_TEAM} tables, which Ontop correctly identifies as having zero instances, showcasing ontology-guided database completeness auditing.
 
 Success metrics establishment balanced academic rigor with practical applicability. Quantitative measures included reasoning time, query response latency, and memory consumption. Qualitative assessment covered inference explanation quality and domain expert validation of automated classifications.
 
@@ -1495,8 +1499,8 @@ Implemented \textbf{NULL-safe mappings} with optimized SQL queries:
 
 \textbf{Performance Impact:}
 \begin{itemize}
-    \item Query execution time: \textbf{340ms → 180ms} (47\% improvement)
-    \item Memory usage: \textbf{150MB → 85MB} (43\% reduction)
+    \item Query execution time: \textbf{340ms $\rightarrow$ 180ms} (47\% improvement)
+    \item Memory usage: \textbf{150MB $\rightarrow$ 85MB} (43\% reduction)
 \end{itemize}
 
 \subsection{OWL 2 QL Profile Expressivity Limitations}
