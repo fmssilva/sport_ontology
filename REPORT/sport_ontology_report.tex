@@ -132,16 +132,16 @@ Deliberately excluded elements include match-level statistics, detailed tactical
 The domain boundaries center on professional football club management rather than amateur leagues, national team selections, or multi-sport organizations. This focused approach ensures depth in modeling critical relationships while maintaining system performance and reasoning tractability.
 
 \subsection{Limitations and Workarounds}
-
 Several technical constraints emerged during development, primarily related to OWL 2 QL profile restrictions and temporal data modeling. The most significant limitation involved functional properties conflicting with temporal aspects, particularly the hasJerseyNumber property which violated functionality constraints when players transferred between teams with different jersey numbers.
 
 The workaround involved contextualizing functional constraints at the contract level rather than applying them globally to players. This solution maintains logical consistency while preserving the ability to track historical jersey number assignments across different team affiliations.
 
-Reasoning performance limitations with large datasets required careful ontology design choices. Complex class expressions and deep hierarchies were simplified to maintain polynomial-time complexity guarantees. Property chain reasoning was limited to essential inferences to prevent exponential query expansion during SPARQL-to-SQL rewriting.
+Reasoning performance limitations with large datasets required careful ontology design choices. While the ontology's SHOIN(D) expressivity inherently results in ExpTime reasoning complexity due to property chains and inverse properties, we minimized practical performance impact through strategic design decisions. Complex class expressions were simplified where possible, and property chain reasoning was limited to essential inferences (e.g., playsFor ∘ competesIn → participatesIn) to reduce the computational burden during reasoning and query evaluation.
 
-OBDA mapping optimization presented challenges with NULL value handling and complex joins. The solution implemented NULL-safe SQL queries with explicit filtering, reducing query execution time by 47% while maintaining semantic correctness. Memory usage constraints led to eliminating redundant property assertions and optimizing R2RML mapping structures.
+OBDA mapping optimization presented challenges with NULL value handling and complex joins. The solution implemented NULL-safe SQL queries with explicit filtering, reducing query execution time by 47\% while maintaining semantic correctness. Memory usage constraints led to eliminating redundant property assertions and optimizing R2RML mapping structures.
 
 Trade-offs included limiting temporal reasoning capabilities to focus on current state queries rather than comprehensive historical analysis. Full provenance tracking was sacrificed for improved query performance, though essential career progression information was preserved through simplified temporal modeling approaches.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%         DECISIONS AND RATIONALE         %%%%
@@ -159,10 +159,8 @@ Datatype selections followed OWL 2 QL compliance requirements. Market values and
 
 \begin{figure}[h]
 \centering
-% TODO: Add Protégé class hierarchy screenshot showing Person > Player/Coach hierarchy
-% Placeholder for now - image to be added later
-\fbox{\parbox{0.8\textwidth}{\centering \vspace{2cm} \textit{[Class Hierarchy Diagram]} \\ \textit{Person → Player/Coach specialization} \\ \textit{Screenshot from Protégé to be inserted} \vspace{2cm}}}
-\caption{Core class hierarchy showing Person taxonomy with specialized football roles}
+\includegraphics[width=0.8\textwidth]{images/Ontology_Class_Hierarchy.png}
+\caption{Ontology Class Hierarchy}
 \label{fig:class-hierarchy}
 \end{figure}
 

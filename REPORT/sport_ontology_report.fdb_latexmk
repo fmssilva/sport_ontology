@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1761391041.16136 "c:/Users/franc/Desktop/RCR/projects/sport_ontology/REPORT/sport_ontology_report.tex" "sport_ontology_report.pdf" "sport_ontology_report" 1761391042.46819 2
+["pdflatex"] 1761513851.32281 "c:/Users/franc/Desktop/RCR/projects/sport_ontology/REPORT/sport_ontology_report.tex" "sport_ontology_report.pdf" "sport_ontology_report" 1761513856.05333 2
   "C:/Program Files/MiKTeX/fonts/tfm/jknappen/ec/ecbx0900.tfm" 993061954 3200 f959f56c26f697d341ba38dba18fe1f8 ""
   "C:/Program Files/MiKTeX/fonts/tfm/jknappen/ec/ecbx1000.tfm" 993061956 3200 328792ff19833a39406f06fa0555a6dc ""
   "C:/Program Files/MiKTeX/fonts/tfm/jknappen/ec/ecbx1200.tfm" 993061958 3200 b8d69bc738e5ef3e08cefeef3109ff56 ""
@@ -92,9 +92,10 @@
   "C:/Users/franc/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1761358171 13311556 4698ccb5be6a7101b5f5d30a1aefa2ce ""
   "C:/Users/franc/AppData/Roaming/MiKTeX/tex/latex/booktabs/booktabs.sty" 1579093635 6253 f1cb470c9199e7110a27851508ed7a5c ""
   "C:/Users/franc/AppData/Roaming/MiKTeX/tex/latex/llncs/llncs.cls" 1741086508 43405 543b73320c367b0229b3cdfcddaedc46 ""
-  "c:/Users/franc/Desktop/RCR/projects/sport_ontology/REPORT/sport_ontology_report.tex" 1761391033 121693 a30474d65cf18e715945604cd418a5d9 ""
-  "sport_ontology_report.aux" 1761391042 12363 4ea81c85a235e79aca8b44efe2a37bbf "pdflatex"
-  "sport_ontology_report.tex" 1761391033 121693 a30474d65cf18e715945604cd418a5d9 ""
+  "c:/Users/franc/Desktop/RCR/projects/sport_ontology/REPORT/sport_ontology_report.tex" 1761513849 121592 9a590650d283060391c7ba75e20dce02 ""
+  "images/Ontology_Class_Hierarchy.png" 1761513697 1753810 f83dbc200faf05665de2b1b6ff285708 ""
+  "sport_ontology_report.aux" 1761513854 12312 ac1dd6ded63fb29e3097c1a758a33d5c "pdflatex"
+  "sport_ontology_report.tex" 1761513849 121592 9a590650d283060391c7ba75e20dce02 ""
   (generated)
   "sport_ontology_report.aux"
   "sport_ontology_report.log"

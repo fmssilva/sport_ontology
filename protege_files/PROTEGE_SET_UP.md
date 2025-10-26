@@ -37,7 +37,7 @@ b: Set the connection to the H2 database file using the following details:
 5. Username: sa
 6. Password: (leave empty)
 7. Test connection and save
-### Step 3.1: Using H2 as a built-in Protege backend or shared setup
+#### Step 3.1: Using H2 as a built-in Protege backend or shared setup
 If you want Protege to use H2 as an internal or shared database backend (not just as an external connection):
 a. Copy the file `database/h2-2.4.240.jar` into your Protege `plugins` folder.
 b. Restart Protege completely to load the new driver.

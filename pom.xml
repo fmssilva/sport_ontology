@@ -14,8 +14,8 @@
     
     <name>Sport Ontology OBDA System</name>
     <description>
-        Ontology-Based Data Access system for sports data with H2 database,
-        Ontop query rewriting, and HermiT reasoning integration.
+        Sports Ontology with OBDA integration using H2 database, Ontop CLI for SPARQL queries,
+        and HermiT reasoner. Includes automated protege_files generation for Protégé setup.
     </description>
     
     <!-- Java Version Configuration -->
@@ -26,7 +26,6 @@
         
         <!-- Dependency Versions (Centralized Management) -->
         <h2.version>2.4.240</h2.version>
-        <ontop.version>4.2.1</ontop.version>
         <owlapi.version>4.5.26</owlapi.version>
         <hermit.version>1.4.3.456</hermit.version>
         <junit.version>5.10.0</junit.version>
@@ -49,6 +48,15 @@
             <version>${owlapi.version}</version>
         </dependency>
         
+        <!-- OWL2VOWL official library -->
+        <dependency>
+            <groupId>de.uni-stuttgart.vis</groupId>
+            <artifactId>owl2vowl</artifactId>
+            <version>0.3.7</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/OWL2VOWL-0.3.7.jar</systemPath>
+        </dependency>
+        
         <!-- HermiT Reasoner - OWL DL Reasoning -->
         <dependency>
             <groupId>net.sourceforge.owlapi</groupId>
@@ -61,6 +69,23 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.36</version>
+        </dependency>
+        
+        <!-- Jackson JSON Processing -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.15.2</version>
         </dependency>
         
         <!-- JUnit 5 - Testing Framework -->
@@ -100,43 +125,76 @@
                 <version>3.2.2</version>
             </plugin>
             
-            <!-- Exec Maven Plugin - Run Main Classes -->
+            <!-- Exec Maven Plugin - Generate Protege Files -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
-                <configuration>
-                    <mainClass>app.AppRunner</mainClass>
-                </configuration>
                 <executions>
-                    <!-- Generate protege_files command: mvn exec:exec@protege_files -->
+                    <!-- Generate protege_files command: mvn exec:java@protege_files -->
                     <execution>
                         <id>protege_files</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>mvn</executable>
-                            <arguments>
-                                <argument>clean</argument>
-                                <argument>compile</argument>
-                                <argument>dependency:copy-dependencies</argument>
-                                <argument>exec:java@protege_files-java</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    
-                    <!-- Internal Java execution target -->
-                    <execution>
-                        <id>protege_files-java</id>
                         <goals>
                             <goal>java</goal>
                         </goals>
                         <configuration>
                             <mainClass>protege_files.BuildProtegeFiles</mainClass>
-                            <arguments>
-                                <argument>protege_files</argument>
-                            </arguments>
+                        </configuration>
+                    </execution>
+                    
+                    <!-- Visualize Ontology command: mvn exec:java@visualize-ontology -->
+                    <execution>
+                        <id>visualize-ontology</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>graph_ontology.GraphViewOfOntology</mainClass>
+                            <options>
+                                <option>-Xmx512m</option>
+                            </options>
+                        </configuration>
+                    </execution>
+                    
+                    <!-- Professional WebVOWL Visualization: mvn exec:java@webvowl -->
+                    <execution>
+                        <id>webvowl</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>graph_ontology.WebVOWLVisualization</mainClass>
+                            <options>
+                                <option>-Xmx1024m</option>
+                            </options>
+                        </configuration>
+                    </execution>
+                    
+                    <!-- Background OWL Converter: mvn exec:java@background-converter -->
+                    <execution>
+                        <id>background-converter</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>graph_ontology.BackgroundOWLConverter</mainClass>
+                            <options>
+                                <option>-Xmx512m</option>
+                            </options>
+                        </configuration>
+                    </execution>
+                    
+                    <!-- OWL to JSON Converter: mvn exec:java@owl2json -->
+                    <execution>
+                        <id>owl2json</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>graph_ontology.OWL2JSONConverter</mainClass>
+                            <options>
+                                <option>-Xmx512m</option>
+                            </options>
                         </configuration>
                     </execution>
                 </executions>
@@ -205,18 +263,58 @@
                 </executions>
             </plugin>
             
-            <!-- Maven Antrun Plugin - Generate Deliverable Files -->
+            <!-- Maven Antrun Plugin - Combined Setup Tasks -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>3.1.0</version>
-                <configuration>
-                    <goals>
-                        <goal>run</goal>
-                    </goals>
-                </configuration>
                 <executions>
-                    <!-- Setup Ontop CLI (existing execution) -->
+                    <!-- Setup OWL2VOWL Library -->
+                    <execution>
+                        <id>setup-owl2vowl</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <echo message="📦 Setting up OWL2VOWL library..."/>
+                                
+                                <!-- Create tools directory if not exists -->
+                                <mkdir dir="${project.basedir}/tools"/>
+                                
+                                <!-- Clone OWL2VOWL (will skip if already exists) -->
+                                <echo message="🔄 Cloning OWL2VOWL repository (or using existing)..."/>
+                                <exec executable="git" dir="${project.basedir}/tools" failonerror="false">
+                                    <arg value="clone"/>
+                                    <arg value="https://github.com/VisualDataWeb/OWL2VOWL.git"/>
+                                </exec>
+                                
+                                <!-- Build OWL2VOWL JAR -->
+                                <echo message="🔨 Building OWL2VOWL JAR..."/>
+                                <exec executable="mvn.cmd" dir="${project.basedir}/tools/OWL2VOWL" failonerror="true">
+                                    <arg value="clean"/>
+                                    <arg value="package"/>
+                                    <arg value="-DskipTests"/>
+                                </exec>
+                                
+                                <!-- Copy JAR to our lib directory -->
+                                <mkdir dir="${project.basedir}/lib"/>
+                                <echo message="📋 Copying JAR to lib directory..."/>
+                                <copy todir="${project.basedir}/lib">
+                                    <fileset dir="${project.basedir}/tools/OWL2VOWL/target">
+                                        <include name="OWL2VOWL*.jar"/>
+                                        <exclude name="*-sources.jar"/>
+                                        <exclude name="*-javadoc.jar"/>
+                                    </fileset>
+                                </copy>
+                                
+                                <echo message="✅ OWL2VOWL library ready"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                    
+                    <!-- Setup Ontop CLI -->
                     <execution>
                         <id>setup-ontop-cli</id>
                         <phase>generate-resources</phase>
@@ -247,9 +345,17 @@
                             </target>
                         </configuration>
                     </execution>
-                    
-                    <!-- All deliverables generation is now handled by BuildDeliverables.java -->
                 </executions>
+            </plugin>
+            
+            <!-- Maven Exec Plugin for running Java classes -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>graph_ontology.BackgroundOWLConverter</mainClass>
+                </configuration>
             </plugin>
 
         </plugins>
@@ -261,11 +367,6 @@
             <id>central</id>
             <name>Maven Central</name>
             <url>https://repo1.maven.org/maven2</url>
-        </repository>
-        <repository>
-            <id>ontop-repository</id>
-            <name>Ontop Repository</name>
-            <url>https://repo.maven.apache.org/maven2</url>
         </repository>
     </repositories>
     
@@ -290,135 +391,7 @@
             </properties>
         </profile>
         
-        <!-- Deliverables Profile - for easy 'mvn get-deliverables' command -->
-        <profile>
-            <id>get-deliverables</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>3.1.0</version>
-                        <executions>
-                            <execution>
-                                <phase>compile</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <!-- Create deliverables directory -->
-                                        <mkdir dir="${project.basedir}/deliverables"/>
-                                        <mkdir dir="${project.basedir}/deliverables/ontology"/>
-                                        <mkdir dir="${project.basedir}/deliverables/database"/>
-                                        
-                                        <echo message="🎯 Generating deliverable files for report..."/>
-                                        
-                                        <!-- Step 1: Generate H2 Database with seed data -->
-                                        <echo message="📊 Creating H2 database with seed data..."/>
-                                        <java classname="database.CreateH2Database" 
-                                              classpathref="maven.compile.classpath"
-                                              fork="true">
-                                            <arg value="${project.basedir}/deliverables/database/sports-deliverable-db"/>
-                                        </java>
-                                        
-                                        <!-- Step 2: Copy ontology files -->
-                                        <echo message="📋 Copying ontology files..."/>
-                                        <copy file="${project.basedir}/src/main/resources/ontology/sport-ontology.owl" 
-                                              tofile="${project.basedir}/deliverables/ontology/sport-ontology.owl"/>
-                                        <copy file="${project.basedir}/src/main/resources/ontology/sport-ontology-mapping.ttl" 
-                                              tofile="${project.basedir}/deliverables/ontology/sport-ontology-mapping.ttl"/>
-                                        <copy file="${project.basedir}/sports-tests.q" 
-                                              tofile="${project.basedir}/deliverables/ontology/sports-tests.q"/>
-                                        
-                                        <!-- Step 3: Create Protégé-ready properties file -->
-                                        <echo message="⚙️ Creating Protégé-ready configuration..."/>
-                                        <echo file="${project.basedir}/deliverables/ontology/sport-ontology-protege.properties">jdbc.driver=org.h2.Driver
-jdbc.password=
-jdbc.url=jdbc:h2:FULL_PATH_TO_DATABASE/sports-deliverable-db;DATABASE_TO_UPPER=true;CASE_INSENSITIVE_IDENTIFIERS=true
-jdbc.user=sa
 
-# Instructions for Protégé:
-# 1. Replace FULL_PATH_TO_DATABASE with the absolute path to the deliverables/database/ folder
-# 2. Example: jdbc:h2:/path/to/deliverables/database/sports-deliverable-db;DATABASE_TO_UPPER=true;CASE_INSENSITIVE_IDENTIFIERS=true
-</echo>
-                                        
-                                        <!-- Step 4: Create README with instructions -->
-                                        <echo file="${project.basedir}/deliverables/README.md"># Sport Ontology - Deliverable Files
-
-## Overview
-This folder contains all the files needed to work with the Sport Ontology in Protégé and external tools.
-
-## Contents
-
-### Database Files (database/)
-- `sports-deliverable-db.mv.db` - H2 database file with complete sport data
-- Use this database file in Protégé or any H2-compatible tool
-
-### Ontology Files (ontology/)
-- `sport-ontology.owl` - Complete OWL ontology with classes, properties, and reasoning rules
-- `sport-ontology-mapping.ttl` - OBDA mappings (SQL to RDF)
-- `sport-ontology-protege.properties` - Database connection properties for Protégé
-
-## How to Use in Protégé
-
-### 1. Load the Ontology
-1. Open Protégé
-2. File → Open → Select `ontology/sport-ontology.owl`
-
-### 2. Connect to Database
-1. Window → Tabs → DataSource
-2. Create new datasource
-3. Use these settings:
-   - **Driver:** H2 Database Engine
-   - **URL:** `jdbc:h2:FULL_PATH/deliverables/database/sports-deliverable-db;DATABASE_TO_UPPER=true;CASE_INSENSITIVE_IDENTIFIERS=true`
-   - **Username:** sa
-   - **Password:** (leave empty)
-
-### 3. Load OBDA Mappings
-1. In DataSource tab, load mappings
-2. Select `ontology/sport-ontology-mapping.ttl`
-
-### 4. Test SPARQL Queries
-Example query to test:
-```sparql
-PREFIX sports: &lt;http://www.semanticweb.org/sports/ontology#&gt;
-SELECT ?player ?team WHERE {
-  ?player a sports:Player .
-  ?player sports:playsFor ?team .
-}
-```
-
-## Database Schema
-The H2 database contains:
-- 7 teams (5 senior, 2 youth)
-- 17 people (12 players, 5 coaches)
-- 13 player roles with market values
-- 8 coaching roles with history
-- 13 contracts
-
-## Reasoning Classes
-The ontology defines these inferred classes:
-- **TopPlayer:** Players with market value ≥ 100M€
-- **YoungPlayer:** Players with age &lt; 23
-- **ExperiencedPlayer:** Players who played for ≥ 5 teams
-- **TopCoach:** Coaches who coached ≥ 3 teams
-
-## Support
-For questions about the ontology structure or data, refer to the project documentation.
-</echo>
-                                        
-                                        <echo message="✅ Deliverable files generated successfully!"/>
-                                        <echo message="📁 Location: ${project.basedir}/deliverables/"/>
-                                        <echo message="📋 Files ready for Protégé and report submission"/>
-                                    </target>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
     </profiles>
     
 </project>

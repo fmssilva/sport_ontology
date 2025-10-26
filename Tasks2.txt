@@ -1,36 +1,19 @@
 
-
-Confirm Tests: 
-remember i want sparql querries to access only the H2 DB data. sparql queries are NOT to include the ABox values. ABox is only for hermit.  
-nevertheless, even if sparq is only to access the H2 DB, it is to perform the full stack query path through the ontop CLI, doing the reasoning procedures and to return the OWA and not the CWA. 
+Great! The git clone worked (we can see "Cloning into 'OWL2VOWL'..."), but Maven can't find the mvn executable in the exec task. In Windows, we need to use mvn.cmd. Let me fix that:
+is it gonna work in any OS?
 
 
 review introduciton and conclusion
 
 falta usar e meter no relatorio as tools pra meter o diagrama
 
-
-review the pom file to confirm its clean and we don't have there unused or not important commands or dependencies
-
 report: dizer que é tool que facilita tudo: com npm exec:exec@protege_files we get the eveyrhting we need to easy set up of a DB in protege for ontop; and with a npm test we have a test infrastrucure working with sample examples ready to be changed and adapted to a given domain. 
-
-see the project assignment requests. 
-and see the deliverables i need to give
-and see 
-the code we have now implmented
-and then confirm what task we have already done and to what level
-is it good already for each area and task?
-what should we do more?
-keep in mind i want to go a bit beyong the requested to make this a very good prrojct 
-
-
-import sparl files to ontop??
-Tab Ontop SPARQL
-File → Load queries
-Selecione sports-tests.q
-Execute uma a uma
 
 mvn test
 confirm final summaries good 
 
 
+
+
+
+Perfect! I found the ontology dropdown menu. It's in the HTML file at lines 129-136. I can see the list of predefined ontologies. Now I need to add our sport ontology to this list. Let me copy our JSON file to the deploy/data folder and then add the entry to the HTML.
