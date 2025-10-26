@@ -24,7 +24,7 @@ public class H2_SQLEngine {
         // Use Maven project structure with AUTO_SERVER for concurrent access
         // Store database files in database folder instead of root directory
         Path databaseDir = Paths.get(System.getProperty("user.dir")).resolve("database");
-        this.dbPath = databaseDir.resolve("sports-db").toString();
+        this.dbPath = databaseDir.resolve("sport_db").toString();
         this.dbUrl = "jdbc:h2:" + dbPath + ";DATABASE_TO_UPPER=true;CASE_INSENSITIVE_IDENTIFIERS=true;AUTO_SERVER=true;AUTO_SERVER_PORT=9092";
         
         // Ensure database directory exists

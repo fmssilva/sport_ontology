@@ -21,7 +21,7 @@ public class CreateH2Database {
         } else {
             // Store database files in database folder instead of root directory
             Path databaseDir = Paths.get(System.getProperty("user.dir")).resolve("database");
-            dbPath = databaseDir.resolve("sports-db");
+            dbPath = databaseDir.resolve("sport_db");
             System.out.println("Using default database path in database folder");
             
             // Ensure database directory exists
@@ -248,10 +248,10 @@ public class CreateH2Database {
             System.out.println("- Contrato com is_active=NULL (person_id=9) para teste OWA-04");
             System.out.println("- Todos os players têm market_value (CWA baseline)");
             System.out.println("- Namespace separation: data: vs abox: prefixes");
-            System.out.println("\nBase de dados 'sports-db' pronta para usar com Ontop!");
-            System.out.println("📍 Localização: sports-db.mv.db");
+            System.out.println("\nBase de dados 'sport_db' pronta para usar com Ontop!");
+            System.out.println("📍 Localização: sport_db.mv.db");
             System.out.println("\n🔗 Connection URL para Protégé:");
-            System.out.println("   jdbc:h2:CAMINHO_COMPLETO/sports-db");
+            System.out.println("   jdbc:h2:CAMINHO_COMPLETO/sport_db");
             
             stmt.close();
             conn.close();

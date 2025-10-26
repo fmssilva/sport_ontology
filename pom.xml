@@ -120,6 +120,7 @@
                             <arguments>
                                 <argument>clean</argument>
                                 <argument>compile</argument>
+                                <argument>dependency:copy-dependencies</argument>
                                 <argument>exec:java@protege_files-java</argument>
                             </arguments>
                         </configuration>
@@ -132,7 +133,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>BuildDeliverables</mainClass>
+                            <mainClass>protege_files.BuildProtegeFiles</mainClass>
                             <arguments>
                                 <argument>protege_files</argument>
                             </arguments>

@@ -849,6 +849,47 @@ Test case design principles emphasized real-world scenario modeling over synthet
     \item \textbf{Performance Targets:} Sub-second response times, <100MB memory usage
 \end{itemize}
 
+\subsection{Data Seeding Strategy and Methodology}
+
+The project implements a sophisticated dual-source data seeding approach designed to demonstrate key ontological concepts while maintaining manual verification capabilities. This strategy addresses the fundamental challenge of creating test data that effectively showcases reasoning capabilities, OWA vs CWA paradigm differences, and complex relationship inference without overwhelming manual validation processes.
+
+\textbf{Dual-Source Architecture:} The implementation utilizes two distinct data sources with separate namespaces: (1) H2 Database Content accessible via SQL and SPARQL through OBDA mappings, utilizing namespace \texttt{http://www.semanticweb.org/sports/ontology\#} for database-driven instances, and (2) ABox Ontology Content embedded directly in the OWL file for pure reasoning validation, using namespace \texttt{http://www.semanticweb.org/sports/ontology\#ABox\_*} for reasoning-specific individuals.
+
+\textbf{Data Size Rationale and Manual Verification:} The seed data size was carefully calibrated to balance demonstration effectiveness with practical validation requirements. With 7 teams, 12 players, and 13 contracts, the dataset remains small enough for complete manual verification of reasoning results while providing sufficient complexity to demonstrate meaningful ontological concepts. This "sweet spot" sizing enables domain experts to manually validate every reasoning result - for instance, verifying that exactly 5 players meet TopPlayer criteria (market value ≥ €100M) or confirming that 4 players are correctly classified as YoungPlayer (age < 23). Each test result can be manually validated by domain experts, enabling immediate identification of reasoning errors or mapping inconsistencies.
+
+\textbf{Size Optimization for Educational Purposes:} The deliberate constraint to small dataset size serves multiple purposes: (1) \textbf{Complete Manual Verification:} Every reasoning result can be hand-checked, essential for educational demonstration and debugging, (2) \textbf{Reasoning Transparency:} Small enough that inference chains can be manually traced and explained, (3) \textbf{Performance Clarity:} Eliminates performance bottlenecks that could mask logical errors, and (4) \textbf{Test Result Comprehension:} Results remain human-interpretable without requiring automated analysis tools. This approach prioritizes understanding over scale, making the system ideal for demonstrating semantic web concepts to learners and researchers.
+
+\textbf{Hierarchical Instance Placement Strategy:} Entity creation follows principled placement within the class hierarchy to optimize reasoning effectiveness while preserving semantic accuracy. The fundamental rule applied is: \textit{create instances at the most specific level that preserves semantic information while enabling meaningful reasoning}. Players are instantiated at the \texttt{Player} class level rather than specific subclasses (e.g., \texttt{Forward}, \texttt{Midfielder}) to enable automatic classification through reasoning rather than explicit assignment. This approach demonstrates the ontology's ability to infer specialized classifications based on property values and domain constraints. 
+
+\textbf{Instance Creation Principles:} The placement strategy follows three key principles: (1) \textbf{Disjoint Class Boundary Respect:} Instances are created above disjoint class boundaries to allow automatic classification. For example, players are created at \texttt{Player} level (not \texttt{Person}) because \texttt{Player} and \texttt{Coach} are disjoint, preventing misclassification. (2) \textbf{Reasoning Enablement:} Placement must allow meaningful inference - creating at \texttt{Person} level would lose important domain constraints, while creating at \texttt{Forward} level would bypass automatic position inference. (3) \textbf{Semantic Preservation:} The chosen level must maintain all essential domain information without over-specification that defeats reasoning purposes.
+
+\textbf{Strategic Incomplete Population and Empty Entity Discovery:} The database intentionally excludes certain entity types to demonstrate ontology-based entity discovery capabilities, as verified through Ontop's empty entity detection functionality. Deliberately unpopulated tables (e.g., \texttt{FEDERATION}, \texttt{YOUTH\_TEAM}, \texttt{LOAN\_CONTRACT}) create opportunities for reasoners to identify missing information and suggest data completeness improvements. This approach simulates real-world scenarios where databases contain incomplete information, highlighting the value of semantic reasoning for data quality assessment. Empty tables can be identified using Ontop CLI commands like \texttt{ontop query} with discovery queries, demonstrating how ontologies can guide database completeness auditing.
+
+\textbf{OWA vs CWA Demonstration Design:} Specific data scenarios were engineered to showcase fundamental differences between open and closed world reasoning. Contract data includes entities with missing \texttt{is\_active} flags, creating situations where SQL (CWA) returns only explicitly active contracts while SPARQL (OWA) includes contracts with unknown status. Player team assignments include temporal gaps and overlapping periods to demonstrate how different reasoning paradigms handle incomplete temporal information.
+
+\textbf{Reasoning Test Enablement:} The seed data specifically enables validation of key reasoning capabilities including automatic TopPlayer classification (market value ≥ €100M yields 5 expected instances), YoungPlayer identification (age < 23 produces 4 expected classifications), property chain inference (team → league participation generates 8 derived relationships), and inverse property consistency (\texttt{playsFor} ↔ \texttt{hasPlayer} bidirectional validation across 12 player-team associations).
+
+\begin{table}[h]
+\caption{Data Seeding Strategy Summary}
+\label{tab:seeding-strategy}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Data Source} & \textbf{Namespace} & \textbf{Access Method} & \textbf{Purpose} \\
+\midrule
+H2 Database & sports:ontology\# & SQL + SPARQL/OBDA & Production simulation \\
+ABox Content & sports:ontology\#ABox\_ & HermiT reasoning only & Pure reasoning validation \\
+Manual Size & 7 teams, 12 players & Manual verification & Educational demonstration \\
+Incomplete Tables & Strategic gaps & Entity discovery & Real-world simulation \\
+Instance Placement & Player/Team level & Auto-classification & Reasoning enablement \\
+Disjoint Respect & Above boundaries & Semantic preservation & Principle adherence \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This comprehensive seeding strategy enables systematic validation of ontological concepts while maintaining practical constraints necessary for educational and research applications. The approach successfully balances theoretical rigor with practical usability, creating an effective foundation for both automated testing and manual verification of semantic reasoning capabilities.
+
+\textbf{Seeding Strategy Results Validation:} The implemented approach directly enables the test scenarios presented in subsequent sections. For instance, the choice to create players at \texttt{Player} level rather than position-specific subclasses allows tests REA-01 through REA-03 to demonstrate automatic classification capabilities. The deliberate inclusion of 5 high-value players (≥€100M market value) in the seed data ensures TopPlayer reasoning tests produce verifiable results. Similarly, the strategic mix of player ages (4 players under 23) validates YoungPlayer classification logic. Empty table detection capabilities are demonstrated through unpopulated \texttt{FEDERATION} and \texttt{YOUTH\_TEAM} tables, which Ontop correctly identifies as having zero instances, showcasing ontology-guided database completeness auditing.
+
 Success metrics establishment balanced academic rigor with practical applicability. Quantitative measures included reasoning time, query response latency, and memory consumption. Qualitative assessment covered inference explanation quality and domain expert validation of automated classifications.
 
 \begin{table}[h]
