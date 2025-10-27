@@ -847,13 +847,6 @@ Early testing implementations used separate JAR files for H2 database operations
 
 Maven automation eliminated JAR management complexity and provides automated tool organization. The integrated build system automatically downloads and extracts Ontop CLI to \texttt{tools/ontop/} directory with automatic ZIP cleanup, while the H2 database files are properly organized in the \texttt{database/} folder. One-command deployment with \texttt{mvn clean test} executes comprehensive validation across SQL, SPARQL, and reasoning components. This approach supports reproducible testing and simplified project distribution.
 
-\begin{figure}[h]
-\centering
-% TODO: Add development workflow diagram showing Protégé $\rightarrow$ H2 $\rightarrow$ Maven pipeline
-\fbox{\parbox{0.8\textwidth}{\centering \vspace{2cm} \textit{[Development Workflow]} \\ \textit{Protégé design $\rightarrow$ Reasoner validation $\rightarrow$ H2 integration $\rightarrow$ Maven automation} \\ \textit{Diagram showing complete development pipeline} \vspace{2cm}}}
-\caption{Systematic development workflow from ontology design to automated testing}
-\label{fig:dev-workflow}
-\end{figure}
 
 The final testing architecture enables rapid prototyping and application integration. Developers can clone the repository and execute \texttt{mvn exec:java} to launch the complete OBDA stack with pre-loaded test data. This design philosophy prioritized practical deployment over academic demonstration. 
 
@@ -997,11 +990,14 @@ SELECT ?player ?value WHERE {
             rdfs:label ?name .
     FILTER (?value >= 100000000)
 } ORDER BY DESC(?value)
+\end{lstlisting}
 
-# Expected Results:
-# 1. Mbappe (180M), 2. Haaland (150M), 3. Bellingham (120M)
-# Test Result: 100% accuracy, 3/3 correct classifications
-\end{lstlisting>
+\noindent
+\textbf{Expected Results:}
+\begin{enumerate}
+\item Mbappe (180M), 2. Haaland (150M), 3. Bellingham (120M)
+\item Test Result: 100\% accuracy, 3/3 correct classifications
+\end{enumerate}
 
 OBDA mapping verification ensured semantic-relational consistency across the data access layer. Each R2RML mapping was tested independently before integration testing. Verification included NULL value handling, join optimization, and URI template correctness.
 
@@ -1640,6 +1636,25 @@ The authors acknowledge AI as a valuable tool that streamlined development and e
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% AI Disclaimer %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{AI Disclaimer}
+
+Artificial Intelligence (AI) tools were employed throughout the development of this project to enhance productivity, improve code quality, and assist with documentation. Specifically, AI support was utilized for:
+
+\begin{itemize}
+\item \textbf{Code Refactoring and Optimization:} Improving code readability, efficiency, and maintainability while adhering to best software engineering practices.
+\item \textbf{Debugging Assistance:} Identifying potential logical or syntactical errors and suggesting corrective actions during the testing and validation phases.
+\item \textbf{Documentation Generation:} Drafting and refining sections of technical reports, README files, and user manuals to ensure clarity and completeness.
+\item \textbf{Test Development:} Assisting in the creation of comprehensive test cases to validate system performance, reasoning correctness, and consistency across components.
+\end{itemize}
+
+While AI contributed as a supportive development aid, all \textbf{core design decisions}, \textbf{architectural definitions}, and \textbf{final implementations} were entirely conceived, structured, and validated by the project authors. AI-generated suggestions were reviewed, adapted, and integrated only after thorough human verification to ensure alignment with the project’s objectives and academic integrity standards.
+
+The authors acknowledge AI as a valuable tool that streamlined development and enhanced documentation consistency, yet emphasize that the intellectual ownership, conceptual framework, and system realization remain original and human-driven.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%               CONCLUSIONS               %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1690,37 +1705,5 @@ The methodological approach and technical solutions presented here are \textbf{t
     \item Temporal reasoning requires manual constraint management
     \item Performance testing conducted on limited dataset sizes
 \end{itemize}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%               BIBLIOGRAPHY              %%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{thebibliography}{10}
-
-\bibitem{calvanese2017ontop}
-D. Calvanese, B. Cogrel, S. Komla-Ebri, R. Kontchakov, D. Lanti, M. Rezk, M. Rodriguez-Muro, and G. Xiao, ``Ontop: Answering SPARQL queries over relational databases,'' \textit{Semantic Web}, vol. 8, no. 3, pp. 471--487, 2017.
-
-\bibitem{poggi2008linking}
-A. Poggi, D. Lembo, D. Calvanese, G. De Giacomo, M. Lenzerini, and R. Rosati, ``Linking data to ontologies,'' \textit{Journal on data semantics X}, pp. 133--173, 2008.
-
-\bibitem{motik2012owl}
-B. Motik, B. Cuenca Grau, I. Horrocks, Z. Wu, A. Fokoue, and C. Lutz, ``OWL 2 web ontology language profiles,'' \textit{W3C recommendation}, vol. 27, no. 61, pp. 1--37, 2012.
-
-\bibitem{shearer2008hermit}
-R. Shearer, B. Motik, and I. Horrocks, ``HermiT: A highly-efficient OWL reasoner,'' in \textit{OWLED}, vol. 432, 2008.
-
-\bibitem{musen2015protege}
-M. A. Musen, ``The protégé project: a look back and a look forward,'' \textit{AI matters}, vol. 1, no. 4, pp. 4--12, 2015.
-
-\bibitem{hitzler2012owl}
-P. Hitzler, M. Krötzsch, B. Parsia, P. F. Patel-Schneider, and S. Rudolph, \textit{OWL 2 web ontology language primer}. W3C recommendation, 2012.
-
-\bibitem{baader2003description}
-F. Baader, D. Calvanese, D. L. McGuinness, D. Nardi, and P. F. Patel-Schneider, \textit{The description logic handbook: Theory, implementation and applications}. Cambridge university press, 2003.
-
-\bibitem{sport_ontology_github}
-F. Silva and R. Soares, ``Sport Ontology OBDA System,'' GitHub Repository, 2025. [Online]. Available: \url{https://github.com/fmssilva/sport_ontology}. Accessed: Oct. 25, 2025.
-
-\end{thebibliography}
 
 \end{document}
