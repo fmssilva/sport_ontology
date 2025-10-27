@@ -1,27 +1,0 @@
-what are these REA??
-
-Three advanced reasoning test scenarios demonstrate ontology superiority
-over traditional SQL approaches. REA-04 (Elite Team complex reasoning test)
-showcases automatic class classication where TopTeam entities are inferred
-through complex market value criteria, eliminating manual SQL JOIN opera-
-tions. REA-05 validates property chain reasoning with transitive league par-
-ticipation (playsFor ◦ competesIn → participatesIn), automatically deriving 8
-relationships versus explicit SQL traversal. REA-06 conrms inverse property
-consistency (hasPlayer ↔ playsFor) ensuring bidirectional data integrity with-
-out database triggers
-
-
-review introduciton and conclusion
-
-falta usar e meter no relatorio as tools pra meter o diagrama
-
-report: dizer que é tool que facilita tudo: com npm exec:exec@protege_files we get the eveyrhting we need to easy set up of a DB in protege for ontop; and with a npm test we have a test infrastrucure working with sample examples ready to be changed and adapted to a given domain. 
-
-mvn test
-confirm final summaries good 
-
-
-
-
-
-Perfect! I found the ontology dropdown menu. It's in the HTML file at lines 129-136. I can see the list of predefined ontologies. Now I need to add our sport ontology to this list. Let me copy our JSON file to the deploy/data folder and then add the entry to the HTML.
