@@ -322,7 +322,7 @@ These constructs enable automatic conflict detection (e.g., players cannot have 
 \includegraphics[width=0.95\textwidth]{images/TopPlayer_Inference.png}
 \caption{Automatic TopPlayer Classification Through Semantic Reasoning}
 \label{fig:auto-classification}
-\end{figure>
+\end{figure}
 
 \subsection{Technical Challenges}
 
@@ -445,8 +445,6 @@ Visualization dashboards for non-technical users were conceptualized but not dev
 Advanced temporal modeling emerged as the primary knowledge gap during development. While basic contract periods were manageable, implementing sophisticated temporal reasoning patterns required deeper understanding of temporal description logics. Literature review revealed approaches like temporal RDF and 4D fluents, but practical implementation within OWL 2 QL constraints remained challenging.
 
 OBDA optimization techniques beyond basic query rewriting required specialized expertise. Advanced topics like semantic query optimization, cost-based query planning, and distributed query execution were identified as learning priorities. Understanding database internals and query optimizer behavior became crucial for performance tuning.
-
-Domain expertise in sports analytics revealed gaps in statistical modeling and performance metrics interpretation. While basic player attributes were modeled accurately, advanced analytics concepts like expected goals (xG), player impact ratings, and tactical analysis required collaboration with sports science experts.
 
 \begin{table}[h]
 \centering
@@ -1483,7 +1481,7 @@ The system successfully classifies high-value players using market value thresho
 
 \textbf{Conflict Example:}
 \begin{itemize}
-    \item Mbappé: PSG jersey \#7 (2017-2024) $\land$ Real Madrid jersey \#10 (2024-present)
+    \item Mbappe: PSG jersey \#7 (2017-2024) $\land$ Real Madrid jersey \#10 (2024-present)
     \item Violation: $|\{7, 10\}| = 2 > 1$
 \end{itemize}
 
@@ -1619,6 +1617,27 @@ For OBDA query answering, Ontop performs query rewriting:
 \end{equation}
 
 Where $|\text{rewrite}(Q, \mathcal{O})| \leq 2^{|Q|}$ but typically $< 10$ for practical queries.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% AI Disclaimer %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{AI Disclaimer}
+
+Artificial Intelligence (AI) tools were employed throughout the development of this project to enhance productivity, improve code quality, and assist with documentation. Specifically, AI support was utilized for:
+
+\begin{itemize}
+\item \textbf{Code Refactoring and Optimization:} Improving code readability, efficiency, and maintainability while adhering to best software engineering practices.
+\item \textbf{Debugging Assistance:} Identifying potential logical or syntactical errors and suggesting corrective actions during the testing and validation phases.
+\item \textbf{Documentation Generation:} Drafting and refining sections of technical reports, README files, and user manuals to ensure clarity and completeness.
+\item \textbf{Test Development:} Assisting in the creation of comprehensive test cases to validate system performance, reasoning correctness, and consistency across components.
+\end{itemize}
+
+While AI contributed as a supportive development aid, all \textbf{core design decisions}, \textbf{architectural definitions}, and \textbf{final implementations} were entirely conceived, structured, and validated by the project authors. AI-generated suggestions were reviewed, adapted, and integrated only after thorough human verification to ensure alignment with the project’s objectives and academic integrity standards.
+
+The authors acknowledge AI as a valuable tool that streamlined development and enhanced documentation consistency, yet emphasize that the intellectual ownership, conceptual framework, and system realization remain original and human-driven.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%               CONCLUSIONS               %%%%
