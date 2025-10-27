@@ -1,0 +1,6 @@
+#FileLock
+#Mon Oct 27 15:31:59 WET 2025
+hostName=192.168.1.198
+id=19a264c3452eb8297718977083b4449e444407df873
+method=file
+server=192.168.1.198\:9092

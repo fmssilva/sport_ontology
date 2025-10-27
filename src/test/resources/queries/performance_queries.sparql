@@ -27,20 +27,7 @@ WHERE {
 GROUP BY ?teamName
 ORDER BY DESC(?playerCount)
 
-#### POSITION_DISTRIBUTION ####
-PREFIX : <http://www.semanticweb.org/sports/ontology#>
-PREFIX data: <http://www.semanticweb.org/sports/data#>
-SELECT ?positionName (COUNT(?player) AS ?count)
-WHERE {
-    ?player a :Player ;
-            :playsPosition ?position .
-    # Restrict to only H2 database individuals (not ABox individuals)
-    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
-    
-    ?position :hasPositionName ?positionName .
-}
-GROUP BY ?positionName
-ORDER BY DESC(?count)
+
 
 #### COMPLEX_TEAM_STATISTICS ####
 PREFIX : <http://www.semanticweb.org/sports/ontology#>
@@ -57,3 +44,27 @@ WHERE {
 }
 GROUP BY ?teamName
 ORDER BY DESC(?playerCount)
+
+
+
+#### AGE_PERFORMANCE_CORRELATION ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+SELECT ?ageGroup (COUNT(?player) AS ?playerCount) (AVG(?marketValue) AS ?avgValue) (MAX(?marketValue) AS ?maxValue)
+WHERE {
+    ?player a :Player ;
+            :hasAge ?age ;
+            :hasMarketValue ?marketValue .
+    
+    BIND(
+        IF(?age < 22, "Youth (Under 22)",
+           IF(?age < 26, "Prime (22-25)",
+              IF(?age < 30, "Peak (26-29)", "Veteran (30+)"))) AS ?ageGroup
+    )
+    
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+GROUP BY ?ageGroup
+ORDER BY ?ageGroup
+
+

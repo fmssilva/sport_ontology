@@ -113,3 +113,145 @@ WHERE {
     
     FILTER(?age < 23)
 }
+
+############################ NEW EXTRA QUERIES ############################
+# These queries provide rich, visual results for better exploration in Protégé
+
+#### DATA_COMPLETENESS_MATRIX ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+SELECT ?playerName 
+       (BOUND(?age) AS ?hasAge) 
+       (BOUND(?marketValue) AS ?hasMarketValue) 
+       (BOUND(?nationality) AS ?hasNationality)
+       (BOUND(?position) AS ?hasPosition)
+       (BOUND(?team) AS ?hasTeam)
+WHERE {
+    ?player a :Player ;
+            :hasPlayerName ?playerName .
+    
+    OPTIONAL { ?player :hasAge ?age }
+    OPTIONAL { ?player :hasMarketValue ?marketValue }
+    OPTIONAL { ?player :hasNationality ?nationality }
+    OPTIONAL { ?player :playsPosition ?pos . ?pos :hasPositionName ?position }
+    OPTIONAL { ?player :playsForTeam ?team }
+    
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+ORDER BY ?playerName
+
+#### RELATIONSHIP_VALIDATION_REPORT ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+SELECT ?relationshipType (COUNT(?source) AS ?totalRelations) 
+       (COUNT(DISTINCT ?source) AS ?uniqueSourceEntities)
+       (COUNT(DISTINCT ?target) AS ?uniqueTargetEntities)
+WHERE {
+    {
+        ?source :playsForTeam ?target .
+        BIND("Player-Team" AS ?relationshipType)
+        FILTER(STRSTARTS(STR(?source), "http://www.semanticweb.org/sports/data#"))
+        FILTER(STRSTARTS(STR(?target), "http://www.semanticweb.org/sports/data#"))
+    } UNION {
+        ?source :playsPosition ?target .
+        BIND("Player-Position" AS ?relationshipType)
+        FILTER(STRSTARTS(STR(?source), "http://www.semanticweb.org/sports/data#"))
+    } UNION {
+        ?source :hasCoach ?target .
+        BIND("Team-Coach" AS ?relationshipType)
+        FILTER(STRSTARTS(STR(?source), "http://www.semanticweb.org/sports/data#"))
+        FILTER(STRSTARTS(STR(?target), "http://www.semanticweb.org/sports/data#"))
+    }
+}
+GROUP BY ?relationshipType
+ORDER BY ?relationshipType
+
+#### VALUE_RANGE_VALIDATION ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+SELECT ?playerName ?age ?marketValue 
+       (IF(?age < 16 || ?age > 45, "Invalid Age", "Valid Age") AS ?ageStatus)
+       (IF(?marketValue < 0 || ?marketValue > 500000000, "Invalid Value", "Valid Value") AS ?valueStatus)
+WHERE {
+    ?player a :Player ;
+            :hasPlayerName ?playerName ;
+            :hasAge ?age ;
+            :hasMarketValue ?marketValue .
+    
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+ORDER BY ?playerName
+
+#### ENTITY_DISTRIBUTION_OVERVIEW ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+SELECT ?entityType ?property (COUNT(?value) AS ?propertyCount) 
+       (COUNT(DISTINCT ?value) AS ?uniqueValues)
+WHERE {
+    {
+        ?entity a :Player .
+        ?entity :hasNationality ?value .
+        BIND("Player" AS ?entityType)
+        BIND("Nationality" AS ?property)
+        FILTER(STRSTARTS(STR(?entity), "http://www.semanticweb.org/sports/data#"))
+    } UNION {
+        ?entity a :Player .
+        ?entity :playsPosition ?pos .
+        ?pos :hasPositionName ?value .
+        BIND("Player" AS ?entityType)
+        BIND("Position" AS ?property)
+        FILTER(STRSTARTS(STR(?entity), "http://www.semanticweb.org/sports/data#"))
+    } UNION {
+        ?entity a :Team .
+        ?entity :hasTeamName ?value .
+        BIND("Team" AS ?entityType)
+        BIND("TeamName" AS ?property)
+        FILTER(STRSTARTS(STR(?entity), "http://www.semanticweb.org/sports/data#"))
+    }
+}
+GROUP BY ?entityType ?property
+ORDER BY ?entityType ?property
+
+#### CONSISTENCY_CHECK_SUMMARY ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+SELECT ?checkType ?status (COUNT(?entity) AS ?entityCount)
+WHERE {
+    {
+        ?entity a :Player ;
+                :hasAge ?age ;
+                :hasMarketValue ?value .
+        BIND(IF(?age >= 16 && ?age <= 45 && ?value >= 0 && ?value <= 500000000, 
+                "PASS", "FAIL") AS ?status)
+        BIND("Player Data Validation" AS ?checkType)
+        FILTER(STRSTARTS(STR(?entity), "http://www.semanticweb.org/sports/data#"))
+    } UNION {
+        ?entity a :Team ;
+                :hasTeamName ?name .
+        BIND(IF(STRLEN(?name) > 0, "PASS", "FAIL") AS ?status)
+        BIND("Team Name Validation" AS ?checkType)
+        FILTER(STRSTARTS(STR(?entity), "http://www.semanticweb.org/sports/data#"))
+    }
+}
+GROUP BY ?checkType ?status
+ORDER BY ?checkType ?status
+
+#### MISSING_DATA_REPORT ####
+PREFIX : <http://www.semanticweb.org/sports/ontology#>
+PREFIX data: <http://www.semanticweb.org/sports/data#>
+SELECT ?playerName 
+       (IF(!BOUND(?age), "Missing Age", "") AS ?missingAge)
+       (IF(!BOUND(?value), "Missing Value", "") AS ?missingValue)
+       (IF(!BOUND(?nationality), "Missing Nationality", "") AS ?missingNationality)
+WHERE {
+    ?player a :Player ;
+            :hasPlayerName ?playerName .
+    
+    OPTIONAL { ?player :hasAge ?age }
+    OPTIONAL { ?player :hasMarketValue ?value }
+    OPTIONAL { ?player :hasNationality ?nationality }
+    
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+    FILTER(!BOUND(?age) || !BOUND(?value) || !BOUND(?nationality))
+}
+ORDER BY ?playerName

@@ -1,6 +1,7 @@
 package engines;
 
 import config.AppConfig;
+import utils.ObdaToTtlConverter;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
@@ -158,13 +159,45 @@ public class SPARQLEngine {
     
     /**
      * Validate required ontology files exist.
+     * If TTL mapping file is missing but OBDA file exists, auto-generate TTL.
      */
     private void validateFiles() throws Exception {
-        String[] requiredFiles = {ontologyPath, mappingPath};
+        // Check ontology file
+        if (!Files.exists(Paths.get(ontologyPath))) {
+            throw new FileNotFoundException("Required ontology file not found: " + ontologyPath);
+        }
         
-        for (String filePath : requiredFiles) {
-            if (!Files.exists(Paths.get(filePath))) {
-                throw new FileNotFoundException("Required file not found: " + filePath);
+        // Check TTL mapping file - if missing, try to generate from OBDA
+        Path ttlPath = Paths.get(mappingPath);
+        if (!Files.exists(ttlPath)) {
+            System.out.println("TTL mapping file not found: " + mappingPath);
+            
+            // Try to find OBDA file and generate TTL
+            String obdaPath = mappingPath.replace(".ttl", ".obda");
+            Path obdaFilePath = Paths.get(obdaPath);
+            
+            if (Files.exists(obdaFilePath)) {
+                System.out.println("Found OBDA file: " + obdaPath);
+                System.out.println("Auto-generating TTL mapping file from OBDA...");
+                
+                try {
+                    ObdaToTtlConverter converter = new ObdaToTtlConverter(
+                        obdaFilePath, 
+                        AppConfig.getOntologyNamespace(), 
+                        AppConfig.getDataNamespace()
+                    );
+                    
+                    String ttlContent = converter.convertToTtl();
+                    Files.write(ttlPath, ttlContent.getBytes());
+                    
+                    System.out.println("✓ TTL mapping file generated successfully: " + mappingPath);
+                    
+                } catch (Exception e) {
+                    throw new RuntimeException("Failed to generate TTL from OBDA: " + e.getMessage(), e);
+                }
+                
+            } else {
+                throw new FileNotFoundException("Neither TTL mapping file nor OBDA file found. Required: " + mappingPath + " or " + obdaPath);
             }
         }
         

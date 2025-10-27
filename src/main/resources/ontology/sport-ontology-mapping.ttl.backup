@@ -1,0 +1,476 @@
+# ========================================================================
+# SPORTS ONTOLOGY MAPPINGS - H2 COMPATIBLE VERSION
+# ========================================================================
+# This file maps the H2 relational database to the sports ontology
+# Updated to use H2's uppercase table/column naming convention
+# 
+# H2 Database Schema: Tables and columns are stored in UPPERCASE
+# - PERSON table with PERSON_ID, FULL_NAME, NATIONALITY, etc.
+# - TEAM table with TEAM_ID, NAME, STADIUM_CAPACITY, etc.
+# - PLAYER_ROLE, COACH_ROLE, CONTRACT tables
+# ========================================================================
+
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix : <http://www.semanticweb.org/sports/ontology#> .
+@prefix data: <http://www.semanticweb.org/sports/data#> .
+@prefix abox: <http://www.semanticweb.org/sports/abox#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# ========================================================================
+# 1. BASIC ENTITY MAPPINGS - Core Classes
+# ========================================================================
+
+# Person Mapping: Maps PERSON table to :Person class
+<urn:r2rml:person-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID, FULL_NAME, NATIONALITY, TIMESTAMPDIFF('YEAR', BIRTH_DATE, CURRENT_DATE) as AGE FROM PERSON"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :Person
+    ];
+  rr:predicateObjectMap [ 
+      rr:predicate :hasName;
+      rr:objectMap [ rr:column "FULL_NAME"; rr:datatype xsd:string ]
+    ], [
+      rr:predicate :hasNationality;
+      rr:objectMap [ rr:column "NATIONALITY"; rr:datatype xsd:string ]
+    ], [
+      rr:predicate :hasAge;
+      rr:objectMap [ rr:column "AGE"; rr:datatype xsd:integer ]
+    ] .
+
+# Team Mapping: Maps TEAM table to :Team class
+<urn:r2rml:team-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT TEAM_ID, NAME, STADIUM_CAPACITY, FOUNDED_YEAR FROM TEAM"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#team/{TEAM_ID}";
+      rr:termType rr:IRI;
+      rr:class :Team
+    ];
+  rr:predicateObjectMap [
+      rr:predicate :hasName;
+      rr:objectMap [ rr:column "NAME"; rr:datatype xsd:string ]
+    ], [
+      rr:predicate :hasStadiumCapacity;
+      rr:objectMap [ rr:column "STADIUM_CAPACITY"; rr:datatype xsd:integer ]
+    ], [
+      rr:predicate :hasFoundedYear;
+      rr:objectMap [ rr:column "FOUNDED_YEAR"; rr:datatype xsd:integer ]
+    ] .
+
+# ========================================================================
+# 2. SUBCLASS MAPPINGS - Specialized Entity Types
+# ========================================================================
+
+# Senior Team Mapping: H2 compatible
+<urn:r2rml:senior-team-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT TEAM_ID FROM TEAM WHERE TEAM_TYPE = 'SeniorTeam'"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#team/{TEAM_ID}";
+      rr:termType rr:IRI;
+      rr:class :SeniorTeam
+    ] .
+
+# Youth Team Mapping: H2 compatible
+<urn:r2rml:youth-team-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT TEAM_ID FROM TEAM WHERE TEAM_TYPE = 'YouthTeam'"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#team/{TEAM_ID}";
+      rr:termType rr:IRI;
+      rr:class :YouthTeam
+    ] .
+
+# Player Mapping: H2 compatible
+<urn:r2rml:player-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID, JERSEY_NUMBER, MARKET_VALUE FROM PLAYER_ROLE WHERE END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :Player
+    ];
+  rr:predicateObjectMap [
+      rr:predicate :hasMarketValue;
+      rr:objectMap [ rr:column "MARKET_VALUE"; rr:datatype xsd:decimal ]
+    ] .
+
+# Jersey Number Mapping: Only for players with valid jersey numbers (NULL-safe)
+<urn:r2rml:jersey-number-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID, JERSEY_NUMBER FROM PLAYER_ROLE WHERE END_DATE IS NULL AND JERSEY_NUMBER IS NOT NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI
+    ];
+  rr:predicateObjectMap [
+      rr:predicate :hasJerseyNumber;
+      rr:objectMap [ rr:column "JERSEY_NUMBER"; rr:datatype xsd:integer ]
+    ] .
+
+# Coach Mapping: H2 compatible
+<urn:r2rml:coach-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID FROM COACH_ROLE WHERE END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :Coach
+    ] .
+
+# ========================================================================
+# 3. POSITION-SPECIFIC PLAYER MAPPINGS
+# ========================================================================
+
+# Goalkeeper Mapping: H2 compatible
+<urn:r2rml:goalkeeper-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID FROM PLAYER_ROLE WHERE POSITION = 'Goalkeeper' AND END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :Goalkeeper
+    ] .
+
+# Forward Mapping: H2 compatible  
+<urn:r2rml:forward-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID FROM PLAYER_ROLE WHERE POSITION = 'Forward' AND END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :Forward
+    ] .
+
+# Midfielder Mapping: H2 compatible
+<urn:r2rml:midfielder-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID FROM PLAYER_ROLE WHERE POSITION = 'Midfielder' AND END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :Midfielder
+    ] .
+
+# ========================================================================
+# 4. COACH TYPE MAPPINGS
+# ========================================================================
+
+# Head Coach Mapping: H2 compatible
+<urn:r2rml:head-coach-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID FROM COACH_ROLE WHERE ROLE_TYPE = 'HeadCoach' AND END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :HeadCoach
+    ] .
+
+# ========================================================================
+# 5. RELATIONSHIP MAPPINGS - Object Properties
+# ========================================================================
+
+# Player-Team Relationship: H2 compatible
+<urn:r2rml:plays-for-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID, TEAM_ID FROM PLAYER_ROLE WHERE END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI
+    ];
+  rr:predicateObjectMap [
+      rr:predicate :playsFor;
+      rr:objectMap [ rr:template "http://www.semanticweb.org/sports/data#team/{TEAM_ID}"; rr:termType rr:IRI ]
+    ] .
+
+# Coach-Team Relationship: H2 compatible
+<urn:r2rml:coaches-mapping> a rr:TriplesMap;  
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID, TEAM_ID FROM COACH_ROLE WHERE END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI
+    ];
+  rr:predicateObjectMap [
+      rr:predicate :coaches;
+      rr:objectMap [ rr:template "http://www.semanticweb.org/sports/data#team/{TEAM_ID}"; rr:termType rr:IRI ]
+    ] .
+
+# Reverse Team-Player Relationship: H2 compatible
+<urn:r2rml:has-player-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT TEAM_ID, PERSON_ID FROM PLAYER_ROLE WHERE END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#team/{TEAM_ID}";
+      rr:termType rr:IRI
+    ];
+  rr:predicateObjectMap [
+      rr:predicate :hasPlayer;
+      rr:objectMap [ rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}"; rr:termType rr:IRI ]
+    ] .
+
+# ========================================================================
+# 6. CONTRACT MAPPINGS
+# ========================================================================
+
+# Contract Entity Mapping: H2 compatible
+<urn:r2rml:contract-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT CONTRACT_ID, SALARY FROM CONTRACT"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#contract/{CONTRACT_ID}";
+      rr:termType rr:IRI;
+      rr:class :Contract
+    ];
+  rr:predicateObjectMap [
+      rr:predicate :hasSalary;
+      rr:objectMap [ rr:column "SALARY"; rr:datatype xsd:decimal ]
+    ] .
+
+# Person-Contract Relationship: H2 compatible
+<urn:r2rml:has-contract-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID, CONTRACT_ID FROM CONTRACT WHERE IS_ACTIVE = TRUE"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI
+    ];
+  rr:predicateObjectMap [
+      rr:predicate :hasContract;
+      rr:objectMap [ rr:template "http://www.semanticweb.org/sports/data#contract/{CONTRACT_ID}"; rr:termType rr:IRI ]
+    ] .
+
+# ========================================================================
+# 7. ADDITIONAL MAPPINGS - Complete Coverage
+# ========================================================================
+
+# Defender Mapping: H2 compatible
+<urn:r2rml:defender-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID FROM PLAYER_ROLE WHERE POSITION = 'Defender' AND END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :Defender
+    ] .
+
+# Assistant Coach Mapping: H2 compatible
+<urn:r2rml:assistant-coach-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID FROM COACH_ROLE WHERE ROLE_TYPE = 'AssistantCoach' AND END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :AssistantCoach
+    ] .
+
+# Permanent Contract Mapping: H2 compatible
+<urn:r2rml:permanent-contract-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT CONTRACT_ID FROM CONTRACT WHERE CONTRACT_TYPE = 'PermanentContract'"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#contract/{CONTRACT_ID}";
+      rr:termType rr:IRI;
+      rr:class :PermanentContract
+    ] .
+
+# Loan Contract Mapping: H2 compatible
+<urn:r2rml:loan-contract-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT CONTRACT_ID FROM CONTRACT WHERE CONTRACT_TYPE = 'LoanContract'"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#contract/{CONTRACT_ID}";
+      rr:termType rr:IRI;
+      rr:class :LoanContract
+    ] .
+
+# Reverse Team-Coach Relationship: H2 compatible
+<urn:r2rml:has-coach-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT TEAM_ID, PERSON_ID FROM COACH_ROLE WHERE END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#team/{TEAM_ID}";
+      rr:termType rr:IRI
+    ];
+  rr:predicateObjectMap [
+      rr:predicate :hasCoach;
+      rr:objectMap [ rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}"; rr:termType rr:IRI ]
+    ] .
+
+# ========================================================================
+# 8. SPECIALIZED PLAYER CLASS MAPPINGS - OBDA-DRIVEN CLASSIFICATION
+# ========================================================================
+# These mappings implement the business logic that was moved from complex
+# ontology axioms to the OBDA layer for HermiT performance optimization
+
+# YoungPlayer Mapping: Players under 23 years old
+<urn:r2rml:young-player-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT pr.PERSON_ID FROM PLAYER_ROLE pr JOIN PERSON p ON pr.PERSON_ID = p.PERSON_ID WHERE pr.END_DATE IS NULL AND TIMESTAMPDIFF('YEAR', p.BIRTH_DATE, CURRENT_DATE) < 23"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :YoungPlayer
+    ] .
+
+# TopPlayer Mapping: Players with market value >= 50M
+<urn:r2rml:top-player-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID FROM PLAYER_ROLE WHERE END_DATE IS NULL AND MARKET_VALUE >= 50000000"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :TopPlayer
+    ] .
+
+# StarPlayer Mapping: Players with high market value (>= 100M) and international experience
+# Note: We simulate international caps with market value as our test data doesn't have caps
+<urn:r2rml:star-player-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID FROM PLAYER_ROLE WHERE END_DATE IS NULL AND MARKET_VALUE >= 100000000"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :StarPlayer
+    ] .
+
+# VeteranPlayer Mapping: Players aged 33+ with 10+ years experience
+# Note: We simulate years experience with age-based calculation
+<urn:r2rml:veteran-player-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT pr.PERSON_ID FROM PLAYER_ROLE pr JOIN PERSON p ON pr.PERSON_ID = p.PERSON_ID WHERE pr.END_DATE IS NULL AND TIMESTAMPDIFF('YEAR', p.BIRTH_DATE, CURRENT_DATE) >= 33"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :VeteranPlayer
+    ] .
+
+# ExperiencedPlayer Mapping: Players with professional experience (5+ years)
+# Note: We simulate experience with age-based calculation (age >= 28)
+<urn:r2rml:experienced-player-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT pr.PERSON_ID FROM PLAYER_ROLE pr JOIN PERSON p ON pr.PERSON_ID = p.PERSON_ID WHERE pr.END_DATE IS NULL AND TIMESTAMPDIFF('YEAR', p.BIRTH_DATE, CURRENT_DATE) >= 28"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :ExperiencedPlayer
+    ] .
+
+# HomegrownPlayer Mapping: All active players (simplified - in reality would check academy origin)
+<urn:r2rml:homegrown-player-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID FROM PLAYER_ROLE WHERE END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :HomegrownPlayer
+    ] .
+
+# ========================================================================
+# 9. SPECIALIZED TEAM AND COACH MAPPINGS
+# ========================================================================
+
+# EliteTeam Mapping: Teams with large stadium capacity (>= 50000)
+<urn:r2rml:elite-team-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT TEAM_ID FROM TEAM WHERE STADIUM_CAPACITY >= 50000"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#team/{TEAM_ID}";
+      rr:termType rr:IRI;
+      rr:class :EliteTeam
+    ] .
+
+# TopCoach Mapping: Experienced head coaches (simulate with coach role)
+<urn:r2rml:top-coach-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT cr.PERSON_ID FROM COACH_ROLE cr JOIN PERSON p ON cr.PERSON_ID = p.PERSON_ID WHERE cr.END_DATE IS NULL AND cr.ROLE_TYPE = 'HeadCoach' AND TIMESTAMPDIFF('YEAR', p.BIRTH_DATE, CURRENT_DATE) >= 50"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI;
+      rr:class :TopCoach
+    ] .
+
+# ========================================================================
+# 10. ADDITIONAL DATA PROPERTIES FOR ENHANCED FUNCTIONALITY
+# ========================================================================
+
+# International Caps Mapping (Simulated with market value tiers)
+<urn:r2rml:international-caps-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT PERSON_ID, CASE WHEN MARKET_VALUE >= 150000000 THEN 50 WHEN MARKET_VALUE >= 100000000 THEN 25 WHEN MARKET_VALUE >= 50000000 THEN 10 ELSE 0 END as CAPS FROM PLAYER_ROLE WHERE END_DATE IS NULL AND MARKET_VALUE IS NOT NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI
+    ];
+  rr:predicateObjectMap [
+      rr:predicate :hasInternationalCaps;
+      rr:objectMap [ rr:column "CAPS"; rr:datatype xsd:integer ]
+    ] .
+
+# Years Experience Mapping (Simulated with age-based calculation)
+<urn:r2rml:years-experience-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT pr.PERSON_ID, GREATEST(0, TIMESTAMPDIFF('YEAR', p.BIRTH_DATE, CURRENT_DATE) - 18) as EXPERIENCE FROM PLAYER_ROLE pr JOIN PERSON p ON pr.PERSON_ID = p.PERSON_ID WHERE pr.END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI
+    ];
+  rr:predicateObjectMap [
+      rr:predicate :hasYearsExperience;
+      rr:objectMap [ rr:column "EXPERIENCE"; rr:datatype xsd:integer ]
+    ] .
+
+# Coach Experience Mapping (Simulated for coaches)
+<urn:r2rml:coach-experience-mapping> a rr:TriplesMap;
+  rr:logicalTable [ a rr:R2RMLView;
+      rr:sqlQuery "SELECT cr.PERSON_ID, GREATEST(0, TIMESTAMPDIFF('YEAR', p.BIRTH_DATE, CURRENT_DATE) - 35) as COACHING_YEARS, CASE WHEN cr.ROLE_TYPE = 'HeadCoach' THEN 5 ELSE 2 END as TROPHIES FROM COACH_ROLE cr JOIN PERSON p ON cr.PERSON_ID = p.PERSON_ID WHERE cr.END_DATE IS NULL"
+    ];
+  rr:subjectMap [ a rr:TermMap, rr:SubjectMap;
+      rr:template "http://www.semanticweb.org/sports/data#person/{PERSON_ID}";
+      rr:termType rr:IRI
+    ];
+  rr:predicateObjectMap [
+      rr:predicate :hasYearsCoaching;
+      rr:objectMap [ rr:column "COACHING_YEARS"; rr:datatype xsd:integer ]
+    ], [
+      rr:predicate :hasTrophiesWon;
+      rr:objectMap [ rr:column "TROPHIES"; rr:datatype xsd:integer ]
+    ] .

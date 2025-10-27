@@ -126,3 +126,137 @@ WHERE {
           sports:playsFor ?team .
   FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
 }
+
+############################ NEW EXTRA QUERIES ############################
+# These queries provide rich, visual results for better exploration in Protégé
+
+#### INFERRED_CLASS_SHOWCASE ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+SELECT ?playerName ?age ?marketValue ?inferredClass
+WHERE {
+    ?player a sports:Player ;
+            sports:hasPlayerName ?playerName ;
+            sports:hasAge ?age ;
+            sports:hasMarketValue ?marketValue .
+    
+    OPTIONAL { ?player a sports:TopPlayer . BIND("TopPlayer" AS ?topClass) }
+    OPTIONAL { ?player a sports:YoungPlayer . BIND("YoungPlayer" AS ?youngClass) }
+    
+    BIND(CONCAT(
+        COALESCE(?topClass, ""),
+        IF(BOUND(?topClass) && BOUND(?youngClass), " + ", ""),
+        COALESCE(?youngClass, "")
+    ) AS ?inferredClass)
+    
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+    FILTER(?inferredClass != "")
+}
+ORDER BY DESC(?marketValue)
+
+#### REASONING_VERIFICATION_DETAILS ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+SELECT ?playerName ?age ?marketValue ?isTop ?isYoung ?qualifiesAsTop ?qualifiesAsYoung
+WHERE {
+    ?player a sports:Player ;
+            sports:hasPlayerName ?playerName ;
+            sports:hasAge ?age ;
+            sports:hasMarketValue ?marketValue .
+    
+    OPTIONAL { ?player a sports:TopPlayer . BIND(true AS ?isTop) }
+    OPTIONAL { ?player a sports:YoungPlayer . BIND(true AS ?isYoung) }
+    
+    BIND(?marketValue >= 100000000 AS ?qualifiesAsTop)
+    BIND(?age < 23 AS ?qualifiesAsYoung)
+    
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+ORDER BY DESC(?marketValue)
+
+#### CLASS_HIERARCHY_ANALYSIS ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+SELECT ?className (COUNT(?individual) AS ?instanceCount)
+WHERE {
+    {
+        ?individual a sports:Player .
+        FILTER(STRSTARTS(STR(?individual), "http://www.semanticweb.org/sports/data#"))
+        BIND("Player" AS ?className)
+    } UNION {
+        ?individual a sports:TopPlayer .
+        BIND("TopPlayer" AS ?className)
+    } UNION {
+        ?individual a sports:YoungPlayer .
+        BIND("YoungPlayer" AS ?className)
+    } UNION {
+        ?individual a sports:Team .
+        FILTER(STRSTARTS(STR(?individual), "http://www.semanticweb.org/sports/data#"))
+        BIND("Team" AS ?className)
+    } UNION {
+        ?individual a sports:EliteTeam .
+        BIND("EliteTeam" AS ?className)
+    }
+}
+GROUP BY ?className
+ORDER BY DESC(?instanceCount)
+
+#### MULTI_CLASS_PLAYERS ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+SELECT ?playerName ?age ?marketValue ?classCount
+WHERE {
+    ?player a sports:Player ;
+            sports:hasPlayerName ?playerName ;
+            sports:hasAge ?age ;
+            sports:hasMarketValue ?marketValue .
+    
+    {
+        SELECT ?player (COUNT(?class) AS ?classCount) WHERE {
+            ?player a ?class .
+            FILTER(?class IN (sports:Player, sports:TopPlayer, sports:YoungPlayer))
+        }
+        GROUP BY ?player
+        HAVING (?classCount > 1)
+    }
+    
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+ORDER BY DESC(?classCount) DESC(?marketValue)
+
+#### REASONING_EDGE_CASES ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+SELECT ?playerName ?age ?marketValue ?nearTopPlayer ?nearYoungPlayer
+WHERE {
+    ?player a sports:Player ;
+            sports:hasPlayerName ?playerName ;
+            sports:hasAge ?age ;
+            sports:hasMarketValue ?marketValue .
+    
+    BIND(?marketValue >= 90000000 && ?marketValue < 100000000 AS ?nearTopPlayer)
+    BIND(?age >= 23 && ?age <= 25 AS ?nearYoungPlayer)
+    
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+    FILTER(?nearTopPlayer || ?nearYoungPlayer)
+}
+ORDER BY DESC(?marketValue)
+
+#### PROPERTY_CHAIN_VISUALIZATION ####
+PREFIX sports: <http://www.semanticweb.org/sports/ontology#>
+SELECT ?playerName ?teamName ?leagueName ?directParticipation ?inferredParticipation
+WHERE {
+    ?player a sports:Player ;
+            sports:hasPlayerName ?playerName .
+    
+    OPTIONAL { 
+        ?player sports:playsFor ?team .
+        ?team sports:hasTeamName ?teamName .
+        
+        OPTIONAL {
+            ?team sports:competesIn ?league .
+            ?league sports:hasLeagueName ?leagueName .
+        }
+    }
+    
+    OPTIONAL { ?player sports:participatesIn ?directLeague . BIND(true AS ?directParticipation) }
+    OPTIONAL { ?player sports:participatesIn ?inferredLeague . BIND(true AS ?inferredParticipation) }
+    
+    FILTER(STRSTARTS(STR(?player), "http://www.semanticweb.org/sports/data#"))
+}
+ORDER BY ?playerName
