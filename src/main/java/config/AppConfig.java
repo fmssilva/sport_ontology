@@ -58,7 +58,24 @@ public class AppConfig {
      * These are used for creating IRIs in reasoning and SPARQL operations
      */
     public static final String ONTOLOGY_NAMESPACE = "http://www.semanticweb.org/sports/ontology#";
+    public static final String DATA_NAMESPACE = "http://www.semanticweb.org/sports/data#";
     public static final String ABOX_NAMESPACE = "http://www.semanticweb.org/sports/abox#";
+    
+    /**
+     * General TTL to OBDA conversion configuration
+     * These can be overridden for different ontology projects
+     */
+    public static String getOntologyNamespace() {
+        return ONTOLOGY_NAMESPACE;
+    }
+    
+    public static String getDataNamespace() {
+        return DATA_NAMESPACE;
+    }
+    
+    public static String getAboxNamespace() {
+        return ABOX_NAMESPACE;
+    }
     
     /**
      * File naming based on ontology name

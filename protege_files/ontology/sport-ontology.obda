@@ -32,7 +32,7 @@ source		SELECT TEAM_ID FROM TEAM WHERE TEAM_TYPE = 'YouthTeam'
 
 mappingId	player-mapping
 target		data:person/{PERSON_ID} a :Player ; :hasMarketValue {MARKET_VALUE}^^xsd:decimal .
-source		SELECT PERSON_ID, MARKET_VALUE FROM PLAYER_ROLE WHERE END_DATE IS NULL
+source		SELECT PERSON_ID, JERSEY_NUMBER, MARKET_VALUE FROM PLAYER_ROLE WHERE END_DATE IS NULL
 
 mappingId	jersey-number-mapping
 target		data:person/{PERSON_ID} :hasJerseyNumber {JERSEY_NUMBER}^^xsd:integer .
@@ -54,17 +54,9 @@ mappingId	midfielder-mapping
 target		data:person/{PERSON_ID} a :Midfielder .
 source		SELECT PERSON_ID FROM PLAYER_ROLE WHERE POSITION = 'Midfielder' AND END_DATE IS NULL
 
-mappingId	defender-mapping
-target		data:person/{PERSON_ID} a :Defender .
-source		SELECT PERSON_ID FROM PLAYER_ROLE WHERE POSITION = 'Defender' AND END_DATE IS NULL
-
 mappingId	head-coach-mapping
 target		data:person/{PERSON_ID} a :HeadCoach .
 source		SELECT PERSON_ID FROM COACH_ROLE WHERE ROLE_TYPE = 'HeadCoach' AND END_DATE IS NULL
-
-mappingId	assistant-coach-mapping
-target		data:person/{PERSON_ID} a :AssistantCoach .
-source		SELECT PERSON_ID FROM COACH_ROLE WHERE ROLE_TYPE = 'AssistantCoach' AND END_DATE IS NULL
 
 mappingId	plays-for-mapping
 target		data:person/{PERSON_ID} :playsFor data:team/{TEAM_ID} .
@@ -78,10 +70,6 @@ mappingId	has-player-mapping
 target		data:team/{TEAM_ID} :hasPlayer data:person/{PERSON_ID} .
 source		SELECT TEAM_ID, PERSON_ID FROM PLAYER_ROLE WHERE END_DATE IS NULL
 
-mappingId	has-coach-mapping
-target		data:team/{TEAM_ID} :hasCoach data:person/{PERSON_ID} .
-source		SELECT TEAM_ID, PERSON_ID FROM COACH_ROLE WHERE END_DATE IS NULL
-
 mappingId	contract-mapping
 target		data:contract/{CONTRACT_ID} a :Contract ; :hasSalary {SALARY}^^xsd:decimal .
 source		SELECT CONTRACT_ID, SALARY FROM CONTRACT
@@ -90,6 +78,14 @@ mappingId	has-contract-mapping
 target		data:person/{PERSON_ID} :hasContract data:contract/{CONTRACT_ID} .
 source		SELECT PERSON_ID, CONTRACT_ID FROM CONTRACT WHERE IS_ACTIVE = TRUE
 
+mappingId	defender-mapping
+target		data:person/{PERSON_ID} a :Defender .
+source		SELECT PERSON_ID FROM PLAYER_ROLE WHERE POSITION = 'Defender' AND END_DATE IS NULL
+
+mappingId	assistant-coach-mapping
+target		data:person/{PERSON_ID} a :AssistantCoach .
+source		SELECT PERSON_ID FROM COACH_ROLE WHERE ROLE_TYPE = 'AssistantCoach' AND END_DATE IS NULL
+
 mappingId	permanent-contract-mapping
 target		data:contract/{CONTRACT_ID} a :PermanentContract .
 source		SELECT CONTRACT_ID FROM CONTRACT WHERE CONTRACT_TYPE = 'PermanentContract'
@@ -97,6 +93,10 @@ source		SELECT CONTRACT_ID FROM CONTRACT WHERE CONTRACT_TYPE = 'PermanentContrac
 mappingId	loan-contract-mapping
 target		data:contract/{CONTRACT_ID} a :LoanContract .
 source		SELECT CONTRACT_ID FROM CONTRACT WHERE CONTRACT_TYPE = 'LoanContract'
+
+mappingId	has-coach-mapping
+target		data:team/{TEAM_ID} :hasCoach data:person/{PERSON_ID} .
+source		SELECT TEAM_ID, PERSON_ID FROM COACH_ROLE WHERE END_DATE IS NULL
 
 mappingId	young-player-mapping
 target		data:person/{PERSON_ID} a :YoungPlayer .
