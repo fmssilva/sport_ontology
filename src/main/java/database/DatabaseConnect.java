@@ -1,13 +1,15 @@
-package config;
+package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import config.AppConfig;
+
 /**
  * Database Configuration and Connection Management
  */
-public class DatabaseConfig {
+public class DatabaseConnect {
     
     private static final String DB_URL = AppConfig.DB_URL;
     private static final String DB_USER = AppConfig.DB_USER;

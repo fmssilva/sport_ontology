@@ -9,6 +9,9 @@ A complete Ontology-Based Data Access (OBDA) system for sports data using H2 Dat
 # Run all tests (includes automatic OBDA stack setup)
 mvn test
 
+# Test if the SQL, SPARQL and Hermit engines work correctly 
+mvn test -Dtest=EngineIntegrationTest#testSQLQueries -q
+
 # Generate Protégé files for visual ontology editing
 mvn exec:java@protege_files
 

@@ -13,6 +13,7 @@
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="abox" IRI="http://www.semanticweb.org/sports/abox#"/>
     <Prefix name="data" IRI="http://www.semanticweb.org/sports/data#"/>
+    <Prefix name="obda" IRI="https://w3id.org/obda/vocabulary#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
     <Prefix name="sports" IRI="http://www.semanticweb.org/sports/ontology#"/>
     <Declaration>
@@ -349,6 +350,9 @@
         <ObjectProperty IRI="#coaches"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="#coachesFor"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="#competesWith"/>
     </Declaration>
     <Declaration>
@@ -391,6 +395,9 @@
         <ObjectProperty IRI="#onLoanTo"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="#participatesIn"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="#playsFor"/>
     </Declaration>
     <Declaration>
@@ -404,12 +411,6 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#transferredFrom"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#participatesIn"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#coachesFor"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#hasAge"/>
@@ -550,6 +551,9 @@
         <NamedIndividual abbreviatedIRI="abox:ABox_Bayern_Munich"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Bundesliga"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual abbreviatedIRI="abox:ABox_Erling_Haaland"/>
     </Declaration>
     <Declaration>
@@ -565,6 +569,12 @@
         <NamedIndividual abbreviatedIRI="abox:ABox_Kylian_Mbappe"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_LaLiga"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Ligue_1"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual abbreviatedIRI="abox:ABox_Manchester_City"/>
     </Declaration>
     <Declaration>
@@ -572,6 +582,9 @@
     </Declaration>
     <Declaration>
         <NamedIndividual abbreviatedIRI="abox:ABox_PSG"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Premier_League"/>
     </Declaration>
     <Declaration>
         <NamedIndividual abbreviatedIRI="abox:ABox_Real_Madrid"/>
@@ -583,19 +596,10 @@
         <NamedIndividual abbreviatedIRI="abox:ABox_Vinicius_Junior"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Premier_League"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual abbreviatedIRI="abox:ABox_LaLiga"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Bundesliga"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Ligue_1"/>
-    </Declaration>
-    <Declaration>
         <Datatype abbreviatedIRI="xsd:date"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#competesIn"/>
     </Declaration>
     <EquivalentClasses>
         <Class IRI="#EliteTeam"/>
@@ -608,6 +612,25 @@
             <DataSomeValuesFrom>
                 <DataProperty IRI="#hasStadiumCapacity"/>
                 <Datatype abbreviatedIRI="xsd:integer"/>
+            </DataSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#EliteTeam"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Team"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPlayer"/>
+                <Class IRI="#TopPlayer"/>
+            </ObjectSomeValuesFrom>
+            <DataSomeValuesFrom>
+                <DataProperty IRI="#hasStadiumCapacity"/>
+                <DatatypeRestriction>
+                    <Datatype abbreviatedIRI="xsd:integer"/>
+                    <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">50000</Literal>
+                    </FacetRestriction>
+                </DatatypeRestriction>
             </DataSomeValuesFrom>
         </ObjectIntersectionOf>
     </EquivalentClasses>
@@ -685,6 +708,27 @@
         </ObjectIntersectionOf>
     </EquivalentClasses>
     <EquivalentClasses>
+        <Class IRI="#TopTeam"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Team"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasPlayer"/>
+                <ObjectIntersectionOf>
+                    <Class IRI="#Player"/>
+                    <DataSomeValuesFrom>
+                        <DataProperty IRI="#hasMarketValue"/>
+                        <DatatypeRestriction>
+                            <Datatype abbreviatedIRI="xsd:decimal"/>
+                            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
+                                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">50000000</Literal>
+                            </FacetRestriction>
+                        </DatatypeRestriction>
+                    </DataSomeValuesFrom>
+                </ObjectIntersectionOf>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
         <Class IRI="#VeteranPlayer"/>
         <ObjectIntersectionOf>
             <Class IRI="#Player"/>
@@ -713,85 +757,6 @@
             </DataSomeValuesFrom>
         </ObjectIntersectionOf>
     </EquivalentClasses>
-    
-    <!-- ===== ADVANCED REASONING AXIOMS FOR EXCELLENCE TESTS ===== -->
-    
-    <!-- REA-04: Complex Class Hierarchy - EliteTeam Definition -->
-    <!-- EliteTeam ≡ Team ⊓ (hasStadiumCapacity ≥ 50000) ⊓ (∃hasPlayer.TopPlayer) -->
-    <EquivalentClasses>
-        <Class IRI="#EliteTeam"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Team"/>
-            <DataSomeValuesFrom>
-                <DataProperty IRI="#hasStadiumCapacity"/>
-                <DatatypeRestriction>
-                    <Datatype abbreviatedIRI="xsd:integer"/>
-                    <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
-                        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">50000</Literal>
-                    </FacetRestriction>
-                </DatatypeRestriction>
-            </DataSomeValuesFrom>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="#hasPlayer"/>
-                <Class IRI="#TopPlayer"/>
-            </ObjectSomeValuesFrom>
-        </ObjectIntersectionOf>
-    </EquivalentClasses>
-    
-    <!-- REA-04: TopTeam Definition for Multiple Inheritance -->
-    <!-- TopTeam ≡ Team ⊓ (∃hasPlayer.(hasMarketValue ≥ 50M)) -->
-    <EquivalentClasses>
-        <Class IRI="#TopTeam"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Team"/>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="#hasPlayer"/>
-                <ObjectIntersectionOf>
-                    <Class IRI="#Player"/>
-                    <DataSomeValuesFrom>
-                        <DataProperty IRI="#hasMarketValue"/>
-                        <DatatypeRestriction>
-                            <Datatype abbreviatedIRI="xsd:decimal"/>
-                            <FacetRestriction facet="http://www.w3.org/2001/XMLSchema#minInclusive">
-                                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">50000000</Literal>
-                            </FacetRestriction>
-                        </DatatypeRestriction>
-                    </DataSomeValuesFrom>
-                </ObjectIntersectionOf>
-            </ObjectSomeValuesFrom>
-        </ObjectIntersectionOf>
-    </EquivalentClasses>
-    
-    <!-- REA-05: Property Chain Reasoning - Transitive League Participation -->
-    <!-- playsFor ∘ competesIn → participatesIn -->
-    <SubObjectPropertyOf>
-        <ObjectPropertyChain>
-            <ObjectProperty IRI="#playsFor"/>
-            <ObjectProperty IRI="#competesIn"/>
-        </ObjectPropertyChain>
-        <ObjectProperty IRI="#participatesIn"/>
-    </SubObjectPropertyOf>
-    
-    <!-- REA-06: Inverse Properties - Bidirectional Player-Team Relationships -->
-    <!-- hasPlayer ≡ playsFor⁻ -->
-    <InverseObjectProperties>
-        <ObjectProperty IRI="#hasPlayer"/>
-        <ObjectProperty IRI="#playsFor"/>
-    </InverseObjectProperties>
-    
-    <!-- Additional Inverse Properties for Complete Relationship Network -->
-    <InverseObjectProperties>
-        <ObjectProperty IRI="#hasCoach"/>
-        <ObjectProperty IRI="#coachesFor"/>
-    </InverseObjectProperties>
-    
-    <InverseObjectProperties>
-        <ObjectProperty IRI="#hasContract"/>
-        <ObjectProperty IRI="#contractWith"/>
-    </InverseObjectProperties>
-    
-    <!-- ===== END ADVANCED REASONING AXIOMS ===== -->
-    
     <SubClassOf>
         <Class IRI="#Academy"/>
         <Class IRI="#Organization"/>
@@ -1321,6 +1286,10 @@
         <NamedIndividual abbreviatedIRI="abox:ABox_Bayern_Munich"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="#League"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Bundesliga"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#Player"/>
         <NamedIndividual abbreviatedIRI="abox:ABox_Erling_Haaland"/>
     </ClassAssertion>
@@ -1341,6 +1310,14 @@
         <NamedIndividual abbreviatedIRI="abox:ABox_Kylian_Mbappe"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="#League"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_LaLiga"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#League"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Ligue_1"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#Team"/>
         <NamedIndividual abbreviatedIRI="abox:ABox_Manchester_City"/>
     </ClassAssertion>
@@ -1351,6 +1328,10 @@
     <ClassAssertion>
         <Class IRI="#Team"/>
         <NamedIndividual abbreviatedIRI="abox:ABox_PSG"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#League"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Premier_League"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#Team"/>
@@ -1364,6 +1345,11 @@
         <Class IRI="#Player"/>
         <NamedIndividual abbreviatedIRI="abox:ABox_Vinicius_Junior"/>
     </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#competesIn"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Bayern_Munich"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Bundesliga"/>
+    </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#playsFor"/>
         <NamedIndividual abbreviatedIRI="abox:ABox_Erling_Haaland"/>
@@ -1390,10 +1376,30 @@
         <NamedIndividual abbreviatedIRI="abox:ABox_PSG"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#competesIn"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Manchester_City"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Premier_League"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#competesIn"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_PSG"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Ligue_1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#competesIn"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Real_Madrid"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_LaLiga"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="#playsFor"/>
         <NamedIndividual abbreviatedIRI="abox:ABox_Vinicius_Junior"/>
         <NamedIndividual abbreviatedIRI="abox:ABox_Real_Madrid"/>
     </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Bundesliga"/>
+        <Literal>Bundesliga</Literal>
+    </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#hasAge"/>
         <NamedIndividual abbreviatedIRI="abox:ABox_Erling_Haaland"/>
@@ -1460,6 +1466,16 @@
         <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">180000000</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_LaLiga"/>
+        <Literal>LaLiga</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Ligue_1"/>
+        <Literal>Ligue 1</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
         <DataProperty IRI="#hasAge"/>
         <NamedIndividual abbreviatedIRI="abox:ABox_Nico_Paz"/>
         <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">20</Literal>
@@ -1473,6 +1489,11 @@
         <DataProperty IRI="#hasName"/>
         <NamedIndividual abbreviatedIRI="abox:ABox_Nico_Paz"/>
         <Literal>ABox Nico Paz</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual abbreviatedIRI="abox:ABox_Premier_League"/>
+        <Literal>Premier League</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#hasAge"/>
@@ -1499,69 +1520,18 @@
         <NamedIndividual abbreviatedIRI="abox:ABox_Vinicius_Junior"/>
         <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#decimal">150000000</Literal>
     </DataPropertyAssertion>
-
-    <!-- REA-05: League individuals for property chain reasoning -->
-    <ClassAssertion>
-        <Class IRI="#League"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Premier_League"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#League"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_LaLiga"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#League"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Bundesliga"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#League"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Ligue_1"/>
-    </ClassAssertion>
-
-    <!-- REA-05: competesIn relationships for property chain playsFor ∘ competesIn → participatesIn -->
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#competesIn"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Manchester_City"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Premier_League"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#competesIn"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Real_Madrid"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_LaLiga"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#competesIn"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Bayern_Munich"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Bundesliga"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#competesIn"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_PSG"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Ligue_1"/>
-    </ObjectPropertyAssertion>
-
-    <!-- REA-05: League names for query filtering -->
-    <DataPropertyAssertion>
-        <DataProperty IRI="#hasName"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Premier_League"/>
-        <Literal>Premier League</Literal>
-    </DataPropertyAssertion>
-    <DataPropertyAssertion>
-        <DataProperty IRI="#hasName"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_LaLiga"/>
-        <Literal>LaLiga</Literal>
-    </DataPropertyAssertion>
-    <DataPropertyAssertion>
-        <DataProperty IRI="#hasName"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Bundesliga"/>
-        <Literal>Bundesliga</Literal>
-    </DataPropertyAssertion>
-    <DataPropertyAssertion>
-        <DataProperty IRI="#hasName"/>
-        <NamedIndividual abbreviatedIRI="abox:ABox_Ligue_1"/>
-        <Literal>Ligue 1</Literal>
-    </DataPropertyAssertion>
-
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#coachesFor"/>
+        <ObjectProperty IRI="#hasCoach"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#contractWith"/>
+        <ObjectProperty IRI="#hasContract"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasPlayer"/>
+        <ObjectProperty IRI="#playsFor"/>
+    </InverseObjectProperties>
     <FunctionalObjectProperty>
         <ObjectProperty IRI="#belongsToDivision"/>
     </FunctionalObjectProperty>
@@ -1800,6 +1770,13 @@
         <ObjectProperty IRI="#transferredFrom"/>
         <Class IRI="#Team"/>
     </ObjectPropertyRange>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#playsFor"/>
+            <ObjectProperty IRI="#competesIn"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#participatesIn"/>
+    </SubObjectPropertyOf>
     <FunctionalDataProperty>
         <DataProperty IRI="#hasCity"/>
     </FunctionalDataProperty>
@@ -1812,11 +1789,6 @@
     <FunctionalDataProperty>
         <DataProperty IRI="#hasFoundedYear"/>
     </FunctionalDataProperty>
-    <!-- Temporarily disabled for troubleshooting:
-    <FunctionalDataProperty>
-        <DataProperty IRI="#hasJerseyNumber"/>
-    </FunctionalDataProperty>
-    -->
     <FunctionalDataProperty>
         <DataProperty IRI="#hasName"/>
     </FunctionalDataProperty>

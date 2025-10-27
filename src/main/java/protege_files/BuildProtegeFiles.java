@@ -1,5 +1,6 @@
 package protege_files;
 
+import config.AppConfig;
 import java.io.*;
 import java.nio.file.*;
 
@@ -16,10 +17,15 @@ public class BuildProtegeFiles {
     
     public static void main(String[] args) {
         String outputDir = args.length > 0 ? args[0] : "protege_files";
-        buildProtegeFiles(outputDir);
+        // Always include complete OBDA mappings
+        buildProtegeFiles(outputDir, true);
     }
     
     public static void buildProtegeFiles(String outputDir) {
+        buildProtegeFiles(outputDir, true);
+    }
+    
+    public static void buildProtegeFiles(String outputDir, boolean includeMappings) {
         try {
             System.out.println(">> Building complete Protege files for Sport Ontology...");
             System.out.println(">> Output directory: " + Paths.get(outputDir).toAbsolutePath());
@@ -40,11 +46,18 @@ public class BuildProtegeFiles {
             
             // Step 1: Build H2 Database setup (delegated to specialized class)
             System.out.println("\n>> Step 1: Building H2 Database setup...");
-            DatabaseConfig dbConfig = BuildH2Database.buildH2Setup(outputPath.toAbsolutePath().toString());
+            Build_H2_DB_config_file dbConfig = Build_H2_DB_files.buildH2Setup(outputPath.toAbsolutePath().toString());
             
-            // Step 2: Copy ontology files directly
-            System.out.println("\n>> Step 2: Copying ontology files...");
+            // Step 2: Copy ontology files and generate OBDA
+            System.out.println("\n>> Step 2: Copying ontology files and generating OBDA...");
             copyOntologyFiles(ontologyPath);
+            
+            // Generate complete OBDA file with R2RML mappings
+            ObdaFileGenerator.generateObdaFile(outputPath.toAbsolutePath().toString(), dbConfig);
+            
+            // Attempt automatic Protégé plugin installation for easier H2 driver setup
+            String h2JarPath = Paths.get(outputPath.toAbsolutePath().toString(), "database", "h2-2.4.240.jar").toString();
+            ObdaFileGenerator.attemptProtegePluginInstallation(h2JarPath);
             
             // Step 3: Copy query files directly  
             System.out.println("\n>> Step 3: Organizing query files...");
@@ -68,18 +81,29 @@ public class BuildProtegeFiles {
     private static void copyOntologyFiles(Path ontologyPath) throws IOException {
         Path sourceOntology = Paths.get(PROJECT_BASE, "src", "main", "resources", "ontology");
         
-        // Copy main ontology files
+        // Copy main ontology files using centralized AppConfig naming
         Files.copy(
-            sourceOntology.resolve("sport-ontology.owl"),
-            ontologyPath.resolve("sport-ontology.owl"),
+            sourceOntology.resolve(AppConfig.ONTOLOGY_FILE_NAME),
+            ontologyPath.resolve(AppConfig.ONTOLOGY_FILE_NAME),
             StandardCopyOption.REPLACE_EXISTING
         );
         
         Files.copy(
-            sourceOntology.resolve("sport-ontology-mapping.ttl"),
-            ontologyPath.resolve("sport-ontology-mapping.ttl"),
+            sourceOntology.resolve(AppConfig.MAPPING_FILE_NAME),
+            ontologyPath.resolve(AppConfig.MAPPING_FILE_NAME),
             StandardCopyOption.REPLACE_EXISTING
         );
+        
+        // Copy OBDA file if it exists
+        Path obdaSource = sourceOntology.resolve(AppConfig.OBDA_FILE_NAME);
+        if (Files.exists(obdaSource)) {
+            Files.copy(
+                obdaSource,
+                ontologyPath.resolve(AppConfig.OBDA_FILE_NAME),
+                StandardCopyOption.REPLACE_EXISTING
+            );
+            System.out.println("   OBDA file copied successfully");
+        }
         
         System.out.println("   Ontology files copied successfully");
     }
@@ -127,57 +151,16 @@ public class BuildProtegeFiles {
         System.out.println("   All query files organized into sparql/ and sql/ folders");
     }
     
-    private static void generateProtegeSetup(Path outputPath, DatabaseConfig dbConfig) throws IOException {
-        StringBuilder content = new StringBuilder();
+    private static void generateProtegeSetup(Path outputPath, Build_H2_DB_config_file dbConfig) throws IOException {
+        // Copy PROTEGE_SET_UP.md from project root to protege_files folder
+        Path sourceSetupFile = Paths.get(PROJECT_BASE, "PROTEGE_SET_UP.md");
+        Path targetSetupFile = outputPath.resolve("PROTEGE_SET_UP.md");
         
-        content.append("# Protege Setup Guide - Sport Ontology\n\n");
-        content.append("*Complete steps to load the sport ontology in Protege with H2 database*\n\n");
-        
-        content.append("## Prerequisites\n");
-        content.append("- Protege 5.5+ installed\n");
-        content.append("- H2 JDBC driver (included in database/ folder)\n\n");
-               
-        content.append("## Step 1: Load Ontology\n");
-        content.append("1. Open Protege\n");
-        content.append("2. **File -> Open**\n");
-        content.append("3. Select: `ontology/sport-ontology.owl`\n");
-        content.append("4. Verify 40+ classes are loaded\n\n");
-        
-        content.append("## Step 2: Start HermiT Reasoner\n");
-        content.append("1. **Reasoner -> HermiT**\n");
-        content.append("2. **Click \"Start reasoner\"**\n");
-        content.append("3. Wait for \"Consistent\" status » check the log button on the right bottom corner\n\n");
-        
-        content.append("## Step 3: Connect to H2 DB\n");
-        // Add database configuration sections from dbConfig with proper formatting
-        content.append("a: Set the H2 JAR location to the absolute path of h2-2.4.240.jar file\n");
-        content.append(dbConfig.getPreferencesSteps().replace("\\n", "\n") + "\n");
-        content.append("####\n");
-        content.append("b: Set the connection to the H2 database file using the following details:\n");
-        content.append(dbConfig.getConnectionSteps().replace("\\n", "\n") + "\n");
-        
-        content.append("#### Step 3.1: Using H2 as a built-in Protege backend or shared setup\n");
-        content.append("If you want Protege to use H2 as an internal or shared database backend (not just as an external connection):\n");
-        content.append("a. Copy the file `database/h2-2.4.240.jar` into your Protege `plugins` folder.\n");
-        content.append("b. Restart Protege completely to load the new driver.\n\n");
-
-        content.append("## Step 4: Load OBDA Mappings\n");
-        content.append("1. In **Ontop top tab** click **import R2RML mapping**\n");
-        content.append("2. Select: `ontology/sport-ontology-mapping.ttl`\n");
-        content.append("3. Verify R2RML mappings are loaded\n\n");
-        content.append("4. Click the **Validate** button to check the mapping validity.\n");
-        content.append("5. Open some mappings and execute the given sample queries to test their functionality.\n");
-
-        content.append("## Step 5: Confirm Ontology + Mapping + H2 DB correctness\n");
-        content.append("1. Run Ontop Reasoner by clicking **Reasoner -> Ontop Reasoner -> Start Reasoner**\n");
-        content.append("2. Ensure no errors occur during reasoning - check the log for any issues\n");
-        content.append("3. Click in **ontop top tab** in **check consistency** button to verify if the seeded data in H2 DB is consistent for disjoint and functional properties\n");
-
-        content.append("## Step 6: Test SPARQL Queries\n");
-        content.append("1. On **ontop SPARQL tab** write the queries to test the ontology\n");
-        content.append("2. Copy queries from the **queries folder** into the SPARQL tab and execute them\n");
-                
-        Files.write(outputPath.resolve("PROTEGE_SET_UP.md"), content.toString().getBytes());
-        System.out.println("   PROTEGE_SET_UP.md created with system-specific paths");
+        if (Files.exists(sourceSetupFile)) {
+            Files.copy(sourceSetupFile, targetSetupFile, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("   PROTEGE_SET_UP.md copied successfully from project root");
+        } else {
+            System.err.println("   WARNING: PROTEGE_SET_UP.md not found in project root");
+        }
     }
 }

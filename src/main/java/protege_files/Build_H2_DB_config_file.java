@@ -4,7 +4,7 @@ package protege_files;
  * Configuration data holder for H2 database setup in Protege.
  * Contains all the paths, connection details, and instruction strings.
  */
-public class DatabaseConfig {
+public class Build_H2_DB_config_file {
     
     // Database connection parameters
     private final String dbDriverClassName;
@@ -18,7 +18,7 @@ public class DatabaseConfig {
     private final String stepsToPreferencesOnProtege;
     private final String stepsToOntopConnectionOnProtege;
     
-    public DatabaseConfig(String dbDriverClassName, String dbDescription, String dbDriverJarPath,
+    public Build_H2_DB_config_file(String dbDriverClassName, String dbDescription, String dbDriverJarPath,
                          String dbConnectionURL, String dbUserName, String dbPassword,
                          String stepsToPreferencesOnProtege, String stepsToOntopConnectionOnProtege) {
         this.dbDriverClassName = dbDriverClassName;

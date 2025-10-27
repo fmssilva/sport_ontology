@@ -48,14 +48,7 @@
             <version>${owlapi.version}</version>
         </dependency>
         
-        <!-- OWL2VOWL official library -->
-        <dependency>
-            <groupId>de.uni-stuttgart.vis</groupId>
-            <artifactId>owl2vowl</artifactId>
-            <version>0.3.7</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/OWL2VOWL-0.3.7.jar</systemPath>
-        </dependency>
+
         
         <!-- HermiT Reasoner - OWL DL Reasoning -->
         <dependency>
@@ -71,22 +64,7 @@
             <version>1.7.36</version>
         </dependency>
         
-        <!-- Jackson JSON Processing -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.15.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.15.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.15.2</version>
-        </dependency>
+
         
         <!-- JUnit 5 - Testing Framework -->
         <dependency>
@@ -131,7 +109,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
-                    <!-- Generate protege_files command: mvn exec:java@protege_files -->
+                    <!-- Generate complete protege_files: mvn exec:java@protege_files -->
                     <execution>
                         <id>protege_files</id>
                         <goals>
@@ -142,61 +120,7 @@
                         </configuration>
                     </execution>
                     
-                    <!-- Visualize Ontology command: mvn exec:java@visualize-ontology -->
-                    <execution>
-                        <id>visualize-ontology</id>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>graph_ontology.GraphViewOfOntology</mainClass>
-                            <options>
-                                <option>-Xmx512m</option>
-                            </options>
-                        </configuration>
-                    </execution>
-                    
-                    <!-- Professional WebVOWL Visualization: mvn exec:java@webvowl -->
-                    <execution>
-                        <id>webvowl</id>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>graph_ontology.WebVOWLVisualization</mainClass>
-                            <options>
-                                <option>-Xmx1024m</option>
-                            </options>
-                        </configuration>
-                    </execution>
-                    
-                    <!-- Background OWL Converter: mvn exec:java@background-converter -->
-                    <execution>
-                        <id>background-converter</id>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>graph_ontology.BackgroundOWLConverter</mainClass>
-                            <options>
-                                <option>-Xmx512m</option>
-                            </options>
-                        </configuration>
-                    </execution>
-                    
-                    <!-- OWL to JSON Converter: mvn exec:java@owl2json -->
-                    <execution>
-                        <id>owl2json</id>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>graph_ontology.OWL2JSONConverter</mainClass>
-                            <options>
-                                <option>-Xmx512m</option>
-                            </options>
-                        </configuration>
-                    </execution>
+
                 </executions>
             </plugin>
             
@@ -269,50 +193,7 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
-                    <!-- Setup OWL2VOWL Library -->
-                    <execution>
-                        <id>setup-owl2vowl</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <echo message="📦 Setting up OWL2VOWL library..."/>
-                                
-                                <!-- Create tools directory if not exists -->
-                                <mkdir dir="${project.basedir}/tools"/>
-                                
-                                <!-- Clone OWL2VOWL (will skip if already exists) -->
-                                <echo message="🔄 Cloning OWL2VOWL repository (or using existing)..."/>
-                                <exec executable="git" dir="${project.basedir}/tools" failonerror="false">
-                                    <arg value="clone"/>
-                                    <arg value="https://github.com/VisualDataWeb/OWL2VOWL.git"/>
-                                </exec>
-                                
-                                <!-- Build OWL2VOWL JAR -->
-                                <echo message="🔨 Building OWL2VOWL JAR..."/>
-                                <exec executable="mvn.cmd" dir="${project.basedir}/tools/OWL2VOWL" failonerror="true">
-                                    <arg value="clean"/>
-                                    <arg value="package"/>
-                                    <arg value="-DskipTests"/>
-                                </exec>
-                                
-                                <!-- Copy JAR to our lib directory -->
-                                <mkdir dir="${project.basedir}/lib"/>
-                                <echo message="📋 Copying JAR to lib directory..."/>
-                                <copy todir="${project.basedir}/lib">
-                                    <fileset dir="${project.basedir}/tools/OWL2VOWL/target">
-                                        <include name="OWL2VOWL*.jar"/>
-                                        <exclude name="*-sources.jar"/>
-                                        <exclude name="*-javadoc.jar"/>
-                                    </fileset>
-                                </copy>
-                                
-                                <echo message="✅ OWL2VOWL library ready"/>
-                            </target>
-                        </configuration>
-                    </execution>
+
                     
                     <!-- Setup Ontop CLI -->
                     <execution>
@@ -348,15 +229,7 @@
                 </executions>
             </plugin>
             
-            <!-- Maven Exec Plugin for running Java classes -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <mainClass>graph_ontology.BackgroundOWLConverter</mainClass>
-                </configuration>
-            </plugin>
+
 
         </plugins>
     </build>

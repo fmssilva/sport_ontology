@@ -59,5 +59,6 @@
       "tools": ["pdflatex", "pdflatex"]
     }
   ],
-  "latex-workshop.view.pdf.viewer": "tab"
+  "latex-workshop.view.pdf.viewer": "tab",
+  "java.compile.nullAnalysis.mode": "automatic"
 }
